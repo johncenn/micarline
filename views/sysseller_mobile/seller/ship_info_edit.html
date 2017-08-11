@@ -1,0 +1,70 @@
+{js:artTemplate}
+{js:areaSelect}
+{set:$ship=$this->data}
+<h1 class="page_title">添加发货地址信息</h1>
+
+<section class="input_li">
+	<form name="ModelForm" action="{url:/seller/ship_info_update}" method="post">
+		<input type="hidden" name="sid" value="{$ship['id']}"/>
+		<ul>
+			<li>
+				<span class="input_item">发货点名称 <em>*</em></span>
+				<input name="ship_name" class="input_text" type="text" pattern="required" value="{$ship['ship_name']}" alt="发货点名称"/>
+			</li>
+			<li>
+				<span class="input_item">发货人姓名 <em>*</em></span>
+				<input name="ship_user_name" class="input_text" type="text" pattern="required" value="{$ship['ship_user_name']}"  alt="发货人姓名"/>
+			</li>
+			<li>
+				<span class="li_item">性别：</span>
+				<label class="input_radio"><input type="radio" name="sex" value="1" checked/><span>先生</span></label>
+				<label class="input_radio"><input type="radio" name="sex" value="0" {if:$ship['sex']==0}checked='checked'{/if}/><span>女士</span></label>
+			</li>
+			<li>
+				<span class="input_item">地区</span>
+				<select name="province" child="city,area" class="input_select f3"></select>
+				<select name="city" child="area" class="input_select f3"></select>
+				<select name="area" class="input_select f3"></select>
+			</li>
+			<li>
+				<span class="input_item">地址 <em>*</em></span>
+				<input name="address" class="input_text" type="text" pattern="required" value="{$ship['address']}"  alt="具体地址错误"/>
+			</li>
+			<li>
+				<span class="input_item">邮编</span>
+				<input class="input_text" name="postcode" type="text" pattern="zip" value="{$ship['postcode']}" empty alt="邮编错误"/>
+			</li>
+			<li>
+				<span class="input_item">手机</span>
+				<input name="mobile" class="input_text" type="text" pattern='mobi' value="{$ship['mobile']}" />
+			</li>
+			<li>
+				<span class="input_item">固定电话</span>
+				<input name="telphone" class="input_text" type="text" pattern="phone" empty alt="电话号码错误" value="{$ship['telphone']}" />
+			</li>
+			<li>
+				<span class="li_item">默认收获地址：</span>
+				<label class="input_radio">
+					<input type="checkbox" name="is_default" value="1" {if:$ship['is_default']==1}checked='checked'{/if}/>
+					<span>设置为默认地址</span>
+				</label>
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>
+
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	var selectInstance = new areaSelect('province');
+	{if:isset($ship) && $ship}
+		selectInstance.init({echo:JSON::encode($ship)});
+	{else:}
+		selectInstance.init();
+	{/if}
+});
+</script>

@@ -1,0 +1,29 @@
+{set:$items=$this->comment;}
+<h1 class="page_title">商品评价回复</h1>
+<section class="comment_list">
+	<div class="item">
+		<p>
+			<strong>评价人</strong>{$items['username']}<br>
+			<strong>评价商品</strong><span>{$items['goods_name']}</span><br>
+			<strong>评价时间</strong>{$items['time']}<br>
+			<strong>评价内容</strong>{$items['contents']}<br>
+			<strong>评价分数</strong>{$items['point']}分<br>
+			<strong>状态</strong>{if:$items['recomment_time']>0}已回复{else:}未回复{/if}<br>
+		</p>
+
+	</div>
+</section>
+<section class="input_li">
+	<form action="{url:/seller/comment_update}" method="post" name="comment_edit">
+		<input type="hidden" value="{$items['id']}" name="id" />
+		<ul>
+			<li>
+				<span class="input_item">回复评价</span>
+				<textarea class="input_textarea" name="recontents">{$items['recontents']}</textarea>
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>

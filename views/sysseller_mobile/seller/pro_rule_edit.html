@@ -1,0 +1,139 @@
+{js:my97date}
+<h1 class="page_title">编辑促销活动</h1>
+<section class="input_li">
+	<form action="{url:/seller/pro_rule_edit_act}" method="post" name='pro_rule_edit'>
+		<input type='hidden' name='id' />
+		<ul>
+			<li>
+				<span class="input_item">活动名称 <em>*</em></span>
+				<input type='text' class="input_text" name='name' pattern='required' alt='请填写团购标题' />
+			</li>
+			<li>
+				<span class="input_item">活动开始时间 <em>*</em></span>
+				<input type='text' class="input_text time" name='start_time' pattern='datetime' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" alt='请选择一个日期' />
+			</li>
+			<li>
+				<span class="input_item">活动结束时间 <em>*</em></span>
+				<input type='text' class="input_text time" name='end_time' pattern='datetime' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" alt='请选择一个日期' />
+			</li>
+			<li>
+				<span class="li_item">参与人群：</span>
+				<label class='input_radio'><input type='checkbox' name='user_group' value='all' onclick='select_all();' /><span>全部</span></label>
+				{query:name=user_group}
+				<label class='input_radio'><input type='checkbox' name='user_group[]' value='{$item['id']}' /><span>{$item['group_name']}</span></label>
+				{/query}
+			</li>
+			<li>
+				<span class="li_item">是否开启：</span>
+				<label class='input_radio'><input type='radio' name='is_close' value='0' onclick='select_all();' /><span>开启</span></label>
+				<label class='input_radio'><input type='radio' name='is_close' value='1' onclick='select_all();' /><span>关闭</span></label>
+			</li>
+			<li>
+				<span class="input_item">活动介绍 <em>*</em></span>
+				<textarea class='input_textarea' name='intro'>{$this->promotionRow['intro']}</textarea>
+			</li>
+			<li>
+				<span class="input_item">购物车总金额条件 <em>*</em></span>
+				<span class="input_unit">元</span>
+				<input type='text' name='condition' pattern='float' class='input_text' alt='请填写一个金额数字' />
+			</li>
+			<li>
+				<span class="input_item">活动规则 <em>*</em></span>
+				<select class='input_select' name='award_type' pattern='required' alt='请选择一种规则' onchange="change_rule(this.value);">
+					<option value=''>请选择</option>
+					<option value='1'>当购物车金额满 M 元时,优惠 N 元</option>
+					<option value='2'>当购物车金额满 M 元时,优惠 N% </option>
+					<option value='6'>当购物车金额满 M 元时,免运费</option>
+				</select>
+			</li>
+			<div id='rule_box'></div>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>
+<article class="module width_full">
+
+
+<script type='text/javascript'>
+//修改规则
+function change_rule(selectVal)
+{
+	//判断是否为真正的onchange事件
+	if(selectVal != $('#rule_box').data('index'))
+	{
+		$('#rule_box').data('index',selectVal);
+	}
+	else
+	{
+		return;
+	}
+
+	var html = '';
+	switch(selectVal)
+	{
+		case "1":
+		{
+			html = '<li><span class="input_item">优惠金额 <em>*</em></span>'+
+					'<span class="input_unit">元</span>'+
+					"<input type='text' name='award_value' class='input_text' pattern='float' alt='请填写一个金额数字' />"+
+					'</li>';
+		}
+		break;
+
+		case "2":
+		{
+			html = '<li><span class="input_item">优惠百分比 <em>*</em></span>'+
+					'<span class="input_unit">%</span>'+
+					"<input type='text' name='award_value' class='input_text' pattern='float' alt='请填写一个金额数字' />"+
+					'</li>';
+		}
+		break;
+	}
+	$('#rule_box').html(html);
+	formObj.setValue('award_value',"{$this->promotionRow['award_value']}");
+}
+
+//选择参与人群
+function select_all()
+{
+	var is_checked = $('[name="user_group"]').prop('checked');
+	if(is_checked ==  "checked")
+	{
+		var checkedVal  = true;
+		var disabledVal = true;
+	}
+	else
+	{
+		var checkedVal  = false;
+		var disabledVal = false;
+	}
+
+	$('input:checkbox[name="user_group[]"]').each(
+		function(i)
+		{
+			$(this).prop('checked',checkedVal);
+			$(this).prop('disabled',disabledVal);
+		}
+	);
+}
+
+//表单回填
+var formObj = new Form('pro_rule_edit');
+formObj.init({echo:JSON::encode($this->promotionRow)});
+
+change_rule("{$this->promotionRow['award_type']}");
+
+//根据默认值进行用户组选择
+select_all();
+var userGroup = "{echo:trim($this->promotionRow['user_group'],',')}";
+if(userGroup)
+{
+	var userGroupArray = userGroup.split(',');
+	for(var i in userGroupArray)
+	{
+		$('[name="user_group[]"][value="'+userGroupArray[i]+'"]').prop('checked',true);
+	}
+}
+</script>

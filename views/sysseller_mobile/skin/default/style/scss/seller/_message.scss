@@ -1,0 +1,37 @@
+.alert_info,.alert_warning {
+	margin-bottom: .15rem;padding: .1rem .15rem;line-height: 1.6;background: $green;color: $cff;
+}
+.alert_warning {
+	background: $red;
+}
+.message_list {
+	li {
+		border: 1px solid $cdd;margin-bottom: .15rem;
+		.title {
+			display: block;@include oneline(.32rem);padding: 0 .1rem;font-size: .14rem;
+		}
+		.control {
+			display: table;width: 100%;
+			span,time,a {
+				display: table-cell;height: .3rem;text-align: center;line-height: .3rem;
+				background: $cfa;box-shadow: 0 0 0 1px $cdd;
+			}
+			span.success {
+				background: $green;color: $cff;
+			}
+			a {
+				background: $red;color: $cff;box-shadow: 0 0 0 1px $red;
+			}
+		}
+	}
+}
+.message_con {
+	.title {font-size: .15rem;color: $cf60;line-height: 1.6;}
+	.time {
+		text-align: center;border:solid $cdd;border-width: 1px 0;display: block;line-height: 2;margin: .1rem 0;color: $c99;font-size: .1rem;
+	}
+	.article {
+		line-height: 2;font-size: .13rem;
+		* {max-width: 100%;}
+	}
+}

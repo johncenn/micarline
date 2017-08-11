@@ -1,0 +1,336 @@
+*{
+	margin: 0;padding: 0;
+}
+#chatview{
+	width: 100%;
+	height: 100vh;
+	background: #f5f5f5f5;
+	
+}
+
+/*头像区域*/
+#profile{
+	width: 100%;
+	height: 25vh;
+	border-top: 1px solid #f5f5f5;
+	background: url(../image/timeline1.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.animate{
+	opacity: 1;
+    margin-top: 0;
+}
+
+/*关闭*/
+#close{
+	width: 1.5rem;
+	height: 1.5rem;
+	position: absolute;
+	right: 0.10rem;
+	top: 0.10rem;
+}
+
+#close img{
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+/*用户头像*/
+.myself{
+	width: 3rem;
+	height: 3rem;
+	margin: 1rem auto;
+	
+}
+
+.myself img{
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+}
+
+/*名称*/
+.name{
+	width: 100%;
+	text-align: center;
+	margin-top: -0.5rem;
+}
+.name span{
+	font-size: 1rem;
+	color: white;
+	letter-spacing: 0.1rem;
+	
+	font-family: "微软雅黑";
+	
+}
+
+/*聊天内容*/
+#chat-messages{
+	opacity:1;
+	margin-top:2vh;
+	background: #f0f4f7;
+	width:100%;
+	height:63vh;
+	overflow-y:scroll;	
+	overflow-x:hidden;
+	-webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+	   -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+	    -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+	     -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+	        transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+}
+
+/*左边的内容*/
+#chat-messages div.message_left{
+	/*padding: 0 0 1.5rem 2.9rem;
+    clear: both;
+    margin-bottom: 2.25rem;*/
+	
+	padding: 0 0 1.5rem 0rem;
+    clear: both;
+    margin-bottom: 2.25rem;
+	
+
+}
+
+/*左边内容的头像*/
+.message_left img{
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
+	margin: 0.8rem 0 0 1rem;
+	float: left;
+}
+
+/*左边内容的内容*/
+.message_left .bubble{
+	margin: 0.7rem 0 0.7rem 0.7rem;
+	background: white;
+	word-break:break-all;
+    font-weight: 600;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.25rem 0.25rem 0.25rem 0;
+    color: #8495a3;
+    position: relative;
+    float: left;
+    /*width: 60%;*/
+   max-width: 55%;
+   line-height: 1rem;
+  font: 0.6rem/1rem "微软雅黑";
+}
+
+.message_left .bubble .corner{
+	position: absolute;
+    width: 0.35rem;
+    height: 0.35rem;
+    bottom: 0;
+    left: -0.35rem;
+   background: url(../image/bubble-corner.png)  no-repeat;
+	background-size: 100% 100%;
+}
+
+.message_left .bubble img{
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 0;
+	margin: -0.2rem 0 0 0rem;
+	float: left;
+}
+
+.message_left .bubble .bq{
+	width: 1.2rem;
+	height: 1.2rem;
+	border: 1px solid red;
+}
+
+.line{
+	color: #aab8c2;
+    font-size: 11px;
+    position: absolute;
+    right: 0;
+    bottom: -22px;
+}
+
+/*右边的内容*/
+#chat-messages div.message_right{
+	/*padding: 0 0 1.5rem 2.9rem;
+    clear: both;
+    margin-bottom: 2.25rem;*/
+	
+	padding: 0 0 1.5rem 0rem;
+    clear: both;
+    margin-bottom: 2.25rem;
+	
+
+}
+
+.message_right img{
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
+	margin: 0.8rem 1rem 0 1rem;
+	float: right;
+}
+
+.message_right .bubble{
+	margin: 0.7rem 0 0.7rem 0.7rem;
+	background:white;
+    /*font-weight: 600;*/
+    padding: 0.6rem 0.65rem;
+    border-radius: 0.25rem 0.25rem 0.25rem 0px;
+    color: #8495a3;
+    position: relative;
+    float: right;
+    max-width: 55%;
+    line-height: 1rem;
+  font: 0.6rem/1rem "微软雅黑";
+	word-break:break-all;
+
+}
+
+.message_right .bubble .corner{
+	background: white;
+	position: absolute;
+    width: 0.35rem;
+    height: 0.35rem;
+    bottom: 0;
+   left: auto;
+    right: -0.3rem;
+   background: url(../image/bubble-cornerR.png)  no-repeat;
+	background-size: 100% 100%;
+}
+
+.message_right .bubble img{
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 0;
+	margin: -0.2rem -0.2rem -0.2rem -0.2rem;
+	float: left;
+}
+
+.message_right .bubble .bq{
+	width: 1.2rem;
+	height: 1.2rem;
+	border: 1px solid red;
+}
+
+/*底部发送*/
+#sendmessage{
+	width: 100%;
+	height: 10vh;
+	/*background: blue;*/
+	border-top: 1px solid gray;
+	position: relative;
+	
+}
+
+/*表情*/
+.talk_img{
+	width: 100%;
+	height: 7.7rem;
+	border: 1px solid red;
+	position: absolute;
+	top: -8rem;
+	left: 0;
+	overflow:scroll;
+	background: white;
+	display: none;
+}
+
+.event_one{
+	float: left;
+	width: 1.8rem;
+	height: 1.8rem;
+	text-align: center;
+	margin-left: 0.4rem;
+}
+
+.event_one img{
+	width: 1.2rem;
+	height: 1.2rem;
+	vertical-align: middle;
+    margin-top: 0.35rem;
+
+}
+
+
+.input_area{
+	width: 100%;
+	position: relative;
+	bottom: 0;
+	height: 2.3rem;
+	/*border: 1px solid red; 
+	background: white;*/
+}
+
+.yuliu{
+	width: 1.5rem;
+	height: 1.5rem;
+	position: absolute;
+	bottom: 0.5rem;
+	left: 11rem;
+}
+
+.yuliu img{
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.biaoqing{
+	width: 1.5rem;
+	height: 1.5rem;
+	position: absolute;
+	bottom: 0.5rem;
+	right: 5.5rem;
+	
+}
+.biaoqing img{
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.inp{
+	width: 7.5rem;
+	height: 1.5rem;
+	position: absolute;
+	bottom: 0.5rem;
+	left: 1rem;
+	border-bottom: 1px solid grey;
+	/*border: 1px solid red;*/
+}
+
+.area{
+	resize: none;
+	color: #8495a3;
+	font-family:"微软雅黑";
+	width: 100%;
+	
+	font-size: 0.5rem;
+	height:0.6rem;
+	line-height:0.6rem;
+	/*line-height:0.95rem;*/
+	position: absolute;
+	bottom: 0.1rem;
+	border: none;
+	outline:none;
+	background: white;
+	letter-spacing: 0.08rem;
+	/*border: 1px solid red;*/
+}
+
+.sendBtn{
+	width: 2rem;
+	height: 1.5rem;
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
+	background: #3DCE3D;
+	text-align: center;
+	border-radius: 0.3rem;
+}
+
+.sendBtn span{
+	color: white;
+	font: 0.8rem/1.5rem "微软雅黑";
+}

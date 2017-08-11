@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		
+		<link rel="stylesheet" href="{skin:style/index.css}">
+		<script type="text/javascript" src="{theme:javascript/jquery-1.9.1.js}"></script>
+		<script type="text/javascript" src="{theme:javascript/chat.js}"></script>
+		<script type="text/javascript">
+			var device = window.devicePixelRatio;
+			var pixelRatio = 1/device;
+			
+			document.write('<meta name="viewport" content="width=device-width,initial-scale='+pixelRatio+',minimum-scale='+pixelRatio+',maximum-scale='+pixelRatio+'" />');
+			
+			
+			//动态设置font-size
+			//获取html节点
+			var html = document.getElementsByTagName("html")[0];
+			//获取屏幕宽度
+			var pageWidth = html.getBoundingClientRect().width;
+			
+			//动态设置font-size值
+			var fs = pageWidth / 16 +"px";
+			html.style.fontSize = fs;
+			
+			//聊天初始化
+			var t_name = '{$item['t_name']}';
+			var t_id = '{$item['t_id']}';
+			var t_ava = '{$item['t_ava']}';
+			var f_id = '{$item['f_id']}';
+			var f_name ='{$item['f_name']}';
+			var f_ava = '{$item['f_ava']}';
+			
+			//console.log("t_ava is "+t_ava);
+			//console.log("f_ava is "+f_ava);
+			
+			var scollheight = 0;
+			
+			
+			
+		</script>
+		
+		
+				
+	</head>
+	<body>
+		
+		<!--整个聊天区域 s-->
+		<div id="chatview" class="p1">
+			<!--头像 s-->
+			<div id="profile" class="animate">
+				
+                <!--关闭的图片
+	            <div id="close">
+	                <img src="{skin:image/close.png}"/>
+	            </div>
+	            -->
+	            <div class="myself">
+	            	<img src=""/>
+	            </div>
+	            <div class="name">
+	            	<span>{$item['t_name']}</span>
+	            </div>
+	            
+			</div>
+			<!--头像 e-->
+			
+			<!--聊天内容 s-->
+			<div id="chat-messages" class="animate">
+				<!--左边的内容 
+				<div class="message_left">
+					<img src="{skin:image/4_copy.jpg}"/>
+					<div class="bubble">
+						<div class="corner">
+						<div class="line"></div>
+						</div>
+						<span>12圣诞节加上大答手机号的把手机号的按时的背景哈叔本华的眷属</span>
+					</div>
+					
+				</div>-->
+				
+				<!--右边的内容
+				<div class="message_right">
+					<img src="{skin:image/2_copy.jpg}"/>
+					
+					<div class="bubble">
+						<div class="corner">
+						</div>
+						<span>12圣诞节加上大答手机号的把手机号的按时的背景哈叔本华的眷属</span>
+					</div>
+					
+				</div>
+				-->
+				
+				
+			</div>
+			
+			<!--聊天内容 e-->
+			
+			<!--底部发送 s-->
+			<div id="sendmessage">
+				
+				<div class="talk_img">
+					{for:from=1 upto=77  item=$num}
+					<div  class="event_one">
+						<img alt="{$num}.gif" src="{url:upload/talkimg/$num}.gif">
+					</div>
+				{/for}
+				</div>
+				
+				<div class="input_area">
+					
+					<div class="inp">
+						<textarea class="area" ></textarea>
+					</div>
+					<div class="biaoqing">
+						<img src="{skin:image/face.png}"/>
+					</div>
+					<div class="yuliu">
+						<img src="{skin:image/photo.png}">
+						<input type="file" id="upp" name="photo" style="display: none" onchange="select_photo()" />
+						</img>
+					</div>
+					<div class="sendBtn">
+						<span>发送</span>
+					</div>
+				</div>
+			</div>	
+			<!--底部发送 e-->
+			
+		</div>
+		
+		<!--整个聊天区域 e-->
+	</body>
+</html>
+
+
+<script type="text/javascript">
+	
+$(function(){
+	
+	var ex = "http://"+window.location.host+"/";
+	
+	if(t_ava == ""){
+		t_ava = "/upload/car.jpg";
+	}
+	if(t_ava.substring(0,4) == "http"){
+		
+	}else{
+		t_ava = ex + t_ava ;
+	}
+	
+	//设置客服的头像
+	$(".myself img").attr("src",t_ava);
+	
+	var addNum = 0.95 ;
+    var add = 1;
+    
+    /*
+	$('.area').bind('input propertychange', function() {
+		var str = $(this).val();
+        var len = strlen(str);
+        
+     // console.log(len);
+        
+        if(len > 16 * add && add < 5){
+        	var hight = $(".area").css("height");
+        	//console.log(hight);
+        	
+        	//从下标1开始，到3（不包括)结束
+        	//var len = hight.substring(0,hight.indexOf("px"));
+        	//console.log(len);
+        	console.log("加");
+        	$(".area").css("height",(addNum * (add+1))+"rem");
+        	add = add + 1 ; 
+        }else if(len <= 16 * (add-1) && add > 1) {
+        	console.log("减");	
+        	$(".area").css("height",(addNum * (add-1))+"rem");
+        	add = add -1;
+        }
+        
+	});*/
+	
+	
+	$('.area').bind('input propertychange', function() {
+		var str = $(this).val();
+        var len = strlen(str);
+        
+     // console.log(len);
+        
+        if(len > 23){
+        	console.log("ok");
+        	$(".area").css("height","1.2rem");
+        }else{
+        	$(".area").css("height","0.6rem");
+        }
+        
+	});
+	
+	
+	//获取聊天数据
+	var logURL = "http://"+window.location.host+"/git/micarshop/chat/getTalkLog";
+	//var logURL = "http://"+window.location.host+"/chat/getTalkLog";
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST',logURL,false);
+	var formData = new FormData();
+	formData.append("t_id",t_id);
+	formData.append("f_id",f_id);
+	var ex = "http://"+window.location.host+"/";
+	xhr.onload = function(){
+		var msg = this.responseText;
+		//console.log("msg is ");
+		//console.log(msg);
+		eval('var da='+msg);
+		
+		
+		for(var i = 0 ; i<da.length ; ++i){
+			var ava_img = f_ava ;
+			var class_type = "message_right";
+			//console.log("img is ");
+			//console.log(ava_img);
+			//console.log(f_ava);
+			if(da[i].f_id != f_id){
+				class_type = "message_left";
+				ava_img = t_ava;
+				//console.log("");
+			}
+			
+			if(ava_img.substring(0,4) == "http"){
+			
+			}else{
+				
+				ava_img = ex + ava_img ;
+			
+			}
+			
+			var m_t = $("#chat-messages");
+			var message = $('<div class='+class_type+'></div>');
+			var img = $('<img src='+ava_img+' />');
+			var bubble = $('<div class=bubble></div>');
+			var corner = $('<div class=corner></div>');
+			var line = $('<div class=line></div>');
+			var span = $('<span>'+da[i].t_msg+'</span>');
+			
+			corner.append(line);
+			bubble.append(corner);
+			bubble.append(span);
+			
+			message.append(img);
+			message.append(bubble);
+			
+			m_t.append(message);
+			
+			scollheight = scollheight + parseInt($("#chat-messages").height());
+			$("#chat-messages").scrollTop(scollheight);
+			
+			
+		}
+		
+		
+		
+		
+	}
+	xhr.send(formData);
+});
+	
+function strlen(str) {
+	if (str == null) return 0;
+	if (typeof str != "string"){
+	  str += "";
+	}
+	return str.replace(/[^\x00-\xff]/g,"01").length;
+}	
+</script>

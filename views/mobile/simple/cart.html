@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>购物车</title>
+		<script type="text/javascript" src="{theme:javascript/jquery-1.9.1.js}"></script>
+		
+		<link rel="stylesheet" type="text/css" href="{skin:products/hui/css/hui.css}"/>
+		<link rel="stylesheet" type="text/css" href="{skin:products/css/cart.css}"/>
+	</head>
+	<body>
+		<header class="hui-header header">
+		    <div id="hui-back"></div>
+		    <span>购物车</span>
+		</header>
+		
+		<div class="hui-wrap">
+		
+		<?php 
+			//print_r($this->seller);
+			$ex = $_SERVER['HTTP_HOST'];
+		?>
+		
+		{foreach:items=$this->seller key=$seller_id}
+			{set:$sellerid = $seller_id}
+			<!--每个收藏商品 s-->
+			<div class="collection" store_id="{$sellerid}">
+				<div class="wrap">
+					<!--头部 s-->
+					<div class="header">
+						<div class="header_content">
+							
+							<!--头部左边 s-->
+							<div class="title">
+								<div class="radio store_radio" val="0" >
+									 <span style="display: none;" class="hui-icons hui-icons-success"></span>
+									 <input class="store_id" type="hidden" value="{$seller_id}" />
+								</div>
+								<div class="image">
+									<img src="{skin:image/micar.jpg}"/>
+								</div>	
+								<div class="store_name">
+									{query:name = seller where=id eq $seller_id item=$name}	
+										<a href="{url:site/home/id/$seller_id}">{$name['store_name']}　></a>
+									{/query}
+								</div>
+								
+							</div>
+							<!--头部左边 e-->
+							
+							<!-- 头部右边 s -->
+							<div class="operation" val="{$sellerid}" flag="n">
+								<span>编辑</span>
+							</div>
+							<!-- 头部右边 e -->
+							
+						</div>
+					</div>
+					<!--头部 e-->
+					
+					<!--收藏的内容 s-->
+					{foreach:items=$this->goodsList item=$good}
+					{if:$good['seller_id'] == $sellerid}
+					<?php 
+						//echo "<pre>";
+						//print_r($good);
+						//echo "</pre>";
+					?>
+					<div class="collect" good_id="{$good['goods_id']}" >
+						<div class="collect_content">
+							<!--头部左边 s-->
+							<div class="s_img">
+								<div class="r">
+									<div class="radio store_item_radio{$seller_id}" val="0" m="0">
+										<span  class="hui-icons hui-icons-success"></span>
+										<input type="hidden" class="goods_price" value="{$good['sell_price']}" />
+										<input type="hidden" class="goods_nums" value="{$good['count']}" />
+									</div>
+								</div>
+								
+								<div class="image">
+									<img src="http://{$ex}/{$good['img']}"/>
+								</div>
+							</div>
+							<!--头部左边 e-->
+							
+							<!-- 头部右边 s -->
+							<div class="collect_msg">
+								<div class="con">
+									<div class="desc">
+										<div class="title">
+											<span>
+												{$good['name']}
+											</span>
+										</div>
+										{if:$good['spec_array']}
+										<div class="guige">
+											
+												<?php 
+													//echo "<pre>";
+													//print_r(json_decode($good['spec_array'],true));
+													//echo "</pre>";
+													
+													$guige = json_decode($good['spec_array'],true);
+													
+												?>
+												<div>
+												{foreach:items=$guige item=$guigeVal}
+													{if:$guigeVal['type']==2}
+														<img style="display: inline-block;" alt="" src="{$guigeVal['value']}">
+														{else:}
+														<span style="display: inline-block;">{$guigeVal['value']}</span>
+													{/if}
+												{/foreach}
+												</div>
+											
+										</div>
+										{/if}
+										<div class="limit">
+											<span>限购5件</span>
+										</div>
+										<div class="price">
+											<span>¥{$good['sell_price']}</span>
+											<?php 
+											?>
+											<span><del>¥{$good['market_price']}</del></span>
+											<span class="num">x{$good['count']}</span>
+											<input type="hidden" id="h_num" value="{$good['count']}" /> 
+										</div>
+									</div>
+								</div>
+								<?php 
+								?>
+								<div class="edit_con">
+									<div class="edit">
+										<div class="select">
+											 <div class="hui-number-box number-box" min="1" max="{$good['store_nums']}">
+									            <div class="reduce">-</div>
+									            <input type="number" class="s_num" value="{$good['count']}" />
+									            <div class="add">+</div>
+									        </div>
+										</div>
+										<div class="del_btn">
+											<span>删除</span>
+										</div>
+									</div>
+								</div>
+								
+								
+							</div>
+							<!-- 头部右边 e -->
+							
+							
+							
+						</div>
+						
+					</div>
+					
+					<div style="height: 5px;background: white;"></div>
+					
+					<!--收藏的内容 e-->
+					{/if}
+					{/foreach}
+					
+					
+				</div>
+				
+			</div>
+			<!--每个收藏商品 e-->
+			{/foreach}
+			
+		
+			
+			
+			
+			<!--底部效果 s-->
+			<div class="bottom">
+				
+				
+			</div>
+			<!--底部效果 e-->
+			
+			<!--底部结算条 s-->
+			<div class="bottom_flex">
+				<div class="content">
+					<div class="cartbottom_left">
+						<div class="allselect">
+							<div class="sum_radio " val="0">
+								<span  class="hui-icons hui-icons-success"></span>
+							</div>
+							<span>全选</span>
+						</div>
+						
+						<div class="settlement">
+							<div class="sum_price">
+								<span>合计:</span>
+								<span class="cart_price">¥0.00</span>
+							</div>
+							<div class="flag">
+								<span>不含运费</span>
+							</div>
+						</div>
+						
+					</div>
+					<div class="cartbottom_right">
+						<a href="javascript:" class="msg">
+							<span>结算</span><span>(0)</span>
+						</a>
+					</div>
+					
+				</div>
+			</div>
+			<!--底部结算条 e-->
+		</div>
+		<form id="datafrom" action="{url:simple/shoppcart}" method="post">
+			<input id="dfrom" type="hidden" name="data" value="" />
+		</form>
+		<script src="{skin:products/hui/js/hui.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:products/js/cart_buy.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:products/js/cart.js}" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		
+			hui.numberBox();
+			
+			var buyUrl = "{url:simple/shoppcart}";
+			var crud_url = "{url:simple/cart_crud}";
+			var del_url = "{url:simple/cart_del}";
+			
+			//为所有店铺radio添加响应
+			var store = document.getElementsByClassName("store_radio");	
+			var good = $(".r .radio");
+			
+			var cart = new cart_deal();
+			
+			
+			cart.select(store);
+			cart.chilSelect(good);
+			cart.listenChil();
+			cart.selectAll();
+			cart.btnclick();
+			cart.btn_commit();
+			cart.edit();
+			cart.add_subtract();
+			cart.init();
+			
+		</script>
+	</body>
+</html>

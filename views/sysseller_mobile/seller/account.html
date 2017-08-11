@@ -1,0 +1,58 @@
+{set:
+$this->startDate = IFilter::act(IReq::get('startDate'));
+$this->endDate   = IFilter::act(IReq::get('endDate'));
+$countData = statistics::sellerAmount($this->seller['seller_id'],$this->startDate,$this->endDate);
+}
+{js:my97date}
+{js:chart}
+<h1 class="page_title">销售额统计</h1>
+<section class="input_li">
+	<form action="{url:}" method="get">
+		<input type='hidden' name='controller' value='seller' />
+		<input type='hidden' name='action' value='account' />
+		<ul>
+			<li>
+				<span class="input_item">开始日期</span>
+				<input type="text" name='startDate' value='{$this->startDate}' pattern='date' onFocus="WdatePicker()" empty class="input_text time">
+			</li>
+			<li>
+				<span class="input_item">结束日期</span>
+				<input type="text" name='endDate' value='{$this->endDate}' pattern='date' onFocus="WdatePicker()" empty class="input_text time">
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="立即查询" />
+			</li>
+		</ul>
+	</form>
+</section>
+<section class="chart_box">
+	<div id="myChart" style="width:100%;min-height:500px;"></div>
+</section>
+
+<script>
+//图表生成
+$(function(){
+	//图标模板
+	var option = {
+		title:{
+			text:'销售统计'
+		},
+		xAxis:{
+			name:'时间',
+			data:{echo:JSON::encode(array_keys($countData))},
+		},
+		yAxis:{
+			name:'销售额(元)',
+		},
+		series:[{
+			name:'销售额',
+			type: 'line',
+			data:{echo:JSON::encode(array_values($countData))}
+		}],
+		tooltip:{
+			show:true
+		}
+	};
+	echarts.init(document.getElementById('myChart')).setOption(option);
+})
+</script>

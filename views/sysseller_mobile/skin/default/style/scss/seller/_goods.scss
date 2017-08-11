@@ -1,0 +1,80 @@
+.goods_tab {
+	padding-bottom: .2rem;
+	ul {display: table;width: 100%;table-layout: fixed;}
+	li {
+		display: table-cell;height: .36rem;line-height: .36rem;text-align: center;
+		background: $cff;box-shadow: 0 0 0 1px $cdd;font-size: .14rem;
+		&.on {
+			background: $blue;color: $cff;box-shadow: 0 0 0 1px $blue;
+		}
+	}
+}
+.categoryBox {margin-top: .1rem;}
+.base_info {
+	overflow-x: scroll;
+	.goods_table {
+		&,th,td {
+			border: 1px solid $cdd;white-space:nowrap;text-align: center;background: $cfa;
+		}
+		th,td {padding: .05rem;}
+		th {height: .2rem;}
+		.text {
+			height: .15rem;line-height: .15rem;padding: .1rem;border: 1px solid $cdd;
+			display: inline-block;width:.5rem;overflow-x:visible;overflow-y:visible;
+		}
+		.button,.del {
+			border: 1px solid $blue;height: .35rem;background: $blue;color: $cff;padding: 0 .1rem;
+		}
+		.del {
+			border-color: $red;background: $red;display: inline-block;line-height: .35rem;
+		}
+	}
+}
+// .goods_table {
+// 	display: block;box-shadow: 0 0 0 1px $cdd;
+// 	@extend .cf;
+// 	thead {
+// 		display: block;float: left;width: .7rem;
+// 		th:last-child {margin-bottom: 0;}
+// 	}
+// 	tbody {
+// 		display: block;float: left;
+// 		@include calc("width","100% - .7rem");
+// 		td:last-child {margin-bottom: 0;}
+// 	}
+// 	th,td,tr {display: block;}
+// 	th,td {height: .42rem;line-height: .42rem;margin-bottom: .15rem;position: relative;}
+// 	th {
+// 		text-align: right;box-shadow: 0 0 0 1px $cdd;background: $cfa;
+// 		&:after {content: "："}
+// 	}
+// }
+.properties_table {
+	width: 100%;
+	&,th,td {border: 1px solid $cdd;}
+	th { white-space:nowrap;min-width: .48rem;text-align: right;background: $cfa;font-weight: bold;}
+}
+.goods_img {
+	padding-top: .15rem;
+	.tip {
+		padding: .1rem;border-radius: .05rem;border: 1px solid $yellow;background: rgba($yellow,.15);color: darken($yellow,20%);
+	}
+	.pic_box {
+		@extend .cf;
+		.pic {
+			float: left;width: 50%;background: $cff;
+			box-shadow: 0 0 0 1px $cdd;
+			img {
+				display: block;width: 1.45rem;height: 1.45rem;margin: .1rem auto;
+			}
+			p {
+				display: table;width: 100%;
+				span {
+					display: table-cell;height: .3rem;line-height: .3rem;text-align: center;
+					background: $cfa;
+					box-shadow: 0 0 0 1px $cdd;
+				}
+			}
+		}
+	}
+}

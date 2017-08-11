@@ -1,0 +1,25 @@
+{set:$seller_id = $this->seller['seller_id']}
+<h1 class="page_title">促销活动</h1>
+<section class="regiment_list">
+	<form method='post' action='{url:/seller/pro_rule_del}'>
+		{query:name=promotion where=seller_id eq $seller_id and type eq 0  key=$dataKey}
+		<div class="item">
+			<p>
+				<strong>活动名：</strong>{$item['name']} <br>
+				<strong>时间段：</strong>{$item['start_time']} ~ {$item['end_time']}<br>
+				<strong>简介：</strong>{$item['intro']}
+			</p>
+			<div class="regiment_btn">
+				<a class="btnn" href='{url:/seller/pro_rule_edit/id/$item[id]}'>修改</a>
+				<a class="btnn" href='javascript:void(0)' onclick="delModel({link:'{url:/seller/pro_rule_del/id/$item[id]}'});">删除</a>
+			</div>
+		</div>
+		{/query}
+	</form>
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+</section>
+<div class="btn_bottom">
+	<a class="btn_submit" href="{url:/seller/pro_rule_edit}">添加团购</a>
+</div>

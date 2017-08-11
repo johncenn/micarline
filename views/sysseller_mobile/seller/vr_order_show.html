@@ -1,0 +1,163 @@
+{set:$seller_id = $this->seller['seller_id']}
+<h1 class="page_title">订单列表</h1>
+<section class="order_show_tab">
+	<ul>
+		<li class="on">基本信息</li>
+		<li>收退款记录</li>
+		<li>发货记录</li>
+		<li>备注</li>
+		<li>日志</li>
+		<li>附言</li>
+	</ul>
+</section>
+<section class="order_show_main">
+	<div class="con">
+		{set:$orderInstance = new Order_Class();$orderRow = $orderInstance->getVrOrderShow($order_no)}
+		<div class="item">
+			<h3>订单信息</h3>
+			<p>
+				<strong>订单号：</strong>{$order_no} <br>
+				<strong>当前状态：</strong>{echo:order_class::vrorderStatusText(order_class::getVrOrderStatus($orderRow))} <br>
+				<strong>支付状态：</strong>{echo:order_class::getVrOrderPayStatusText($orderRow)} <br>
+				<strong>订单类型：</strong>{echo:order_class::getOrderTypeText($orderRow)} <br>
+				<strong>平台货款结算：</strong>{if:$is_checkout == 1}已结算{else:}未结算{/if} <br>
+			</p>
+		</div>
+		<div class="goods">
+			<h3>订单商品</h3>
+			<ul>
+				{query:name=vr_order_goods where=order_no eq $order_no and seller_id eq $seller_id}
+				{set:$goodsRow = JSON::decode($item['goods_array'])}
+					<li>
+						<strong>{$goodsRow['name']}</strong>
+						<em>￥{$item['real_price']}</em>
+						<span>×</span>
+						<u>{$item['goods_nums']}</u>
+					</li>
+				{/query}
+			</ul>
+		</div>
+		<div class="item">
+			<h3>订单金额明细</h3>
+			<p>
+				<strong>商品总额：</strong>￥{$order_amount} <br>
+				{if:isset($prop) && $prop}
+				<strong>代金券：</strong>{query:name=prop where=id eq $prop}{$item['value']}{/query} <br>
+				{/if}
+				<strong>优惠总额：</strong>￥{$promotions} <br>
+				<strong>增加或减少金额：</strong>
+					￥
+					{if:Order_class::getOrderStatus($orderRow) < 3}
+						<input type='text' value='{$discount}' class='tiny' onchange='updateDiscount();' name='discount' />
+					{else:}
+						{$discount}
+					{/if}
+					<span class='tip'>折扣用" - ",涨价用" + "</span>
+				<br>
+				<strong>订单总额：</strong>￥<span id="orderAmount">{$order_amount}</span> <br>
+				<strong>已支付金额：</strong>{query:name=collection_doc where=order_no eq $order_no and if_del eq 0 fields=amount}￥{$item['amount']}{/query}
+			</p>
+		</div>
+		<div class="item">
+			<h3>支付和服务信息</h3>
+			<p>
+				<strong>支付方式：</strong>{$payment} <br>
+				<strong>是否开票：</strong>{if:$invoice==0}否{else:}是{/if} <br>
+				<strong>发票抬头：</strong>{$invoice_title} <br>
+				<strong>可得积分：</strong>{$point} <br>
+			</p>
+		</div>
+	</div>
+	<div class="con none">
+		<div class="item">
+			<h3>收款单据</h3>
+			<p>
+				{query: name=collection_doc as c join=left join payment as p on c.payment_id eq p.id where=c.order_no eq $order_no items=$collectionData fields=c.*,p.name}
+				<strong>付款时间：</strong>{$item['time']} <br>
+				<strong>金额：</strong>{$item['amount']} <br>
+				<strong>支付方式：</strong>{$item['name']} <br>
+				<strong>付款备注：</strong>{$item['note']} <br>
+				<strong>状态：</strong>{if:$item['pay_status']==0}准备中{else:}支付完成{/if} <br>
+				{/query}
+			</p>
+		</div>
+		<div class="item">
+			<h3>退款单据</h3>
+			<p>
+				{query: name=refundment_doc where=order_no eq $order_no items=$refundmentData}
+				<strong>退款商品：</strong><br>
+					{query:name=vr_order_goods where=id in ($item[order_goods_id]) item=$orderGoodsItem}
+					{set:$goods = JSON::decode($orderGoodsItem['goods_array'])}
+					<span class="blue">{$goods['name']} X {$orderGoodsItem['goods_nums']}</span><br>
+					{/query}
+				<strong>退款金额：</strong>{$item['amount']} <br>
+				<strong>申请时间：</strong>{$item['time']} <br>
+				<strong>状态：</strong>{echo:Order_Class::refundmentText($item['pay_status'])} <br>
+				<strong>退款理由：</strong>{$item['content']} <br>
+				<strong>退款方式：</strong>{echo:Order_Class::refundWay($item['way'])} <br>
+				{/query}
+			</p>
+		</div>
+	</div>
+	<div class="con none">
+		<br>
+		<br>
+		<br>
+		<section class="input_li">
+			<form action="{url:/seller/order_note}" method="post">
+			<input type="hidden" name="order_id" value="{$order_id}"/>
+			<ul>
+				<li>
+					<span class="input_item">订单备注 <em>*</em></span>
+					<textarea class='input_textarea' name='note'>{$note}</textarea>
+				</li>
+				<li>
+					<input type="submit" class="input_submit" value="确 定" />
+				</li>
+			</ul>
+			</form>
+		</section>
+	</div>
+	<div class="con none">
+		<div class="item">
+			<h3>订单附言</h3>
+			<p>{$postscript}</p>
+		</div>
+	</div>
+</section>
+
+
+<script type='text/javascript'>
+
+var pay_status = '{$pay_status}';
+
+
+$(function(){
+	$(".order_show_tab").on("click","li", function(){
+		var t = $(this),
+			i = t.index(),
+			$con = $(".order_show_main").children(".con")
+		t.addClass("on").siblings().removeClass("on")
+		$con.eq(i).show().siblings(".con").hide()
+	})
+})
+
+
+//修改订单价格
+function updateDiscount()
+{
+	var order_id = {$id};
+	var discount = $('input[name="discount"]').val();
+	$.getJSON("{url:/seller/order_discount}",{'order_id':order_id,'discount':discount},function(json)
+	{
+		if(json.result == true)
+		{
+			tips('价格修改成功');
+			$('#orderAmount').text(json.orderAmount);
+			$('#orderAmount').addClass("red");
+			return;
+		}
+		tips('价格修改失败');
+	});
+}
+</script>

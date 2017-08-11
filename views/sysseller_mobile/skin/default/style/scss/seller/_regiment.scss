@@ -1,0 +1,17 @@
+.regiment_list {
+	.item {
+		margin-bottom: .15rem;border: 1px solid $cdd;
+		p {
+			line-height: 1.8;padding:.1rem .15rem;
+			strong {color: $c99;}
+		}
+		.regiment_btn {
+			display: table;width: 100%;table-layout: fixed;
+			.btnn {
+				display: table-cell;height: .36rem;line-height: .36rem;text-align: center;font-size: .13rem;
+				box-shadow: 0 0 0 1px $cdd;background: $cfa;
+				&.red {color: $red;}
+			}
+		}
+	}
+}

@@ -1,0 +1,89 @@
+{js:my97date}
+<h1 class="page_title">商品列表</h1>
+<section class="goods_list">
+	<form action="{url:/seller/goods_del}" method="post" name="goodsForm">
+		<ul>
+			{foreach:items = $this->goodHandle->find() key=$dataKey}
+			<li>
+				<div class="goods">
+					<img src='{url:/pic/thumb/img/$item[img]/w/100/h/100}' class="img" />
+					<div class="info">
+						<strong class="name">{$item['name']}</strong>
+						<span class="type">
+							分类：{set:$catName = array()}
+							{query:name=category_extend as ce join=left join category as cd on cd.id eq ce.category_id fields=cd.name where=goods_id eq $item[id] item=$catData}
+								{set:$catName[] = $catData['name']}
+							{/query}
+							{echo:join(',',$catName)}
+						</span>
+						<em class="price">价格：{$item['sell_price']}</em>
+						<span class="store">库存：{$item['store_nums']}</span>
+						<span class="sta">状态：{echo:goods_class::statusText($item['is_del'])}</span>
+					</div>
+				</div>
+				<div class="btn_box">
+					<a class="btnn" href="{url:/seller/goods_edit/id/$item[id]}">编辑</a>
+					<!-- 如果是下架状态，就显示上架，可以快速上架 -->
+					{if:$item['is_del'] == 2}
+					<a class="btnn" href="{url:/seller/goods_status/id/$item['id']/is_del/3}">申请上架</a>
+					{elseif:$item['is_del'] == 0}
+					<a class="btnn" href="{url:/seller/goods_status/id/$item['id']/is_del/2}">下架</a>
+					{/if}
+					<span class="btnn" onclick="delModel({link:'{url:/seller/goods_del/id/$item[id]}'})">删除</span>
+				</div>
+			</li>
+			{/foreach}
+		</ul>
+	</form>
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+</section>
+{$this->goodHandle->getPageBar()}
+
+
+<script>
+
+//删除
+function goods_del()
+{
+	var checkNum = $('input:checkbox[name="id[]"]:checked').length;
+	if(checkNum > 0)
+	{
+		$("form[name='goodsForm']").attr('action',"{url:/seller/goods_del}");
+		confirm('确定要删除所选中的商品吗？','formSubmit(\'goodsForm\')');
+	}
+	else
+	{
+		alert('请选择要删除的商品');
+		return false;
+	}
+}
+
+//商品状态修改
+function goods_status(is_del)
+{
+	var checkNum = $('input:checkbox[name="id[]"]:checked').length;
+	if(checkNum > 0)
+	{
+		var postUrl = "{url:/seller/goods_status/is_del/@is_del@}";
+		postUrl = postUrl.replace("@is_del@",is_del);
+		$("form[name='goodsForm']").attr('action',postUrl);
+		confirm('确定要修改所选中的商品吗？','formSubmit(\'goodsForm\')');
+	}
+	else
+	{
+		alert('请选择要修改的商品');
+		return false;
+	}
+}
+
+
+//upload csv file callback
+function artDialogCallback(message)
+{
+	message ? alert(message) : window.location.reload();
+}
+
+
+</script>

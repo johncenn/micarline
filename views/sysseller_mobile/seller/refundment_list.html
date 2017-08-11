@@ -1,0 +1,29 @@
+{js:my97date}
+{set:$where = Util::search(IReq::get('search'));}
+<h1 class="page_title">退款列表</h1>
+<section class="refundment_list">
+	{set:$seller_id = $this->seller['seller_id']}
+	{set:$page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+	{query: name=refundment_doc as rd where=rd.if_del eq 0 and rd.seller_id eq $seller_id and $where order=id desc page=$page id=$refundDB  key=$dataKey}
+		<div class="item">
+			<p>
+				<strong>订单号：</strong>{$item['order_no']} <br>
+				<strong>申请时间：</strong>{$item['time']} <br>
+				<strong>退关商品名称：</strong>
+				{query:name=order_goods where=id in ($item[order_goods_id]) item=$itemGoods}
+				{set:$goods = JSON::decode($itemGoods['goods_array'])}
+				<span><em>× {$itemGoods['goods_nums']}</em>{$goods['name']}</span>
+				{/query}
+				<strong>当前状态：</strong>{echo:Order_Class::refundmentText($item['pay_status'])}
+			</p>
+			<div class="refundment_btn">
+				<a class="btnn" href="{url:/seller/refundment_show/id/$item[id]}">查看详情</a>
+			</div>
+		</div>
+		{/query}
+	</form>
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+	{$refundDB->getPageBar()}
+</section>

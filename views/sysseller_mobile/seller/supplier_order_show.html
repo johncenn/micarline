@@ -1,0 +1,230 @@
+{set:$seller_id = $this->seller['seller_id']}
+<h1 class="page_title">订单列表</h1>
+<section class="order_show_tab">
+	<ul>
+		<li class="on">基本信息</li>
+		<li>收退款记录</li>
+		<li>发货记录</li>
+		<li>备注</li>
+		<li>日志</li>
+		<li>附言</li>
+	</ul>
+</section>
+<section class="order_show_main">
+	<div class="con">
+		{set:$orderInstance = new Order_Class();$orderRow = $orderInstance->getSupplierOrderShow($id)}
+		<div class="item">
+			<h3>订单信息</h3>
+			<p>
+				<strong>订单号：</strong>{$order_no} <br>
+				<strong>当前状态：</strong>{echo:order_class::orderStatusText(order_class::getOrderStatus($orderRow))} <br>
+				<strong>支付状态：</strong>{echo:order_class::getOrderPayStatusText($orderRow)} <br>
+				<strong>配送状态：</strong>{echo:order_class::getOrderDistributionStatusText($orderRow)} <br>
+				<strong>订单类型：</strong>{echo:order_class::getOrderTypeText($orderRow)} <br>
+				<strong>平台货款结算：</strong>{if:$is_checkout == 1}已结算{else:}未结算{/if} <br>
+			</p>
+		</div>
+		<div class="goods">
+			<h3>订单商品</h3>
+			<ul>
+				{query:name=supplier_order_goods where=order_id eq $order_id and seller_id eq $seller_id}
+				{set:$goodsRow = JSON::decode($item['goods_array'])}
+					<li>
+						<strong>{$goodsRow['name']}</strong>
+						<em>￥{$item['real_price']}</em>
+						<span>×</span>
+						<u>{$item['goods_nums']}</u>
+						<i>{echo:Order_Class::goodsSendStatus($item['is_send'])}</i>
+						{if:$item['delivery_id']}
+						<input type="button" onclick="freightLine({$item['delivery_id']})" value="快递跟踪" />
+						{/if}
+					</li>
+				{/query}
+			</ul>
+		</div>
+		<div class="item">
+			<h3>订单金额明细</h3>
+			<p>
+				<strong>商品总额：</strong>￥{$payable_amount} <br>
+				<strong>配送费用：</strong>￥{$real_freight} <br>
+				<strong>保价费用：</strong>￥{$insured} <br>
+				<strong>税金：</strong>￥{$taxes} <br>
+				{if:isset($prop) && $prop}
+				<strong>代金券：</strong>{query:name=prop where=id eq $prop}{$item['value']}{/query} <br>
+				{/if}
+				<strong>优惠总额：</strong>￥{$promotions} <br>
+				<strong>增加或减少金额：</strong>
+					￥
+					{if:Order_class::getOrderStatus($orderRow) < 3}
+						<input type='text' value='{$discount}' class='tiny' onchange='updateDiscount();' name='discount' />
+					{else:}
+						{$discount}
+					{/if}
+					<span class='tip'>折扣用" - ",涨价用" + "</span>
+				<br>
+				<strong>订单总额：</strong>￥<span id="orderAmount">{$order_amount}</span> <br>
+				<strong>已支付金额：</strong>{query:name=collection_doc where=order_id eq $order_id and if_del eq 0 fields=amount}￥{$item['amount']}{/query}
+			</p>
+		</div>
+		<div class="item">
+			<h3>支付和配送信息</h3>
+			<p>
+				<strong>配送方式：</strong>{$delivery} <br>
+				{if:$takeself}
+					<strong>自提地址：</strong>
+
+						{$takeself['province_str']}
+						{$takeself['city_str']}
+						{$takeself['area_str']}
+						{$takeself['address']}
+					 <br>
+					<strong>自提联系方式：</strong>
+
+						座机：{$takeself['phone']} &nbsp;&nbsp;
+						手机：{$takeself['mobile']}
+					 <br>
+				{/if}
+				<strong>商品重量：</strong>{$goods_weight} g <br>
+				<strong>支付方式：</strong>{$payment} <br>
+				<strong>是否开票：</strong>{if:$invoice==0}否{else:}是{/if} <br>
+				<strong>发票抬头：</strong>{$invoice_title} <br>
+				<strong>可得积分：</strong>{$point} <br>
+			</p>
+		</div>
+		<div class="item">
+			<h3>收货人信息</h3>
+			<p>
+				<strong>发货日期：</strong>{$send_time} <br>
+				<strong>姓名：</strong>{$accept_name} <br>
+				<strong>电话：</strong>{$telphone} <br>
+				<strong>手机：:</strong>{$mobile} <br>
+				<strong>地区：</strong>{$area_addr} <br>
+				<strong>地址：</strong>{$address} <br>
+				<strong>邮编：</strong>{$postcode} <br>
+				<strong>送货时间：</strong>{$accept_time} <br>
+			</p>
+		</div>
+	</div>
+	<div class="con none">
+		<div class="item">
+			<h3>收款单据</h3>
+			<p>
+				{query: name=collection_doc as c join=left join payment as p on c.payment_id eq p.id where=c.order_id eq $order_id items=$collectionData fields=c.*,p.name}
+				<strong>付款时间：</strong>{$item['time']} <br>
+				<strong>金额：</strong>{$item['amount']} <br>
+				<strong>支付方式：</strong>{$item['name']} <br>
+				<strong>付款备注：</strong>{$item['note']} <br>
+				<strong>状态：</strong>{if:$item['pay_status']==0}准备中{else:}支付完成{/if} <br>
+				{/query}
+			</p>
+		</div>
+		<div class="item">
+			<h3>退款单据</h3>
+			<p>
+				{query: name=refundment_doc where=order_id eq $order_id items=$refundmentData}
+				<strong>退款商品：</strong><br>
+					{query:name=order_goods where=id in ($item[order_goods_id]) item=$orderGoodsItem}
+					{set:$goods = JSON::decode($orderGoodsItem['goods_array'])}
+					<span class="blue">{$goods['name']} X {$orderGoodsItem['goods_nums']}</span><br>
+					{/query}
+				<strong>退款金额：</strong>{$item['amount']} <br>
+				<strong>申请时间：</strong>{$item['time']} <br>
+				<strong>状态：</strong>{echo:Order_Class::refundmentText($item['pay_status'])} <br>
+				<strong>退款理由：</strong>{$item['content']} <br>
+				<strong>退款方式：</strong>{echo:Order_Class::refundWay($item['way'])} <br>
+				{/query}
+			</p>
+		</div>
+	</div>
+	<div class="con none">
+		{query: name=delivery_doc as c join=left join delivery as p on c.delivery_type eq p.id fields=c.*,p.name as pname where=c.order_id eq $order_id items=$deliveryData}
+		<div class="item">
+			<h3>{$item['time']}</h3>
+			<strong>配送方式：</strong>{$item['pname']} <br>
+			<strong>物流公司：</strong>{query:name=freight_company where=id eq $item[freight_id] item=$tempFreight}{$tempFreight['freight_name']}{/query} <br>
+			<strong>物流单号：</strong>{$item['delivery_code']} <br>
+			<strong>收件人：</strong>{$item['name']} <br>
+			<strong>备注：</strong>{$item['note']} <br>
+		</div>
+		{/query}
+	</div>
+	<div class="con none">
+		<br>
+		<br>
+		<br>
+		<section class="input_li">
+			<form action="{url:/seller/order_note}" method="post">
+			<input type="hidden" name="order_id" value="{$order_id}"/>
+			<ul>
+				<li>
+					<span class="input_item">订单备注 <em>*</em></span>
+					<textarea class='input_textarea' name='note'>{$note}</textarea>
+				</li>
+				<li>
+					<input type="submit" class="input_submit" value="确 定" />
+				</li>
+			</ul>
+			</form>
+		</section>
+	</div>
+	<div class="con none">
+		{query: name=order_log as ol where=ol.order_id eq $order_id}
+		<div class="item">
+			<h3>{$item['addtime']}</h3>
+			<strong>操作人：</strong>{$item['user']} <br>
+			<strong>动作：</strong>{$item['action']} <br>
+			<strong>结果：</strong>{$item['result']} <br>
+			<strong>备注：</strong>{$item['note']} <br>
+		</div>
+		{/query}
+	</div>
+	<div class="con none">
+		<div class="item">
+			<h3>订单附言</h3>
+			<p>{$postscript}</p>
+		</div>
+	</div>
+</section>
+
+
+<script type='text/javascript'>
+
+var pay_status = '{$pay_status}';
+
+
+$(function(){
+	$(".order_show_tab").on("click","li", function(){
+		var t = $(this),
+			i = t.index(),
+			$con = $(".order_show_main").children(".con")
+		t.addClass("on").siblings().removeClass("on")
+		$con.eq(i).show().siblings(".con").hide()
+	})
+})
+
+//快递跟踪
+function freightLine(doc_id)
+{
+	var urlVal = "{url:/block/freight/id/@id@}";
+	urlVal = urlVal.replace("@id@",doc_id);
+	art.dialog.open(urlVal,{title:'轨迹查询',width:'600px',height:'500px'});
+}
+
+//修改订单价格
+function updateDiscount()
+{
+	var order_id = {$id};
+	var discount = $('input[name="discount"]').val();
+	$.getJSON("{url:/seller/order_discount}",{'order_id':order_id,'discount':discount},function(json)
+	{
+		if(json.result == true)
+		{
+			tips('价格修改成功');
+			$('#orderAmount').text(json.orderAmount);
+			$('#orderAmount').addClass("red");
+			return;
+		}
+		tips('价格修改失败');
+	});
+}
+</script>

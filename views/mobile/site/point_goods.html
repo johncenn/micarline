@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		 <link rel="stylesheet" href="{skin:style/mui.css}">
+		
+		<style type="text/css">
+			.goods{
+				width: 100%;
+				border-top: 1px solid gray;
+			}
+			.goods ul{
+				width: 100%;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.goods ul li{
+				width: 50%;
+				height: 15rem;
+				background: white;
+				float: left;
+				padding: 0.2rem 0.2rem 0.5rem 0.4rem;
+				border-right: 1px solid #EDEDED;
+				border-right: 1px solid #EDEDED;
+				border-bottom: 1px solid #EDEDED;
+				position: relative;
+				
+			}
+			
+			.goods ul li:nth-of-type(2n){
+				padding: 0.2rem 0.4rem 0.5rem 0.2rem;
+				float: right;
+			}
+			
+			
+			.goods ul li i{
+				width: 80%;
+				height: 75%;
+				display: block;
+				margin: 0 auto;
+			}
+			
+			.goods ul li img{
+				height: 100%;
+				display: block;
+				margin: 0 auto;
+			}
+			
+			.goods ul li span{
+				font-size: 0.8rem;
+				color: black;
+				font: 12px "宋体","Arial Narrow",HELVETICA;
+				display: block;
+				line-height: 1rem;
+			}
+			
+			.goods ul li em{
+				color: red;
+				font-family: "宋体";
+				font-style: normal;
+				
+			}
+			
+			.goods ul li del{
+				position: absolute;
+				right: 2%;
+				color: #999999;
+			}
+			
+			
+			/*分页*/
+			.mui-pagination{
+				margin: 1rem auto;
+				
+			}
+			#pag{
+				padding-left: 5.8rem;
+			}
+
+			/*等待图标*/
+			.lod{
+				width: 3rem;
+				height: 3rem;
+				position: fixed;
+				top: 50%;
+				left: 40%;
+				display: none;
+			}
+			
+			.lod img{
+				width: 100%;
+				height: 100%;
+			}
+			
+		</style>
+		<script src='{theme:javascript/jquery-1.9.1.js}'></script>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">积分商品</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				<a class="mui-control-item mui-active" href="#item1mobile" order="sale" by="asc">
+					销量
+				</a>
+				<a class="mui-control-item" href="#item2mobile" order="grade" by="desc">
+					评分
+				</a>
+				<a class="mui-control-item" href="#item3mobile" order="sell_price" by="desc">
+					价格
+				</a>
+				<a class="mui-control-item" href="#item4mobile" order="up_time" by="desc">
+					最新上架
+				</a>
+			</div>
+			
+			<?php
+				$list_sum = count($dates);
+				
+				$max_date = 9;//最大条目数
+				if($list_sum > $max_date){
+					$sum_page = $list_sum % $max_date==0 ? $list_sum / $max_date : $list_sum / $max_date+1 ;
+					$sum_page = floor($sum_page);
+				}else{
+					$sum_page = 1;
+				}
+
+				//echo $sum_page;
+			?>
+			
+			{set:$i = 0}
+			<section class="goods">
+				<ul class="list">
+					{foreach:items = $dates}
+					<li>
+						<a href="{url:/site/products/id/$item['id']}">
+							<i><img src="{url:/pic/thumb/img/$item[img]/w/200/h/200}" alt="{$item['name']}"/></i>
+							<span>{$item['name']}</span>
+							<em><strong>￥{$item['sell_price']}</strong></em>
+							<del>￥{$item['market_price']}</del>
+						</a>
+					</li>
+					{if:$i==$max_date}
+						{set:break}
+					{/if}
+					{set:$i = $i +1}
+					{/foreach}
+				</ul>
+			</section>
+			
+			
+			
+			<!--分页-->
+			<!--
+           
+				<div class="mui-content-padded">
+					<ul class="mui-pagination mui-pagination-sm">
+						<li class="mui-previous"><a href="#">«</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li class="mui-active"><a href="#">4</a>
+							<li><a href="#">5</a></li>
+						<li class="mui-next"><a href="#">»</a></li>
+					</ul>
+				</div>
+			-->
+			
+			
+			
+			<!--分页-->
+			{set:$page_show=0}
+			<div class="mui-content-padded">
+				<ul class="mui-pagination" id="pag">
+					<li class="mui-previous mui-disabled"><a href="#">«</a></li>
+					<li class="mui-active"><a href="#">1</a></li>
+					{for:from = 2 upto=$sum_page item=$num}
+						<li><a href="#">{$num}</a></li>
+						{set:$page_show = 1}
+					{/foreach}
+					
+					{if:$page_show == 1}
+						<li class="mui-next"><a href="#">»</a></li>
+						{else:}
+						<li class="mui-next mui-disabled"><a href="#">»</a></li>
+					{/if}
+					
+				</ul>
+			</div>
+			
+			<div class="lod">
+				<img src="{skin:image/loading.gif}"/>
+			</div>
+			
+		</div>
+		
+		<script src="{theme:javascript/mui.js}"></script>
+		<script type="text/javascript">
+			mui.init();
+			var gl_order = 'sale';
+			var gl_by = 'desc';
+			var jquery = $;
+			var ex = "http://"+window.location.host+"/";
+			mui("#sliderSegmentedControl").on('tap','a',function(){
+				
+				//清空子元素
+				$(".list").children("li").remove();
+				$(".mui-content-padded").hide();
+				var lis = $(".mui-content-padded li");
+				$.each(lis,function(){
+					$(this).removeClass("mui-active");
+				});
+				var li_one = lis.get(1);
+				
+				//console.log(li_one);
+				
+				//console.log(lis);
+				$(".lod").show();
+				
+				var order = $(this).attr("order") ;
+				var by = $(this).attr("by") ;
+				gl_order = order;
+				gl_by = by;
+				//console.log($(this).attr("by"));
+				
+				if(by == "desc"){
+					$(this).attr("by","asc");
+				}else{
+					$(this).attr("by","desc");
+				}
+				
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET",'{url:/site/point_goods}?order='+order+'&by='+by+'&aj=a',true);
+				xhr.onload = function(e){
+					
+					$(li_one).addClass("mui-active");
+					$(".mui-content-padded").show();
+					
+					var data = this.responseText;
+					eval('var da='+data);
+					//console.log(da);
+					var good = $(".list");
+					$(".lod").hide();
+					
+					
+					//console.log(da.length);
+					
+					for(var j = 0; j<da.length; ++j){
+						
+						//console.log(da.length);
+						
+						//var id = da[j].id;
+						//console.log(da);
+						var c_url = "{url:/site/products/id}/";
+						
+						var da_img = da[j].img;
+						//console.log("img is "+da_img);
+						
+						var img_url = '{url:/pic/thumb/img/'+da[j].img+'/w/200/h/200}';
+						
+						var img_id = da[j].img;
+						//console.log(img_id);
+						
+						
+						var li = $("<li></li>");
+						var a = $("<a href={url:/site/products/id/"+id+"}></a>");
+						var i = $("<i><img src='"+ ex+img_id +"' alt="+da[j].name+"/></i>");
+						var span = $("<span>"+da[j].name+"</span>");
+						var em = $("<em><strong>￥"+da[j].sell_price+"</strong></em>");
+						var del = $("<del>￥"+da[j].market_price+"</del>");
+						
+						
+						a.append(i);
+						a.append(span);
+						a.append(em);
+						a.append(del);
+						li.append(a);
+						good.append(li);
+						
+					}
+					
+				}
+				xhr.send();
+				//mui("#sliderSegmentedControl").off('tap','a');
+				
+			},false);
+			
+			
+			
+			(function($) {
+				$('.mui-pagination').on('tap', 'a', function() {
+					//隐藏分页
+					
+					var li = this.parentNode;
+					var classList = li.classList;
+					
+					if (!classList.contains('mui-active') && !classList.contains('mui-disabled')) {
+						//console.log("if");
+						var active = li.parentNode.querySelector('.mui-active');
+						if (classList.contains('mui-previous')) {//previous
+							if (active) {
+								var previous = active.previousElementSibling;
+								//console.log('previous', previous);
+								if (previous && !previous.classList.contains('mui-previous')) {
+									$.trigger(previous.querySelector('a'), 'tap');
+								} else {
+									classList.add('mui-disabled');
+								}
+							}
+						} else if (classList.contains('mui-next')) {//next
+							//console.log("else if");
+							if (active) {
+								var next = active.nextElementSibling;
+								if (next && !next.classList.contains('mui-next')) {
+									$.trigger(next.querySelector('a'), 'tap');
+								} else {
+									classList.add('mui-disabled');
+								}
+							}
+						} else {//page
+							
+							active.classList.remove('mui-active');
+							classList.add('mui-active');
+							var page = parseInt(this.innerText);
+							var previousPageElement = li.parentNode.querySelector('.mui-previous');
+							var nextPageElement = li.parentNode.querySelector('.mui-next');
+							previousPageElement.classList.remove('mui-disabled');
+							nextPageElement.classList.remove('mui-disabled');
+							if (page <= 1) {
+								previousPageElement.classList.add('mui-disabled');
+							} else if (page >= {$sum_page}) {
+								nextPageElement.classList.add('mui-disabled');
+							}
+							
+							
+							//隐藏分页
+							jquery(".mui-content-padded").hide();
+							
+							//清空内容，发送请求，显示
+							var page = li.getElementsByTagName('a')[0].innerText;
+							//console.log(page+" "+gl_order+" "+gl_by);
+							
+							//清空子元素
+							jquery(".list").children("li").remove();
+							jquery(".lod").show();
+							
+							var xhr = new XMLHttpRequest();
+							xhr.open("GET",'{url:/site/getGoodsByPage}?order='+gl_order+'&by='+gl_by+'&page='+page,true);
+							xhr.onload = function(e){
+								
+								
+								jquery(".lod").hide();
+								//显示分页
+								jquery(".mui-content-padded").show();
+								var data = this.responseText;
+								eval('var da='+data);
+								//console.log(data);
+								//console.log(da);
+								var good = jquery(".list");
+								for(var j = 0; j<=da.length; ++j){
+									
+									var id = da[j].id;
+									var c_url = "{url:/site/products/id}/";
+									
+									var da_img = da[j].img;
+									var img_url = "{url:/pic/thumb/img}/"+da_img+"/w/200/h/200";
+									//console.log(img_url);
+									
+									
+									var li = jquery("<li></li>");
+									var a = jquery("<a href="+c_url+id+"}></a>");
+									var i = jquery("<i><img src="+img_url+" alt="+da[j].name+"/></i>");
+									var span = jquery("<span>"+da[j].name+"</span>");
+									var em = jquery("<em><strong>￥"+da[j].sell_price+"</strong></em>");
+									var del = jquery("<del>￥"+da[j].market_price+"</del>");
+									
+									
+									a.append(i);
+									a.append(span);
+									a.append(em);
+									a.append(del);
+									li.append(a);
+									good.append(li);
+								}
+								
+							}
+							xhr.send();
+						}
+					}
+					
+					//console.log(li);
+				});
+			})(mui); 
+			
+			
+			
+			
+		</script>
+		
+		
+		
+	</body>
+
+</html>

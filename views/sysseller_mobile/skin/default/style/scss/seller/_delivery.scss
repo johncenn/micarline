@@ -1,0 +1,13 @@
+.delivery_list {
+	table {
+		width: 100%;text-align: center;
+		&,th,td {border: 1px solid $cdd;}
+		th,td {padding: .1rem 0;text-align: center;}
+		th {background: $cfa;color: $c22;}
+		td:nth-child(1){color: $blue;font-weight: bold;}
+	}
+}
+.deliverarea {
+	padding: .15rem;background: $cfa;border: 1px double $cdd;margin-bottom: .15rem;
+	li:last-child{margin: 0;}
+}

@@ -1,0 +1,78 @@
+.order_deliver {
+	.h3 {
+		height: .24rem;color: $blue;font-size: .14rem;
+	}
+	.order_goods {
+		label {
+			margin-bottom: .15rem;display: block;position: relative;
+			input {display: none;}
+			.goods {
+				@extend .cf;padding: .05rem .1rem;line-height: 1.5;
+				border: 1px solid $cdd;background: $cf0;border-radius: 0.05rem;
+				strong,em,span,u {display: block;float: left;}
+				strong {
+					color: $blue;width: 2rem;
+					@include oneline(.2rem);
+					&:after{
+						content: "点选";display: block;position: absolute;right: -.1rem;top: -.1rem;
+						line-height: 1;padding: .05rem;background: $blue;color: $cff;border-radius: .05rem;
+						@include fd(.8);
+					}
+				}
+				em {color: $pink;}
+				span {color: $c99;padding: 0 .05rem}
+				u {color: $red;}
+			}
+			input:checked + .goods {
+				border-color: $blue;background: rgba($blue,.2);
+				strong:after{
+					content: "已选";background: $red;color: $cff;
+				}
+			}
+			&.is_send {
+				.goods strong:after {display: none;}
+				.sta {
+					display: block;position: absolute;right: -.1rem;top: -.1rem;
+					line-height: 1;padding: .05rem;background: $cf60;color: $cff;border-radius: .05rem;
+					@include fd(.8);
+				}
+			}
+		}
+	}
+}
+.order_show_tab {
+	ul {
+		display: table;width: 100%;text-align: center;
+		li {
+			display: table-cell;line-height: .32rem;background: $cff;
+			box-shadow: 0 0 0 1px $cdd;min-width: .36rem;
+			&.on {
+				box-shadow: 0 0 0 1px $blue;background: $blue;color: $cff;
+			}
+		}
+	}
+}
+.order_show_main {
+	.item {
+		box-shadow: 0 0 0 1px $cdd;background: $cfa;margin-top: .15rem;padding:.1rem .15rem;line-height: 1.6;
+		h3 {color: $blue;font-size: .14rem;margin-bottom: .05rem;}
+		strong {color: $c99;}
+		.tip {color: $yellow;}
+	}
+	.goods {
+		box-shadow: 0 0 0 1px $cdd;background: $cfa;margin-top: .15rem;padding:.1rem .15rem;line-height: 1.6;
+		h3 {color: $blue;font-size: .14rem;margin-bottom: .05rem;}
+		ul {}
+		li {
+			@extend .cf;padding: .1rem;border: 1px solid $cdd;background: $cff;
+			&:not(:first-child){margin-top: .1rem;}
+			* {display: block;float: left;}
+			strong {@include oneline(.2rem);width: 100%;color: $c00;}
+			em {color: $pink;}
+			span {color: $c99;padding:0 .05rem;}
+			u {color: $red;}
+			i {margin: 0 .1rem; background: $green;color: $cff;padding: 0 .05rem}
+			input {border: none;background: $blue;color: $cff;padding: 0 .05rem;height: .19rem;}
+		}
+	}
+}

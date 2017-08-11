@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>未读信息列表</title>
+   <script type="text/javascript" src="{theme:javascript/mui.js}"></script>
+   <link rel="stylesheet" href="{skin:style/mui.css}">
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    
+    <style type="text/css">
+    	.nomessage{
+    		width: 100%;
+    		text-align: center;
+    		margin-top: 50%;
+    		font: 3rem "宋体","Arial Narrow",HELVETICA;
+    		color: #FF5053;
+    	}
+    </style>
+    
+</head>
+
+<body>
+	
+	<header class="mui-bar mui-bar-nav">
+		 <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">未读信息列表</h1>
+	    
+	     <!-- 
+	    {if:$dates}
+	   {foreach:items = $dates item=$f}
+	    	{foreach:items =$f }
+	    		{$key}--{$item}
+	    	{/foreach}
+	    {/foreach}
+	    {/if}  -->
+	</header>
+	
+	<div class="mui-content">
+		{if:$dates}
+			<ul class="mui-table-view">
+				{foreach:items = $dates}
+			        <li class="mui-table-view-cell">
+			            <a href="{url:/seller/mobil_chat/t_id/$item['f_id']}">
+			            	{$item['f_name']}
+			            	<span class="mui-badge mui-badge-primary">{$item['num']}</span>
+			            </a>
+			        </li>
+		        {/foreach}
+		    </ul>
+			{else:}
+			<div class="nomessage">暂无消息</div>
+		{/if}
+		
+		
+	
+	</div>
+	
+	
+</body>
+</html>

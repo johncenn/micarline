@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+	{js:jquery}
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="{skin:style/mui.css}">
+		<script src='{theme:javascript/site.js}'></script>
+		
+		
+		
+		<style type="text/css">
+			
+			.s_content{
+				width: 100%;
+				height: 50px;
+				margin-top: 1rem;
+				
+			}
+			
+			.seach{
+				width: 80%;
+				float: left;
+				margin-left: 0.5rem;
+			}
+			
+			.btn{
+				width: 10%;
+				float: left;
+				height: 40px;
+				margin-left: 0.5rem;
+			}
+			
+			.btn button{
+				height: 35px;
+				margin-top: 2px;
+			}
+			
+			
+			/*等待图标*/
+			.lod{
+				width: 3rem;
+				height: 3rem;
+				position: fixed;
+				top: 50%;
+				left: 40%;
+				display: none;
+			}
+			
+			.lod img{
+				width: 100%;
+				height: 100%;
+			}
+			
+			.mui-card{
+				float: none;
+			}
+			
+			.mui-card-header{
+				
+				background-size:100% 100%;
+			}
+			
+			.mui-card{
+				margin-bottom: 2rem;
+			}
+			
+			/*店铺不存在*/
+			.no_store{
+				width:100%;
+				position: fixed;
+				top: 50%;
+				font: 1.5rem "宋体","Arial Narrow",HELVETICA;
+				text-align: center;
+				color: #2187E7;
+				display: none;
+			}
+			
+			
+		</style>
+		
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">搜索</h1>
+		</header>
+		
+		
+		<div class="mui-content">
+			
+			<div class="s_content">
+				<div class="mui-input-group seach">
+				    <div class="mui-input-row mui-search">
+					    <input id="input_txt" type="search" class="mui-input-clear" placeholder="请输入店铺名">
+					</div>
+				</div>
+				
+				<div class="btn" id="btnEntey">
+					<button type="button" class="mui-btn mui-btn-primary" >确认</button>
+				</div>
+			</div>
+			
+			<div class="store">
+				
+				<!-- 
+				<div class="mui-card">
+					<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(../images/cbd.jpg)"></div>
+					<div class="mui-card-content">
+						<div class="mui-card-content-inner">
+							<p>主营：</p>
+							<p style="color: #333;">这里显示文章摘要，让读者对文章内容有个粗略的概念...</p>
+						</div>
+					</div>
+					<div class="mui-card-footer">
+						<a class="mui-card-link">进入店铺</a>
+						<a class="mui-card-link">></a>
+					</div>
+				</div> -->
+			</div>
+			
+			
+			<div class="lod">
+				<img src="{skin:image/loading.gif}"/>
+			</div>
+			
+			<div class="no_store">
+				<span>sorry，店铺不存在</span>
+			</div>
+			
+		</div>
+		<script src="{theme:javascript/mui.js}"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			//js清空左右空格
+			function trim(s){
+				return s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			}
+			
+			document.getElementById("btnEntey").addEventListener('tap',function(){
+				var text = document.getElementById("input_txt");
+				$(".no_store").hide();
+				var word = text.value;
+				word = trim(word);
+				if(word == ""){
+					mui.toast("店铺名不能为空");
+					return ;
+				}
+				//清空子元素
+				$(".store").children(".mui-card").remove();
+				text.value = "";
+				console.log(word);
+				$(".lod").show();
+				
+				//发送ajax请求
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET",'{url:/site/moble_store_seach?word=}'+word,true);
+				xhr.onload = function(e){
+					$(".lod").hide();
+					//console.log("返回   "+this.responseText);
+					var date = this.responseText;
+					eval('var da='+date);
+					if(da.length == 0){
+						$(".no_store").show();
+						return ;
+					}
+					
+					var store = $(".store");
+					for(var i =0 ;i<da.length;++i){
+						var muicard = $('<div class=mui-card></div>');
+						
+						var muicardheader = $("<div class='mui-card-header mui-card-media' style='height:40vw;background-image:url({skin:image/micar.jpg});' ></div>");
+						
+						var muicardcontent = $("<div class='mui-card-content'></div>");
+						var muicardcontentinner = $("<div class='mui-card-content-inner'></div>");
+						var p1 = $("<p>主营：</p>");
+						var p2 = $("<p style='color:#333;'>"+da[i].store_zy+"</p>");
+						
+						var muicardfooter = $("<div class='mui-card-footer'></div>");
+						var a1 = $("<a class='mui-card-link'>"+da[i].store_name+"</a>");
+						var a2 = $("<a href={url:/site/home/id/}/"+da[i].id+" class='mui-card-link'>进入店铺></a>");
+						
+						//脚部
+						muicardfooter.append(a1);
+						muicardfooter.append(a2);
+						
+						//中间部分
+						muicardcontentinner.append(p1);
+						muicardcontentinner.append(p2);
+						muicardcontent.append(muicardcontentinner);
+						
+						//整合
+						muicard.append(muicardheader);
+						muicard.append(muicardcontent);
+						muicard.append(muicardfooter);
+						
+						store.append(muicard);
+					}
+					
+					console.log(da);
+				}
+				
+				xhr.send();
+				
+			},false);
+			
+		</script>
+	</body>
+
+</html>
+
+<script type="text/javascript">
+
+</script>

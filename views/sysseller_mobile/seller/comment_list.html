@@ -1,0 +1,24 @@
+{js:my97date}
+{set:$seller_id = $this->seller['seller_id']}
+{set:$where = Util::search(IReq::get('search'));}
+<h1 class="page_title">商品评价列表</h1>
+<section class="comment_list">
+	{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+	{query: name=comment as c join=left join goods as goods on c.goods_id eq goods.id left join user as u on c.user_id eq u.id fields=c.*,u.username,goods.id as goods_id,goods.name as goods_name page=$page where=c.status eq 1 and goods.seller_id eq $seller_id and $where order = c.id desc  key=$dataKey}
+	<div class="item">
+		<p>
+			<strong>评价人</strong>{$item['username']}<br>
+			<strong>评价商品</strong><span>{$item['goods_name']}</span><br>
+			<strong>评价时间</strong>{$item['time']}<br>
+			<strong>状态</strong>{if:$item['recomment_time']>0}已回复{else:}未回复{/if}<br>
+		</p>
+		<div class="comment_btn">
+			<a class="btnn" href="{url:/seller/comment_edit/cid/$item[id]}">查看详情</a>
+		</div>
+	</div>
+	{/query}
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+	{$query->getPageBar()}
+</section>

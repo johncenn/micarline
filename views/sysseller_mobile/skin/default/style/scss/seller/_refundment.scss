@@ -1,0 +1,43 @@
+.refundment_list {
+	.item {
+		margin-bottom: .15rem;border: 1px solid $cdd;
+		p {
+			line-height: 1.8;padding:.1rem .15rem;
+			strong {
+				color: $c99;
+			}
+			span {
+				display: block;@include oneline(.28rem);color: $blue;
+				em {color: $pink;float: right;}
+			}
+		}
+		.refundment_btn {
+			display: table;width: 100%;table-layout: fixed;
+			.btnn {
+				display: table-cell;height: .36rem;line-height: .36rem;text-align: center;font-size: .13rem;
+				box-shadow: 0 0 0 1px $cdd;background: $cfa;
+				&.red {color: $red;}
+			}
+		}
+	}
+}
+.refundment_item {
+	margin-bottom: .15rem;border: 1px solid $cdd;
+	p {
+		line-height: 1.8;padding:.1rem .15rem;
+		strong {
+			color: $c99;
+			&:after{
+				content: "：";
+			}
+		}
+		.goods {
+			display: block;@include oneline(.28rem);color: $blue;background: $cff;padding: 0 .05rem;box-shadow: 0 0 0 1px $cdd;
+			em {color: $pink;float: right;}
+		}
+		.goods_sta {
+			background: $cfa;padding: 0 .05rem;box-shadow: 0 0 0 1px $cdd;display: block;
+			.sta {color: $cf60;}
+		}
+	}
+}

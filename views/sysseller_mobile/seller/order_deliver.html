@@ -1,0 +1,130 @@
+{js:areaSelect}
+<h1 class="page_title">订单发货</h1>
+<section class="order_deliver">
+	<form action="{url:/seller/order_delivery_doc}" method="post" id="deliver_form">
+		<input type="hidden" name="order_no" value="{$order_no}"/>
+		<input type="hidden" name="id" value="{$order_id}"/>
+		<input type="hidden" name="user_id" value="{$user_id}"/>
+		<input type="hidden" name="freight" value="{$real_freight}" />
+		<input type="hidden" name="delivery_type" value="{$distribution}" />
+
+		<h3 class="h3"><i class="icon-gift"></i> 选择发货商品</h3>
+		<div class="order_goods">
+			{set:$seller_id = $this->seller['seller_id']}
+			{query:name=order_goods where=order_id eq $order_id and seller_id eq $seller_id}
+				{if:$item['is_send'] == 0}
+					<label>
+						<input type="checkbox" name="sendgoods[]" value="{$item['id']}" />
+						<div class="goods">
+							{set:$goodsRow = JSON::decode($item['goods_array'])}
+							<strong>{$goodsRow['name']}</strong>
+							<em>￥{$item['real_price']}</em><span> × </span><u>{$item['goods_nums']}</u>
+						</div>
+					</label>
+				{else:}
+					<label class="is_send">
+						<span class="sta">{echo:Order_class::goodsSendStatus($item['is_send'])}</span>
+						<div class="goods">
+							{set:$goodsRow = JSON::decode($item['goods_array'])}
+							<strong>{$goodsRow['name']}</strong>
+							<em>￥{$item['real_price']}</em><span> × </span><u>{$item['goods_nums']}</u>
+						</div>
+					</label>
+				{/if}
+			{/query}
+		</div>
+		<section class="input_li">
+			<ul>
+				<li>
+					<span class="input_item">订单号</span>
+					<div class="input_tip">{$order_no}</div>
+				</li>
+				<li>
+					<span class="input_item">下单时间</span>
+					<div class="input_tip">{$create_time}</div>
+				</li>
+				<li>
+					<span class="input_item">配送方式</span>
+					<div class="input_tip">
+						{query:name=delivery where=id eq $distribution}{$item['name']}{/query}
+					</div>
+				</li>
+				<li>
+					<span class="input_item">配送费用</span>
+					<div class="input_tip">￥{$real_freight}</div>
+				</li>
+				<li>
+					<span class="input_item">保价费用</span>
+					<div class="input_tip">￥{$insured}</div>
+				</li>
+				<li>
+					<span class="input_item">收货人姓名</span>
+					<input name="name" class="input_text" type="text" pattern="required" value="{$accept_name}"/>
+				</li>
+				<li>
+					<span class="input_item">电话</span>
+					<input name="telphone" class="input_text" type="text" pattern="phone" value="{$telphone}" empty/>
+				</li>
+				<li>
+					<span class="input_item">电话</span>
+					<input name="mobile" class="input_text" type="text" pattern="mobi" value="{$mobile}" />
+				</li>
+				<li>
+					<span class="input_item">邮政编码</span>
+					<input name="postcode" class="input_text" type="text" pattern="zip" value="{$postcode}" empty  />
+				</li>
+				<li>
+					<span class="input_item">物流公司 <em>* 选择物流公司</em></span>
+					<select name="freight_id" pattern="required" alt="选择物流公司" class="input_select">
+						<option value="">选择物流公司</option>
+						{query:name=freight_company where=is_del eq 0}
+						<option value="{$item['id']}">{$item['freight_name']}</option>
+						{/query}
+					</select>
+				</li>
+				<li>
+					<span class="input_item">配送单号 <em>* 填写配送单号</em></span>
+					<input name="delivery_code" class="input_text" type="text" pattern="required" />
+				</li>
+				<li>
+					<span class="input_item">地区</span>
+					<select name="province" child="city,area" class="input_select f3"></select>
+					<select name="city" child="area" class="input_select f3"></select>
+					<select name="area" pattern="required" class="input_select f3"></select>
+				</li>
+				<li>
+					<span class="input_item">地址</span>
+					<input name="address" class="input_text" type="text" pattern="required" value="{$address}" />
+				</li>
+				<li>
+					<span class="input_item">发货单备注</span>
+					<textarea name="note" class="input_textarea"></textarea>
+				</li>
+				<li>
+					<input type="submit" class="input_submit" value="确 定" />
+				</li>
+			</ul>
+		</section>
+	</form>
+</section>
+
+
+<script type="text/javascript">
+//DOM加载完毕
+$(function(){
+	var areaInstance = new areaSelect('province');
+	areaInstance.init({"province":"{$province}","city":"{$city}","area":"{$area}"});
+});
+
+//表单提交前检测
+function checkForm()
+{
+	var checkedNum = $('input[name="sendgoods[]"]:checked').length;
+	if(checkedNum == 0)
+	{
+		alert('请选择要发货的商品');
+		return false;
+	}
+	return true;
+}
+</script>

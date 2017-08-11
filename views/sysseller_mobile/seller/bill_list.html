@@ -1,0 +1,31 @@
+{set:$seller_id = $this->seller['seller_id']}
+<h4 class="alert_info">{$this->_siteConfig->name}给您的商品货款结算账单展示</h4>
+<h1 class="page_title">货款结算单列表</h1>
+<section class="address_list">
+	{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+	{query: name=bill where=seller_id eq $seller_id page=$page  key=$dataKey}
+		<div class="address_info">
+			<p>
+				<strong>订单的结算起止：</strong>{$item['start_time']} ~ {$item['end_time']}<br>
+				<strong>申请时间：</strong>{$item['apply_time']}<br>
+				<strong>结算状态：</strong>{if:$item['is_pay'] == 1}已结算{else:}未结算{/if}<br>
+				{if:$item['is_pay'] == 1}<strong>结算时间：</strong>{$item['pay_time']}<br>{/if}
+				{if:$item['pay_content']}<strong>管理员回复：</strong>{$item['pay_content']}<br>{/if}
+			</p>
+			<div class="address_btn">
+				<a class="btnn"href="{url:/seller/bill_edit/id/$item[id]}">修改</a>
+				{if:$item['is_pay'] == 0}
+				<span class="btnn" onclick="delModel({link:'{url:/seller/bill_del/id/$item[id]}'})">删除</span>
+				{/if}
+			</div>
+		</div>
+	{/foreach}
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+</section>
+{$query->getPageBar()}
+
+<div class="btn_bottom">
+	<a class="btn_submit" href="{url:/seller/bill_edit}">申请结算货款</a>
+</div>

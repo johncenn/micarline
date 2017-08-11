@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>地址管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="{skin:style/mui.css}">
+		<link rel="stylesheet" type="text/css" href="{skin:address/css/area.css}"/>
+		<link href="{skin:style/mui.picker.css}" rel="stylesheet" />
+		<link href="{skin:style/mui.poppicker.css}" rel="stylesheet" />
+		
+		<style>
+			html,
+			body {
+				background: white;
+			}
+			.mui-views,
+			.mui-view,
+			.mui-pages,
+			.mui-page,
+			.mui-page-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			
+			
+			
+			.mui-pages {
+				top: 46px;
+				height: auto;
+			}
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease;
+				transition: transform 300ms ease;
+			}
+			
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 300ms ease, -webkit-transform 300ms ease;
+				transition: opacity 300ms ease, transform 300ms ease;
+			}
+			.mui-page {
+				display: none;
+			}
+			.mui-pages .mui-page {
+				display: block;
+			}
+			
+			
+			
+			
+			
+			
+		</style>
+		<link rel="stylesheet" type="text/css" href="{skin:address/css/feedback.css}" />
+	</head>
+	
+	<body class="mui-fullscreen">
+		
+		
+			
+		<!--页面主结构开始-->
+		<div id="app" class="mui-views">
+			<div class="mui-view">
+				<div class="mui-navbar">
+				</div>
+				<div class="mui-pages">
+				</div>
+			</div>
+		</div>
+		<!--页面主结构结束-->
+		<!--单页面开始-->
+		<div id="setting" class="mui-page">
+			<!--页面标题栏开始-->
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title">管理收货地址</h1>
+			</div>
+			<!--页面标题栏结束-->
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					
+					<div></div>
+					
+					
+					
+			<div class="user_address">
+				
+				<!--地址item s-->
+				<div class="item">
+					<div class="use_msg">
+						<div class="user_base">
+							<span>收货人:小矛</span>
+							<span>18965897412</span>
+						</div>
+						<p>收货地址:是开会的发恶化是滴哦发都发话山东分红我偶函数大佛寺读书的回复加快速度</p>
+					</div>
+					<div class="choose">
+						<span class="mui-icon mui-icon-checkmarkempty"></span>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="use_msg">
+						<div class="user_base">
+							<span>收货人:小矛</span>
+							<span>18965897412</span>
+						</div>
+						<p>收货地址:是开会的发恶化是滴哦发都发话山东分红我偶函数大佛寺读书的回复加快速度</p>
+					</div>
+					<div class="choose">
+						<span class="mui-icon mui-icon-checkmarkempty"></span>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="use_msg">
+						<div class="user_base">
+							<span>收货人:小矛</span>
+							<span>18965897412</span>
+						</div>
+						<p>收货地址:是开会的发恶化是滴哦发都发话山东分红我偶函数大佛寺读书的回复加快速度</p>
+					</div>
+					<div class="choose">
+						<span class="mui-icon mui-icon-checkmarkempty"></span>
+					</div>
+				</div>
+				
+				<!--地址item e-->
+				
+				<!--新增收货地址 s-->
+				<div class="add_address_btn" >
+					<div class="content">
+						<a href="#about"><span>新增收货地址</span></a>
+					</div>
+				</div>
+				<!--新增收货地址 e-->
+				
+				
+			</div>
+					
+					
+				</div>
+			</div>
+			<!--页面主内容区结束-->
+			
+			
+			
+		</div>
+		<!--单页面结束-->
+		
+		
+		
+		
+		<!--隐藏的新增地址填写页面  s-->
+		<div id="about" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>返回
+				</button>
+				<h1 class="mui-center mui-title">地址填写</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						
+						<div class="area_xq">
+							
+							<!--内容填写 s-->
+							<form class="mui-input-group" action="" method="post"  >
+								
+								<div class="mui-input-row" id='showCityPicker3' >
+									<input type="text" class="area_val" readonly="readonly" placeholder="点击选择地区">
+								</div>
+								<div class="mui-input-row">
+									<input  type="text" class="mui-input-clear xqaddress" placeholder="请输入详细地址" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+								</div>
+								<div class="mui-input-row">
+									<input type="text" class="mui-input-clear user_name" placeholder="请输入收货人姓名" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+								</div>
+								<div class="mui-input-row">
+									<input type="number"  class="mui-input-clear phone" placeholder="请输入收货人联系电话" data-input-clear="5"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+								</div>
+							</form>
+							<!--内容填写 e-->
+							
+						</div>
+						
+						
+						
+					</div>
+					
+					<div class="save_btn" id="address_save">
+						<div class="content">
+							<span>保存地址</span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	<!--隐藏的新增地址填写页面  e-->
+		
+
+	</body>{skin:address/css/area.css}
+	<script src="{skin:address/js/mui.min.js}" type="text/javascript" charset="utf-8"></script>
+	<script src="{theme:javascript/jquery-1.9.1.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:address/js/mui.picker.js}"></script>
+		<script src="{skin:address/js/mui.poppicker.js}"></script>
+		<script src="{skin:address/js/city.data-3.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:address/js/area.js}" type="text/javascript" charset="utf-8"></script>
+	<script src="{skin:address/js/mui.view.js}"></script>
+	
+	<script>
+		mui.init();
+		var _$q = $;
+		var temp_flag = 0;
+		
+		
+		//地址提交响应
+		var area_obj = new Area();
+		area_obj.init($(".item"));
+		
+		var commit_save = document.getElementById("address_save");
+		commit_save.addEventListener('click',function(){
+			
+			var area_choose = area_obj.seach($(".area_val"),"area");
+			var address_vf = area_obj.seach($(".xqaddress"),"address");
+			var name_vf = area_obj.seach($(".user_name"),"name");
+			var phone_vf = area_obj.seach($(".phone"),"phone");
+			
+			if(!area_choose){
+				mui.alert("请选择地区","警告","确定",null);
+				return ;
+			}
+			
+			if(!address_vf){
+				mui.alert("地址请输入大于5个字","警告","确定",null);
+				return ;
+			}
+			if(!name_vf){
+				mui.alert("收货人请输入大于2个字","警告","确定",null);
+				return ;
+			}
+			
+			if(!phone_vf){
+				mui.alert("电话号码输入有误","警告","确定",null);
+				return ;
+			}
+			
+			
+			
+		});
+		
+		//初始化单页view
+		var viewApi = mui('#app').view({
+			defaultPage: '#setting'
+		});
+		//初始化单页的区域滚动
+		mui('.mui-scroll-wrapper').scroll();
+		//分享操作
+		var shares = {};
+		
+		
+		var view = viewApi.view;
+		(function($,doc) {
+			
+			$.ready(function() {
+				/**
+				 * 获取对象属性的值
+				 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+				 * @param {Object} obj 对象
+				 * @param {String} param 属性名
+				 */
+				var _getParam = function(obj, param) {
+					return obj[param] || '';
+				};
+				
+				//-----------------------------------------
+				//					//级联示例
+				var cityPicker3 = new $.PopPicker({
+					layer: 3
+				});
+				cityPicker3.setData(cityData3);
+				
+				var showCityPickerButton = doc.getElementById('showCityPicker3');
+				var cityResult3 = doc.getElementById('cityResult3');
+				showCityPickerButton.addEventListener('click', function(event) {
+					
+					cityPicker3.pickers[0].setSelectedIndex("18",3000);
+					
+					cityPicker3.show(function(items) {
+						//cityResult3.innerText = "你选择的城市是:" + _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+						//返回 false 可以阻止选择框的关闭
+						//return false;
+						
+						console.log("你选择的城市是:" + _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text'));
+						_$q(".area_val").val(_getParam(items[0], 'text')+" "+_getParam(items[1], 'text')+" "+_getParam(items[2], 'text'));
+					});
+				}, false);
+				
+				
+			//处理view的后退与webview后退
+			var oldBack = $.back;
+			$.back = function() {
+				if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+					viewApi.back();
+				} else { //执行webview后退
+					oldBack();
+				}
+			};
+					
+				});
+			})(mui, document);
+			
+	</script>
+
+</html>

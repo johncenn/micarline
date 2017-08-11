@@ -1,0 +1,44 @@
+<?php return IQuery::__set_state(array(
+   'dbo' => 
+  IMysqli::__set_state(array(
+     'linkRes' => 
+    mysqli::__set_state(array(
+       'affected_rows' => NULL,
+       'client_info' => NULL,
+       'client_version' => NULL,
+       'connect_errno' => NULL,
+       'connect_error' => NULL,
+       'errno' => NULL,
+       'error' => NULL,
+       'error_list' => NULL,
+       'field_count' => NULL,
+       'host_info' => NULL,
+       'info' => NULL,
+       'insert_id' => NULL,
+       'server_info' => NULL,
+       'server_version' => NULL,
+       'stat' => NULL,
+       'sqlstate' => NULL,
+       'protocol_version' => NULL,
+       'thread_id' => NULL,
+       'warning_count' => NULL,
+    )),
+     'sql' => 'select * from micarshop_quick_naviga  where admin_id = 1 and is_del = 0    ',
+     'log' => 0,
+     'cache' => '',
+     'debug' => 0,
+  )),
+   'sql' => 
+  array (
+    'table' => 'micarshop_order',
+    'fields' => '*',
+    'where' => 'where status in (5,6,7) and pay_type != 0 and pay_status = 1 and distribution_status in (0,1,2) and \'DATEDIFF(create_time,2017-07-31 17:47:32)\' >= 7',
+    'join' => '',
+    'group' => '',
+    'having' => '',
+    'order' => 'order by id desc',
+    'limit' => '',
+  ),
+   'tablePre' => 'micarshop_',
+   'paging' => NULL,
+));?> 

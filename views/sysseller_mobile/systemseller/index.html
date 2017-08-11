@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+    <title>商家管理中心</title>
+    {js:jquery}
+    {js:dialog}
+	<script src='{theme:javascript/mobile.js}'></script>
+    <link rel="stylesheet" href="{skin:style/style.css}" />
+</head>
+
+<body class="sysseller_login">
+	<section class="login_box animated bounceInDown">
+		<header>
+			商家管理中心
+		</header>
+		<section>
+			<form method="post" name="login" action="{url:/systemseller/login}" autoComplete="off" role="form">
+				<input class="username" placeholder="用户名" name="username" type="text" />
+				<input class="password" placeholder="密码" name="password"  type="password" />
+				<input type="submit" value="登录" class="submit">
+				<a href="{url:/simple/seller}" class="reg">商家入驻</a>
+			</form>
+		</section>
+	</section>
+	<footer class="login_footer">
+		PowerBy IWEBSHOP
+	</footer>
+</body>
+</html>

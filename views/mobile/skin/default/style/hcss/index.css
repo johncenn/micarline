@@ -1,0 +1,218 @@
+#hui-header-sreach{width:75%; height:32px; padding:0px !important; line-height:32px; position:absolute; z-index:21; left:17px; top:6px;}
+#hui-header-sreach input{width:80%; height:32px !important; line-height:32px !important; margin:0px !important; -webkit-appearance:none; -moz-appearance:none; appearance:none; border-radius:5px; border:0; background:#EFF3F6; font-size:14px; text-indent:30px;}
+#hui-header-sreach::after{font-family:"hui-font"; content:'\e714'; display:block; position:absolute; z-index:22; width:28px height:32px; left:35px; top:0;}
+#hui-hot-sreach{background:#FFFFFF; padding:10px;}
+#hui-hot-sreach-title{line-height:38px; font-size:16px; font-weight:700;}
+#hui-hot-sreach-keys{margin-top:8px;}
+#hui-hot-sreach-keys a{display:block; border-radius:5px; float:left; margin:0 8px 8px 0px; padding:6px 10px; line-height:20px; font-size:13px; background:#EFF3F6;}
+
+
+/*选择 s*/
+
+
+/*选择 e*/
+.select{
+	width: 2.5rem;
+	height: 2rem;
+	position: absolute;
+	top: 0.3rem;
+	right: 0.7rem;
+	font: 10px/2 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	display: none;
+}
+
+.select_icon{
+	position:fixed;
+	top:0.2rem;
+	right: 0rem;
+}
+
+.select_icon img{
+	width: 0.8rem;
+	height: 0.8rem;
+	display: none;
+}
+
+/*图标 s*/
+.one{
+	width: 100%;
+	height: 10rem;
+	display: flex;
+	justify-content:space-around;
+	flex-wrap: wrap;
+	align-items: center;
+	background: white;
+	margin-top: 0.25rem;
+	border-top: 2px solid #E5E5E5;
+	border-bottom:2px solid  #E5E5E5;
+	
+}
+
+.one div{
+	width: 25%;
+}
+
+
+.one div span{
+	display: block;
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	text-align: center;
+	height: 1.7rem;
+	line-height: 1.7rem;
+}
+
+
+.one div a{
+	width: 2.5rem;
+	border-radius: 50%;
+	height: 2.5rem;
+	display: block;
+	margin: 0 auto;
+}
+
+
+
+
+.one .food{
+	background: orange;
+}
+
+.one .hodel{
+	background: #3C92FB;
+}
+
+.one .bus{
+	background: #28BD2C;
+}
+
+.one .bank{
+	background: #A577FA;
+}
+/*------------------*/
+.one .jingdian{
+	background: #1FC4C0;
+}
+
+.one .jiayou{
+	background: #A577FA;
+}
+
+.one .start{
+	background: #FF8C35;
+}
+
+.one .more{
+	background: #8BBEFD;
+}
+
+.one div img{
+	width: 1.5rem;
+	height: 1.5rem;
+	margin: 0 auto;
+	display: block;
+	padding-top: 0.5rem;
+	
+}
+
+/*图标 e*/
+
+
+/*指定查询按钮 s*/
+.btn_go{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	position: absolute;
+	top: 0.4rem;
+	right: 0.5rem;
+	z-index: 1000;
+}
+
+.hui-button{
+	height: 32px;
+	width: 80px;
+	
+}
+
+/**/
+
+/*列表 s*/
+.list{
+	width: 100%;
+	border-top: 2px solid #E5E5E5;
+	background: white;
+	
+}
+
+.item{
+	width: 100%;
+	height: 5rem;
+	display: flex;
+}
+
+
+.item .icon{
+	width: 15%;
+	height: 4.8rem;
+	/*border: 1px solid red;*/
+	display: flex;
+	align-items: center;
+}
+
+.item .icon img{
+	width: 1.5rem;
+	height: 1.5rem;
+	display: block;
+	margin: 0 auto;
+}
+
+.item .content{
+	width: 85%;
+	height: 4.8rem;
+	/*border: 1px solid black;*/
+	display: flex;
+	align-items: center;
+	border-bottom: 2px solid #E5E5E5;
+}
+
+.title{
+	width: 80%;
+	/*border: 1px solid red;*/
+	height: 3rem;
+	
+}
+
+.seach_title{
+	line-height: 3rem;
+}
+
+.title p:nth-of-type(1){
+	/*font: 16px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;*/
+	/*font-weight: bold;*/
+}
+
+.title p:nth-of-type(2){
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	color: #909090;
+	margin-top: 0.25rem;
+}	
+
+.go{
+	width: 20%;
+	height: 3rem;
+	text-align: center;
+}
+
+.go img{
+	width: 1.5rem;
+	height: 1.5rem;
+	display: block;
+	margin: 0 auto;
+}
+
+.go span{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	color: #909090;
+	
+}
+
+
+/*列表 e*/

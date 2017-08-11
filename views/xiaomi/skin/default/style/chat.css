@@ -1,0 +1,620 @@
+/*右边的竖条s*/
+.right{
+	width: 40px;
+	height: 100%;
+	background: #2E2D2D;
+	position: fixed;
+	right: 0;
+	top:0;
+	z-index: 10;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+  
+
+
+/*聊天 s*/
+.right .message{
+	position: fixed;
+	top: 60%;
+	cursor:pointer;
+	width: 40px;
+	height: 40px;
+	
+}
+
+.right span{
+	position: fixed;
+	top: 60%;
+	right:40px;
+	width: 80px;
+	height: 34px;
+	background: #555555;
+	color: white;
+	text-align: center;
+	line-height: 34px;
+	display: none;
+}
+
+.message a{
+	
+	display: block;
+	/*background: yellow;*/
+	width: 40px;
+	height: 40px;
+	background: url("../image/liaotian.png") no-repeat 5px ;
+}
+.message a:hover{
+	
+	background: url("../image/liaotian2.png") no-repeat 5px ;
+}
+
+.right .message:hover {
+	background: rgba(255,85,85,1);
+}
+
+.ad{
+	display: block;
+	float: left;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+.ad a{
+	text-decoration: underline;
+}
+
+.send{
+	display: block;
+	float: right;
+	margin-right: 30px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+/*聊天 e*/
+
+
+/*右边的竖条e*/
+
+/*聊天list s*/
+
+.chat_list{
+	width: 218px;
+	height: 500px;
+	/*border: 1px solid red;*/
+	position: fixed;
+	bottom:0;
+	right:40px;
+	z-index: 10;
+	background: white;
+	-webkit-transition: 1s;
+	-webkit-transform:translateX(500px);
+}
+.chat_list:hover{
+	
+	
+	
+}
+
+/*头部*/
+.chat_top{
+	position:relative;
+	width: 100%;
+	height: 80px;
+	background: -webkit-linear-gradient(left top,#7F8EAD,#58627D);
+}
+.chat_top i{
+	background: url(../image/lbg.png) no-repeat;
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+	margin-left: 10px;
+	margin-top: 5px;
+}
+.chat_top h1{
+	font: 600 18px/32px "microsoft yahei";
+	color: white;
+}
+
+.chat_top .close{
+	display:block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 0;
+	top: 3px;
+	background: url("../image/1.png") no-repeat 2px;
+	cursor: pointer;
+}
+
+
+/*好友列表 s*/
+.chat_user{
+	width: 100%;
+}
+
+/*好友列表 和 最近联系人列表*/
+.chat_user_friend,.chat_user_recent{
+	width: 100%;
+	
+	/*border-bottom: 1px solid #FAFAFA;*/ 
+}
+
+/*好友 或  最近联系人 */
+.chat_user_friend dt,.chat_user_recent dt{
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+    background-color: #FAFAFA;
+    height: 30px;
+    margin-top: -1px;
+    border-style: solid;
+    border-width: 1px 0;
+    border-color: #EEE;
+	color: #666666;
+	text-indent: 10px;
+}
+
+/* 更多  */
+.chat_user_friend dt span,.chat_user_recent dt span{
+	background: url(../image/more.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    float: right;
+    margin: 3px 10px;
+	-webkit-transform: rotate(90deg);
+}
+
+/*头像  和 是否在线 */
+.chat_user_friend dd,.chat_user_recent dd{
+	width: 100%;
+	height: 40px;
+	border-bottom: solid 1px #EEEEEE;
+	position: relative;
+	/*border: 1px solid blue;*/ 
+}
+
+/*头像*/
+.chat_user_friend .user_avatar img,.chat_user_recent .user_avatar img{
+	width: 24px;
+	height: 24px;
+	float: left;
+	margin: 7px 5px;
+}
+
+/*是否在线*/
+.chat_user_friend .user_avatar i,.chat_user_recent .user_avatar i{
+	width: 6px;
+	height: 6px;
+	border: 1px solid #777;
+	position: absolute;
+	left: 21px;
+	top:22px;
+	z-index: 100;
+}
+
+.offline{
+	background: white;
+}
+
+.online{
+	background: #24FF24;
+}
+
+/*用户名*/
+.chat_user_friend dd h5,.chat_user_recent dd h5{
+	
+	float: left;
+	color: #666666;
+	font: 14px/40px "microsoft yahei";
+	white-space:nowrap;  
+	text-overflow:ellipsis;  
+	display: inline-block;
+	width:100px; 
+	/*border: 1px solid red; 
+	word-break:keep-all; */ 
+	overflow:hidden;    
+	
+}
+
+
+/*聊天图像*/
+.chat_user_friend dd a,.chat_user_recent dd a{
+	background: url(../image/liaotianbg_red.png) no-repeat -5px;
+    width: 20px;
+    height: 20px;
+    float: left;
+	display: block;
+	float: right;
+	margin: 10px 40px 0 10px;
+	
+}
+
+
+/*好友列表 e*/
+
+/*聊天list s*/
+
+
+/*聊天窗口内容接收与发送 s msg-dialog*/
+.msg-dialog{
+	
+	max-width: 642px;
+	width: 640px;
+	height: 610px;
+	position: absolute;
+	left: 600px;
+	top: 300px;
+	z-index: 100;
+	background: url("../image/dialog_body_bg.jpg");
+	display: none;
+}
+.msg-dialog #dialog_header{
+	width: 640px;
+	height: 100px;
+	border-bottom: 1px solid red;
+	position: relative;
+}
+
+#dialog_header .to_user_img{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+/*聊天框关闭按钮*/
+.close_big{
+	width: 30px;
+	height: 30px;
+	color:#B2B2B2;
+	
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: center;
+	z-index: 100;
+}
+
+.close_big:hover{
+	background: red;
+	cursor: pointer;
+	color: white;
+}
+
+.close_big span{
+	font-size: 20px;
+	font: 20px/30px "微软雅黑";
+	
+}
+
+/*聊天记录*/
+.msg_list{
+	width: 420px;
+	height: 375px;
+	/*border: 1px solid red;*/ 
+	overflow: scroll; 
+	overflow-x: hidden;
+}
+
+/*用户的聊天内容*/
+.msg_list .chat_con{
+	width: 400px;
+	margin: 10px auto;
+	overflow: hidden;
+	/*border: 1px solid yellow;*/
+	
+}
+
+/*发送给用户的内容*/
+.chat_con .to_user{
+	width: 300px;
+	adding: 0 48px 0 0;
+    margin: 10px 0;
+    float: right;
+    position: relative;
+    z-index: 1;
+	/*border: 1px solid red;*/
+}
+
+.to_user dl img{
+	width: 150px;
+	height: 150px;
+}
+
+.to_user .bq{
+	width: 24px;
+    height: 24px;
+}
+
+
+
+.to_user .user-avatar{
+	background-color: #FFF;
+    width: 30px;
+    height: 30px;
+    padding: 1px;
+    /*border: solid 1px #D8D8D8;*/
+    box-shadow: 1px 1px 2px rgba(204,204,204,1);
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 0px;
+}
+
+.user-avatar img{
+	width: 30px;
+    height: 30px;
+}
+
+
+
+.to_user dl{
+	background-color: #FFF;
+    display: inline-block;
+    float: right;
+    border-radius: 5px;
+    padding: 0 10px 10px 10px;
+    position: relative;
+    z-index: 1;
+	right: 45px;
+}
+
+
+
+/*时间*/
+.to_user dl dt{
+	font-family: Tahoma, Geneva, sans-serif;
+    font-size: 10px;
+    color: #999;
+    line-height: 20px;
+    text-align: right;
+}
+
+/*谈话内容*/
+.to_user dl dd{
+	display: inline-block;
+    color: #333;
+    line-height: 20px;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/*角标*/
+.to_user dl .arrow{
+	background: url(../image/chat_bg.png) no-repeat -60px -80px;
+    width: 16px;
+    height: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: -6px;
+}
+
+.msg-input-box{
+	width: 420px;
+	height: 150px;
+	position: relative;
+	border-top: 1px solid gray;
+}
+
+.s_img{
+	width: 300px;
+	height: 148px;
+	/*border: 1px solid red;*/
+	position: absolute;
+	top: -149px;
+	left: 0;
+	background: white;
+	z-index: 100;
+	overflow:scroll;
+	overflow-x:hidden;
+	display: none;
+}
+
+.event_one{
+	width: 36px;
+	height: 36px;
+	/*border: 1px solid red;*/
+	float: left;
+	/*margin: 4px 2px 2px 4px;*/
+	text-align: center;
+	
+}
+
+.s_img img{
+	vertical-align: middle;
+	margin-top: 7px;
+}
+
+.dialog_chat_right{
+	width: 220px;
+	height: 530px;
+	/*border: 1px solid black;*/
+	position: absolute;
+	right: 0;
+	top:0;
+}
+
+
+/*接收用户的内容  */
+.chat_con .from_user{
+	width: 300px;
+	adding: 0 48px 0 0;
+    margin: 10px 0;
+    float: left;
+    position: relative;
+    z-index: 1;
+	/*border: 1px solid red;*/
+}
+
+.from_user .user-avatar{
+	background-color: #FFF;
+    width: 30px;
+    height: 30px;
+    padding: 1px;
+    border: solid 1px #D8D8D8;
+    box-shadow: 1px 1px 2px rgba(204,204,204,1);
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0px;
+}
+
+.from_user img{
+	width: 30px;
+    height: 30px;
+}
+
+.from_user dl img{
+	width: 150px;
+	height: 150px;
+}
+
+.from_user .bq{
+	width: 24px;
+    height: 24px;
+}
+
+.from_user dl{
+	background-color: #FFF;
+    display: inline-block;
+    float: left;
+    border-radius: 5px;
+    padding: 0 10px 10px 10px;
+    position: relative;
+    z-index: 1;
+	left: 45px;
+}
+
+
+/*时间*/
+.from_user dl dt{
+	font-family: Tahoma, Geneva, sans-serif;
+    font-size: 10px;
+    color: #999;
+    line-height: 20px;
+    text-align: left;
+}
+
+
+/*谈话内容*/
+.from_user dl dd{
+	display: inline-block;
+    color: #333;
+    line-height: 20px;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+/*角标*/
+.from_user dl .arrow{
+	background: url(../image/chat_bg.png) no-repeat -40px -80px;
+    width: 16px;
+    height: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -6px;
+}
+
+/*表情、图片*/
+.msg-input-title{
+	width: 420px;
+	height: 35px;
+	/*border: 1px solid black;*/
+	float: left;
+}
+
+
+
+.msg-input-title span{
+	margin-top:4px;
+	margin-right: 10px;
+}
+/*表情*/
+.chat_show{
+	display:block;
+	width: 30px;
+	height: 25px;
+	/*border: 1px solid blue;*/
+	float: left;
+}
+.chat_show:hover{
+	background: #c0c0c0;
+}
+
+.chat_show img{
+	margin-left: 2px;
+}
+
+.chat_phpne{
+	display:block;
+	width: 35px;
+	height: 25px;
+	/*border: 1px solid blue;*/
+	float: left;
+}
+
+.chat_phpne:hover{
+	background: #c0c0c0;
+}
+
+.chat_phpne img{
+	margin-left: 5px;
+	
+}
+
+.message{
+	color:black;
+	width: 70px;
+	height: 25px;
+	/*border: 1px solid blue;*/
+	float: right;
+	font: 12px/25px "微软雅黑";
+	cursor: pointer;
+}
+
+.message:hover{
+	background: #c0c0c0;
+}
+
+/*内容输入框*/
+.send_message{
+	width: 390px;
+	height: 64px;
+	border-radius: 8px;
+    resize: none;
+	margin: 0 10px;
+	border: none;
+	outline:none;
+	line-height:18px;
+}
+
+.send_btn{
+	display: block;
+	float: right;
+	margin-right: 30px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+/*聊天窗口内容接收与发送 e msg-dialog*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

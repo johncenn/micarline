@@ -1,0 +1,89 @@
+{js:artTemplate}
+{js:areaSelect}
+<h1 class="page_title">编辑商户</h1>
+<section class="input_li">
+	<form action="{url:/seller/seller_add}" method="post" name="sellerForm" enctype='multipart/form-data'>
+		<ul>
+			<li>
+				<span class="input_item">登陆用户名 <em>*</em></span>
+				<input type="text" class="input_text" disabled="disabled" name="seller_name"  pattern='required' alt='用户名不能为空' />
+			</li>
+			<li>
+				<span class="input_item">密码 <em>*</em></span>
+				<input name="password" class="input_text" type="password" bind='repassword' empty />
+			</li>
+			<li>
+				<span class="input_item">确认密码 <em>*</em></span>
+				<input name="repassword" class="input_text" type="password" bind='password' empty  />
+			</li>
+			<li>
+				<span class="input_item">商户真实全称 <em>*</em></span>
+				<input name="true_name" class="input_text" type="text" value="" pattern="required" disabled="disabled" />
+			</li>
+			<li>
+				<span class="input_item">商户资质材料</span>
+				{if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
+					<div class="input_img"><img src="{webroot:}{$this->sellerRow['paper_img']}" /></div>
+				{else:}
+					<div class="input_tip">暂无商户资质材料</div>
+				{/if}
+			</li>
+			<li>
+				<span class="input_item">保证金数额</span>
+				<input type="text" class="input_text" name="cash" pattern="float" empty disabled="disabled" />
+				<span class="input_unit">人民币（元）</span>
+			</li>
+			<li>
+				<span class="input_item">收款账号</span>
+				<textarea class="input_textarea" name="account" empty></textarea>
+				<span class="input_unit">标明开户行，卡号，账户名称等</span>
+			</li>
+			<li>
+				<span class="input_item">固定电话</span>
+				<input type="text" class="input_text" name="phone" pattern="phone" />
+			</li>
+			<li>
+				<span class="input_item">手机号码</span>
+				<input type="text" class="input_text" name="mobile" pattern="mobi" />
+			</li>
+			<li>
+				<span class="input_item">邮箱</span>
+				<input type="text" class="input_text" name="email" pattern="email" empty />
+			</li>
+			<li>
+				<span class="input_item">地区</span>
+				<select name="province" child="city,area" class="input_select f3"></select>
+				<select name="city" child="area" class="input_select f3"></select>
+				<select name="area" class="input_select f3"></select>
+			</li>
+			<li>
+				<span class="input_item">详细地址</span>
+				<input name="address" class="input_text" type="text" empty value="" />
+			</li>
+			<li>
+				<span class="input_item">QQ号码</span>
+				<input name="server_num" class="input_text" type="text" empty value="" />
+			</li>
+			<li>
+				<span class="input_unit">%</span>
+				<span class="input_item">发票税率(百分制)</span>
+				<input name="tax" class="input_text" type="text" empty value="" pattern="float" />
+			</li>
+			<li>
+				<span class="input_item">企业官网</span>
+				<input name="home_url" class="input_text" type="text" pattern="url" empty value="" alt="网址不正确" />
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>
+
+<script>
+var formObj = new Form('sellerForm');
+formObj.init({echo:JSON::encode($this->sellerRow)});
+
+var areaInstance = new areaSelect('province');
+areaInstance.init({echo:JSON::encode($this->sellerRow)});
+</script>

@@ -1,0 +1,28 @@
+{set:$id = IFilter::act(IReq::get('id'),'int')}
+{query: name=refer as r join=left join goods as goods on r.goods_id eq goods.id left join user as u on r.user_id eq u.id left join admin as admin on r.admin_id eq admin.id left join seller as se on se.id eq r.seller_id fields=se.seller_name,r.*,u.username,goods.name as goods_name,goods.id as goods_id,admin.admin_name where=r.id eq $id}{/query}
+<h1 class="page_title">咨询回复</h1>
+<section class="refer_list">
+	<div class="item">
+		<p>
+			<strong>商品名字</strong>
+			<span>{$item['name']}</span><br>
+			<strong>咨询人</strong>{if:isset($item['username'])}{$item['username']}{else:}非会员{/if}<br>
+			<strong>咨询时间</strong>{$item['time']}<br>
+			<strong>咨询内容</strong>{$item['question']}<br>
+		</p>
+	</div>
+</section>
+<section class="input_li">
+	<form action="{url:/seller/refer_reply}" method="post" name="refer_edit">
+		<input type="hidden" value="{$item['id']}" name="refer_id" />
+		<ul>
+			<li>
+				<span class="input_item">回复</span>
+				<textarea class="input_textarea" name="content">{$item['answer']}</textarea>
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>

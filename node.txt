@@ -1,0 +1,5 @@
+1.sell_id 为 0 代表是自营
+
+2.refundment_doc ：退款表
+
+3.

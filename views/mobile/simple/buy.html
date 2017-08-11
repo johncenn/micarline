@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script type="text/javascript" src="{theme:javascript/jquery-1.9.1.js}"></script>
+		<link rel="stylesheet" href="{skin:style/mui.css}">
+		<link rel="stylesheet" type="text/css" href="{skin:buy/buy.css}"/>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">购买</h1>
+		</header>
+		<div class="mui-content">
+			
+			<?php 
+				//echo "<pre>";
+				//print_r($user_address);
+				//echo "</pre>";
+			?>
+			
+			<!--用户信息 s-->
+			<div class="user_address">
+				<a href="{url:simple/choose_address}" class="user_content">
+					<div class="line">
+						<div class="local">
+							<span class="mui-icon mui-icon-location"></span>
+						</div>
+						<div class="use_msg">
+							<div class="user">
+								<span>收货人：{$user_address['accept_name']}</span>
+								<span>{$user_address['mobile']}</span>
+							</div>
+							<div class="address">
+								收货地址：<span>{$user_address['address']}</span>
+							</div>
+						</div>
+						<div class="right">
+							<span class="mui-icon mui-icon-arrowright"></span>
+						</div>
+					</div>
+				</a>
+				
+			</div>
+			<!--用户信息 e-->
+			
+			<!--货物信息 s-->
+			<div class="goods_msg">
+				<div class="goods_content">
+					{set:$count_sum=0}
+					{set:$cart_sum=0}
+					{set:$i=0}
+					{foreach:items=$car_goods key=$k $item=$v }
+					{set:$sum=0}
+					{set:$count=0}
+					
+					<div class="item">
+						<!--商家标题 s-->
+						<div class="b_height">
+							<div class="header">
+								<div class="enter_img">
+									<img src="{skin:image/enterprise.png}"/>
+								</div>
+								{query:name=seller where=id eq $k }
+									<a href="{url:site/home/$k}">{$item['store_name']}</a>
+								{/query}
+							</div>
+						</div>
+						
+						<!--商家标题 e-->
+						
+						
+						
+						<!--商品详情 s-->
+						<div class="g_item">
+							
+							{foreach:items=$v $item=$g}
+							
+							<?php 
+								$d_goods = explode("*",$g);
+								//echo "<pre>";
+								//print_r($d_goods);
+								//echo "</pre>";
+									
+								$price = substr($d_goods[2],2,strlen($d_goods[2]));
+								
+								$sum = $sum + $price * $d_goods[1];
+								
+								$count = $count + $d_goods[1];
+																																
+							?>
+							
+							<!--商品标题 s-->
+							<div class="g_bodytitle">
+								<div class="g_content">
+									
+									<div class="g_image">
+										<img src="{$d_goods[4]}"/>
+									</div>
+									
+									<div class="title">
+										<span>
+										{$d_goods[3]}
+										</span>
+										 <p>默认规格</p> 
+									</div>
+									
+									<div class="peiceNum">
+										<span class="g_price">{$d_goods[2]}</span>
+										<p class="g_num">X{$d_goods[1]}</p>
+									</div>
+									
+								</div>
+							</div>
+							{/foreach}
+							
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell">
+					                <a class="mui-navigate-right">
+					                <?php 
+					                	
+										$f = $freight[$i];
+										$isfree=false;
+										foreach($f as $kk=>$vv){
+											if($vv['freefreight'] == 1){
+												$isfree = true;
+												}else if($vv['freefreight'] == 0){
+												$isfree = false;
+											}
+
+										}
+
+					                ?>
+					                	{if:$isfree}
+					                    <span class="mui-badge nonebg">快递 包邮</span>
+					                    {else:}
+					                    <?php 
+					                    	$real_express=0;
+											foreach($result_delieve as $kf=>$vf){
+												
+												$sell_price_arr = $vf['seller_price'];
+												foreach($sell_price_arr as $ksp=>$vsp){
+													//echo "<pre>";
+													//print_r($k);				
+					                    			//echo "</pre>";
+													if($ksp == $k){
+														$real_express = $vsp;
+														$sum = $sum + $real_express;
+													}
+												}
+											}
+					                    ?>
+					                    <span class="mui-badge nonebg">快递 ¥{$real_express}</span>
+					                    {/if}	
+					                    	配送方式
+					                </a>
+					            </li>
+					            
+					            <li class="mui-table-view-cell">
+					                <a class="mui-navigate-right">
+					                    <span class="mui-badge nonebg">运费险</span>
+					                  	  请选择
+					                </a>
+					            </li>
+					            
+					            <li class="mui-table-view-cell">
+					            	<a href="#">
+					                  	 运费险须知
+					                  	 <span class="mui-icon mui-icon-help help"></span>	
+					                </a>
+					            </li>
+					            
+					            <li class="mui-table-view-cell leave">
+					            	<span>给买家留言:</span>
+								    <input type="text" class="mui-input-clear leamessage" placeholder="请输入内容">
+					            </li>
+					            
+					            
+							</ul>
+							
+							<!--统计-->
+							 <div class="statistics">
+								<div class="wrap">
+									<span>共{$count}件，合计：</span>
+									<span>¥ {$sum}</span>
+									<?php 
+										$count_sum = $count_sum + $sum;
+										$cart_sum = $cart_sum + $count;
+									?>
+								</div>
+							</div>
+							
+						</div>
+						<!--商品详情 e-->
+						
+						
+					</div>
+					{set:$i=$i+1}
+					{/foreach}
+					
+					
+					
+					
+					
+				</div>
+			</div>
+			<!--货物信息 e-->
+		
+			
+			<!--全局提交btn-->
+			<div class="global_show">
+				<div class="wrap_conten">
+					<div class="msg_show">
+						共<span class="sumNum">{$cart_sum}</span>件，总金额　
+						<span class="sum_price">¥ {$count_sum}</span>
+					</div>
+					<div class="commit">
+						<a href="#">提交订单</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="xg" style="height: 60px;"></div>
+			
+		</div>
+	
+		
+		
+		<script type="text/javascript" src="{theme:javascript/mui.js}"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

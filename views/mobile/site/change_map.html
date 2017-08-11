@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>地图选点搜索</title>
+		<link rel="stylesheet" type="text/css" href="{skin:style/hcss/hui.css}" />
+		
+		<style type="text/css">
+			.map{
+				width: 100%;
+				height: 85vh;
+			}
+		</style>
+		
+		 <!--定位JS-->
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<!--计算距离JS-->
+		<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor"></script>
+		
+	</head>
+	<body>
+		<header class="hui-header">
+			<div id="hui-back"></div>
+			<h1>HUI </h1>
+		</header>
+		
+		<div class="hui-wrap" style="padding-top:100px;">
+			<!-- 保持在顶部的分类条件 为了便于理解样式直接写在了style属性内  -->
+			<div style="height:50px; width:100%; background:#F6F8F9; border-bottom:1px solid #F3F3F3; position:absolute; left:0px; top:46px; z-index:21;">
+				<div style="width:100%; height:50px; line-height:50px; text-align:center; float:left;">
+					<select id="select1">
+						<option value="1" selected="selected">所以分类</option>
+						<option value="2">汽车板块</option>
+						<option value="3" >食品板块</option>
+						<option value="4">茶具板块</option>
+					</select>
+				</div>
+			</div>
+			<div class="map">
+				<iframe id="mapPage" width="100%" height="100%" frameborder=0 
+    src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp">
+</iframe> 
+			</div>
+			
+		</div>
+		
+		<script type="text/javascript" src="{skin:style/hcss/js/hui.js}" charset="UTF-8"></script>
+<script src="{skin:style/hcss/js/hui-select-beautify.js}" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			hui('#select1').selectBeautify(showVal);
+			var type = "1";
+			var stri = {$resultData};
+			var key = "GWEBZ-TN635-YIEI5-QV4LJ-RXJ2H-7KFXC";
+	    	var referer = "testMap";
+	    	
+			function showVal(val){
+				hui.toast('选项值 : ' + val);
+				type = val;
+			}
+			
+			window.addEventListener('message', function(event) {
+	        // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
+	        var loc = event.data;
+	        if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
+	          console.log('location', loc);
+	          
+	          //获取指定位置的坐标
+	          var lat = loc.latlng.lat;
+	          var lng = loc.latlng.lng;
+	          
+	         var d = new qq.maps.LatLng(lat,lng);
+			
+			
+			//循环把坐标拿出来
+			for(var key in stri){
+				if(!stri[key]['gps']){
+					continue;
+				}
+				var u_lat = stri[key]['gps'].split(',')[0];
+	       		var u_lng = stri[key]['gps'].split(',')[1];
+	       		var m = new qq.maps.LatLng(u_lat,u_lng);
+	       		
+	       		//相差距离
+	       		var t = qq.maps.geometry.spherical.computeDistanceBetween(m, d);
+	       		stri[key]['length'] = t;
+	       		
+			}
+	        
+			//排好序的结果
+			var temp = sort(stri);
+			
+			//for循环拼接数据
+			var marks = "";
+			var i = 0;
+			for(var key in temp){
+				if(i==9){
+					break;
+				}
+				console.log(temp[key]);
+				marks = marks+"coord:"+temp[key]['gps']+";title:"+temp[key]['store_name']+";addr:"+temp[key]['address']+"|";
+				++i;
+			}
+			
+			
+			var newmarks = marks.substring(0,marks.length-1);
+			newmarks = encodeURI(newmarks);
+			var map_url = "http://apis.map.qq.com/tools/poimarker?type=0&marker="+newmarks
+			+"&key=2XZBZ-42SRS-Q2GO2-67BOD-WWXY3-5EFAP&referer=test";
+			
+			//console.log(newmarks);
+			window.location.href = map_url;
+	          
+	        }                                
+   		 }, false); 
+			
+			
+			
+			//排序地图方法
+			function sort(result){
+				for (var i = 0;i<result.length;i++) {
+					for (var j = 0; j < result.length-i-1; j++) {
+						if (result[j]['length']>result[j+1]['length']) {
+								
+								var temp = result[j];
+								result[j] = result[j+1];
+								result[j+1] = temp;
+							}
+						}
+				}
+				return result;
+				
+			}	
+			
+		</script>
+		
+	</body>
+</html>

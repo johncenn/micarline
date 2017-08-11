@@ -1,0 +1,316 @@
+<script src="{theme:javascript/jquery.slider.js}"></script>
+<?php
+	
+	//获取板块信息
+	//echo "session is <br/>";
+	$type   = ISession::get('plate_type');
+	//$type = $plate_type[0]['plate_id'];
+?>
+
+
+<!--幻灯片 开始-->
+<div class="home_banner">
+    {if:$this->index_slide}
+    <ul>
+        {foreach:items=$this->index_slide}
+        <li>
+            <a href="{$item['url']}"><img src="{url:/pic/thumb/img/$item[img]}" alt="{$item['name']}"></a>
+        </li>
+        {/foreach}
+    </ul>
+    {/if}
+</div>
+<!-- 首页菜单 -->
+<nav class="home_nav">
+    <ul>
+        <li class="map"><a href="{url:site/sitemap}"><i class="icon-th-list"></i><span>全部分类</span></a></li>
+        <li class="cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
+        <li class="groupon"><a href="{url:site/groupon}"><i class="icon-legal"></i><span>今日团购</span></a></li>
+        <li class="favorite"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>我的收藏</span></a></li>
+    </ul>
+</nav>
+{echo:Ad::show("首页顶部通栏100%*120(mobile)")}
+<!-- 首页推荐商品列表 -->
+<h2 class="home_title"><i class="icon-gift"></i><strong>商品推荐</strong></h2>
+<section class="home_goods">
+    <ul>
+        {foreach:items = Api::run('getCommendRecom')}
+        {if:$item['plate'] == $type}
+        <li>
+            <a href="{url:/site/products/id/$item[id]}">
+                <img src="{url:/pic/thumb/img/$item[img]/w/300/h/300}" alt="{$item['name']}">
+                <span>{$item['name']}</span>
+            </a>
+        </li>
+        {/if}
+        {/foreach}
+    </ul>
+</section>
+
+{echo:Ad::show("首页中部通栏100%*200(mobile)")}
+
+{if:$type == 1}
+<span class="recSeller">推荐商家</span>
+{/if}
+<div class="line"></div>
+
+<div class="carMap">
+<!-- 
+	<div class="store">
+	<a href="http://www.baidu.com">
+		<div class="store_img">
+			<img alt="" src="http://www.micarline.net/data/upload/shop/store/goods/16/16_05159580117870335_240.jpg">
+		</div>
+		<div class="store_desc">
+			<h3>米car汽车店电话是多少点击吉萨电话费看撒谎花生豆腐</h3>
+			<span>主营：汽车美容、养护、快修、精品、年审、保险等sss啥考虑到</span>
+			<span>地址：禅城区普君西路43号（普君市场对面）</span>
+			<span>电话： 0757-82366513</span>
+			<font>1.1km(直线距离)</font>
+		</div>
+	</a>
+		
+	</div>
+	 -->
+</div>
+<!-- 首页顶级栏目分类 -->
+<!--  
+
+<h2 class="home_title"><i class="icon-list"></i><strong>畅销商品分类</strong></h2>
+<nav class="home_goods_nav">
+    <ul>
+        {foreach:items=Api::run('getCategoryListTop') item=$first }
+        	{if:$first['plate'] == $type}
+	       
+	        	<li><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a><i class="icon-chevron-right"></i></li>
+	       {/if}
+        {/foreach}
+    </ul>
+</nav>
+ -->
+<!-- <a href="index.php?controller=getStore&action=get">laiaiaiaiai</a> -->
+<!-- 
+<section class="home_slogan">
+    <ol>
+        <li>
+            <i class="icon-truck"></i>
+            <p>
+                <strong>免费送货与退货</strong>
+                <br>
+                <span>所有订单超过200免费送货。</span>
+            </p>
+        </li>
+        <li>
+            <i class="icon-jpy"></i>
+            <p>
+                <strong>退款保证</strong>
+                <br>
+                <span>100%退款保证。</span>
+            </p>
+        </li>
+        <li>
+            <i class="icon-phone"></i>
+            <p>
+                <strong>在线支持 24/7</strong>
+                <br>
+                <span>客服7*24小时在线。</span>
+            </p>
+        </li>
+    </ol>
+</section>
+ -->
+
+ <!--定位JS-->
+<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<!--计算距离JS-->
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor"></script>
+
+
+<script>
+
+$(function() {
+	
+	var arr;
+	//向腾讯地图发请求
+	/*
+	{query: name=seller}
+		console.log("aa");
+		console.log({$item['gps']});
+		arr[i][j++] = {$item['id']};
+		arr[i][j++] = {$item['id']};
+	{/query}
+	*/
+	
+	if({$type} == 1){
+	
+	$.ajax({
+		url:"index.php?controller=getStore&action=get",
+		type:'get',
+		dataType: 'json',
+        
+       	success:function(res){
+       		arr = res;
+       		//var gps = res[0]['gps'];
+       		//console.log(gps);
+       		//var u_lat = gps.split(',')[0];
+       		//var u_lng = gps.split(',')[1];
+       		
+       		var key = "GWEBZ-TN635-YIEI5-QV4LJ-RXJ2H-7KFXC";
+        	var referer = "testMap";
+        	var geolocation = new qq.maps.Geolocation(key,referer);
+            var options = {timeout: 8000};
+
+    		//定位
+    		geolocation.getLocation(showPosition, showErr, options);
+    		
+    		
+    		function showPosition(res){
+    			
+    			console.log('定位成功');
+    			//定位成功，封装当前的位置
+    			var lat = res.lat;
+    			var lng = res.lng;
+    			var d = new qq.maps.LatLng(lat,lng);
+    			
+    			
+    			
+    			//var gps = res[0]['gps'];
+           		//console.log(gps);
+           		//var u_lat = arr[0]['gps'].split(',')[0];
+           		//var u_lng = arr[0]['gps'].split(',')[1];
+    			
+    			//循环把坐标拿出来
+    			for(var key in arr){
+    				
+    				var u_lat = arr[key]['gps'].split(',')[0];
+    	       		var u_lng = arr[key]['gps'].split(',')[1];
+    	       		var m = new qq.maps.LatLng(u_lat,u_lng);
+    	       		
+    	       		//相差距离
+    	       		var t = qq.maps.geometry.spherical.computeDistanceBetween(m, d);
+    	       		arr[key]['length'] = t;
+    	       		
+    	       		console.log(arr[key]['length']);
+    			}
+    			//var a = [4,3,5,2];
+    			//var temp = sort2(a);
+    			//console.log(temp);
+    			
+    			//排好序的结果
+    			var temp = sort(arr);
+    			console.log(temp);
+    			
+    			addCarMap(temp,'carMap');
+    		}
+    		
+    		function showErr(){
+    			console.log('定位失败');
+    		}
+    		
+       	},
+       	
+       	error:function(res){
+       		console.log('err');
+       	}
+		
+	})
+	
+	}
+	//排序地图方法
+	function sort(result){
+		for (var i = 0;i<result.length;i++) {
+			for (var j = 0; j < result.length-i-1; j++) {
+				if (result[j]['length']>result[j+1]['length']) {
+						
+						var temp = result[j];
+						result[j] = result[j+1];
+						result[j+1] = temp;
+					}
+				}
+		}
+		return result;
+		
+	}
+	
+	//显示
+	function addCarMap(res,posiable){
+		console.log("距离");
+		console.log(res);
+		var carNum = res.length;
+		if(carNum > 10){
+			carNum = 10;
+		}
+		var parent = $(".carMap");
+		//var odiv = $("<div class=store>1234</div>");
+		//parent.appendTo(odiv);
+		//console.log(odiv);
+		for(var i = 0; i < carNum ; i++){
+			
+			var odiv = $("<div class=store></div>");
+			var a = $("<a></a>");
+			
+			
+			var store_img = $("<div class=store_img></div>");
+			var header = $("<img src=/micarwebshop/"+res[i].store_img+"></img>");
+			
+			
+			var l = res[i].length;
+			var tral = 0;
+			if(l > 1000){
+				tral = parseInt(l/1000)+" km";
+			}else{
+				tral = parseInt(l)+" m";
+			}
+			
+			var desc = $("<div class=store_desc></div>");
+			var title = $("<h3>"+res[i].store_name+"</h3>");
+			var sell = $("<span id=sell>主营："+res[i].store_zy+"</span>");
+			var address = $("<span id=address>地址："+res[i].address+"</span>");
+			var cell = $("<span id=cell>电话： "+res[i].mobile+"</span>");
+			var spen = $("<font>"+tral+"(直线距离)</font>");
+			
+			//店铺介绍
+			title.appendTo(desc);
+			sell.appendTo(desc);
+			address.appendTo(desc);
+			cell.appendTo(desc);
+			spen.appendTo(desc);
+			
+			//头像
+			header.appendTo(store_img);
+			
+			//超链接a
+			store_img.appendTo(a);
+			desc.appendTo(a);
+			
+			//插入到最后一个的父类里面
+			a.appendTo(odiv);
+			
+			odiv.appendTo(parent);
+			
+			
+		}
+		
+		//$()
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    // 设置首页导航为当前
+    $(".nav_home").addClass('on');
+    // 设置焦点图
+    $(".home_banner").MobileSlider({
+        width: 720,
+        height: 360
+    });
+})
+</script>

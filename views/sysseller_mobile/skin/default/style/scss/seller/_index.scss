@@ -1,0 +1,68 @@
+
+.page_title {
+	position: fixed;top: 0;left: .5rem;line-height: .4rem;color: $cff;font-size: .16rem;
+}
+
+.main_tip {
+	border: 1px solid lighten($blue,30%);padding:.1rem .15rem;border-radius: .05rem;
+	background: lighten($blue,45%);line-height: 1.5;font-size: .13rem;color: darken($blue,10%);
+	position: relative;
+	&:before {
+		content: "";display: block;width: .1rem;height: .1rem;background: lighten($blue,45%);position: absolute;
+		box-shadow: -1px -1px lighten($blue,30%);top: -.05rem;left: .1rem;
+		@include xz(45);
+	}
+}
+
+.search_pro {
+	padding: 10px 10px 0;margin-bottom: 20px;
+	background:$cfa;border-radius: 5px;
+	.search_box {
+		display: inline-block;padding:0 10px 10px 0;
+		height: 32px;
+		.item {
+			font-weight: bold;
+			color:darken($blue,0%);
+			// color: $c00;
+			&:after{content: "："}
+		}
+	}
+}
+
+.chart_panel {
+	@extend .cf;
+    .panel_widget {
+        width: 48%;float: left;height: 100px;border-radius: 10px;color: $cff;margin-top: .15rem;
+        box-shadow: 0 0 0 1px rgba($c00,.1) inset, 0 0 0 2px rgba($cff,.1) inset;overflow: hidden;position: relative;
+		&:nth-child(2n){margin-left: 4%;}
+		a {text-decoration: none;display: block;cursor: pointer;color: $cff;}
+        em {display: block;height: 70px;text-align: center;line-height: 70px;font-size: .4rem;}
+        span {display: block;height: 30px;text-align: center;line-height: 30px;background: rgba($cff,.2);}
+        &:before,&:after {
+            content: "";display: block;width: 0px;height: 0px;border-radius: 50%;position: absolute;
+            opacity: .2;
+        }
+        &:before {
+            box-shadow: 0 0 100px 100px $cff;left: 20%;top: -50px;
+        }
+        &:after {
+            box-shadow: 0 0 100px 100px $c22;right: 20%;bottom: -50px;
+        }
+        &.blue {background: $blue;}
+        &.red {background: $red;}
+        &.yellow {background: $yellow;}
+        &.green {background: $green;}
+        &.pink {background: $pink;}
+        &.cyan {background: $cyan;}
+		&:hover {
+			@include fd(1.1);
+		}
+    }
+}
+.chart_box {
+	margin: 2%;
+}
+.nothing {
+	text-align: center;color: $c99;font-size: 1.4rem*0.1;
+	line-height: 4;
+}

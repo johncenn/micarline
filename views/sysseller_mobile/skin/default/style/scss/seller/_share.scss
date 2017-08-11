@@ -1,0 +1,20 @@
+.share_list {
+	ul{@extend .cf;}
+	li {
+		float: left;width: 50%;background: $cff;
+		box-shadow: 0 0 0 1px $cdd;
+		.goods {padding: .1rem;}
+		img {display: block;width: 100%;}
+		.name {
+			height: .4rem;line-height: .2rem;overflow: hidden;color: $blue;display: block;
+		}
+		.type,.price,.store {
+			height: .2rem;line-height: .2rem;overflow: hidden;display: block;color: $c99;
+		}
+		.price {color: $red;}
+		.store {color: $green;}
+		button {
+			display: block;border: none;background: $blue;color: $cff;width: 100%;height: .3rem;
+		}
+	}
+}

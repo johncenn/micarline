@@ -1,0 +1,380 @@
+body{
+	background: #EEEEEE;
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+
+}
+.collection{
+	width: 100%;
+	margin: 10px 0 10px 0;
+	/*border: 1px solid red;*/
+	border-bottom: 1px solid #D4D4D4;
+}
+
+.wrap{
+	width: 100%;
+	/*border: 1px solid black;*/
+	margin: 0 auto;
+}
+
+.wrap .header{
+	width: 100%;
+	height: 50px;
+	background: white;
+}
+
+.wrap .header .header_content{
+	width: 100%;
+	height: 100%;
+	/*border: 1px solid red;*/
+	display: flex;
+	justify-content: space-between;
+}
+
+/*左边的单选框和标题 s*/
+.header_content .title{
+	/*width: 70%;*/
+	height: 100%;
+	/*border: 1px solid deepskyblue;*/
+	display: flex;
+	align-items: center;
+	
+}
+
+.header_content .title .radio{
+	width: 15px;
+	height: 15px;
+	border: 2px solid #A9A9B0;
+	margin-left: 10px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	
+}
+
+.header_content .title .radio span{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	color: white;
+
+}
+
+.header_content .title .image{
+	width: 40px;
+	height: 20px;
+	margin-left: 5px;
+}
+
+.header_content .title .image img{
+	width: 100%;
+	height: 100%;
+}
+
+.header_content .title .store_name{
+	
+}
+.header_content .title .store_name a{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	
+}
+
+/*左边的单选框和标题 e*/
+
+/*右边的编辑 s*/
+.header_content .operation{
+	/*width: 30%;*/
+	height: 100%;
+	/*border: 1px solid saddlebrown;*/
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-right: 20px;
+	
+}
+
+.header_content .operation span{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+
+}
+
+/*右边的编辑 e*/
+
+/*---------------------------------------------------*/
+
+
+/*收藏 的内容 s*/
+.collect{
+}
+
+.collect_content{
+	width: 100%;
+	/*border: 1px solid red;*/
+	display: flex;
+	background:#F5F5F5;
+	border-top: 1px solid #D4D4D4;
+}
+
+/*左边 */
+.s_img{
+	width: 40%;
+	height: 120px;
+	/*border: 1px solid saddlebrown;*/
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.collect_content .s_img .r{
+	width: 20%;
+	
+}
+
+.collect_content .s_img .radio{
+	width: 15px;
+	height: 15px;
+	border: 2px solid #A9A9B0;
+	margin-left: 10px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+}
+
+.collect_content .s_img .radio span{
+	display: none;
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	color: white;
+
+}
+
+
+.collect_content .s_img .image{
+	width: 70%;
+	height: 90%;
+}
+
+.collect_content .s_img .image img{
+	width: 100%;
+	height: 100%;
+}
+
+/*右边*/
+.collect_msg{
+	width: 55%;
+	/*border: 1px solid seagreen;*/
+	display: flex;
+	align-items: center;
+	margin-left: 5px;
+}
+
+.collect_msg .con{
+	width: 100%;
+	height: 120px;
+	display: flex;
+	align-items: center;
+}
+
+
+
+/*---------------------------*/
+/*编辑响应*/
+.collect_msg .edit_con{
+	width: 100%;
+	height: 120px;
+	display: none;
+}
+
+.collect_msg .edit{
+	display: flex;
+	width: 100%;
+	height: 100%;
+	
+}
+
+.collect_msg .edit .select{
+	width: 70%;
+	height: 100%;
+	
+}
+
+.collect_msg .edit .del_btn{
+	width: 30%;
+	height: 100%;
+	background: #FF5500;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+}
+
+.collect_msg .edit .del_btn span{
+	color: white;
+	font-size: 14px;
+}
+
+
+
+.collect_msg .con .desc{
+	width: 100%;
+	height: 90%;
+	/*border: 1px solid red;*/
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	
+}
+
+/*商品描述*/
+.collect_msg .con .desc .title{
+	display: flex;
+	align-items: baseline;
+}
+.collect_msg .con .desc .title span{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	line-height: 16px;
+
+}
+
+/*选择的规格*/
+.collect_msg .con .desc .guige{
+	display: flex;
+	align-items: baseline;
+	flex-direction: column;
+}
+
+.collect_msg .con .desc .guige span{
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	line-height: 16px;
+	color: #9C9C9C;
+}
+
+/*限制的数量*/
+.collect_msg .con .desc .limit span{
+	color: #ED5218;
+	font-size: 14px;
+}
+
+.collect_msg .con .desc  .price span{
+	color: #ED5218;
+}
+
+/*原价*/
+.collect_msg .con .desc  .price span del{
+	font-size: 14px;
+	color: #949494;
+}
+
+.collect_msg .con .desc  .price .num{
+	float: right;
+	color: black;
+}
+
+/*收藏 的内容 e*/
+
+/*---------------------------------------------------------------*/
+
+/*底部效果 s*/
+.bottom{
+	height: 55px;
+}
+/*底部效果 e*/
+
+
+/*底部结算条 s*/
+.bottom_flex{
+	width: 100%;
+	
+	background: white;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+.bottom_flex .content{
+	width: 100%;
+	height: 54px;
+	display: flex;
+}
+
+
+/*左边 s*/
+.bottom_flex .content .cartbottom_left{
+	width: 72%;
+	/*border: 1px solid red;*/
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-top: #EAEAEA;
+}
+
+.bottom_flex .content .cartbottom_left .sum_radio{
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	border: 2px solid #A9A9B0;
+	margin-left: 10px;
+	display: inline-block;
+	position: relative;
+	
+}
+
+.bottom_flex .content .cartbottom_left .sum_radio span{
+	display: none;
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	color: white;
+	position: absolute;
+	left: -4px;
+	top: 0;
+	
+	
+}
+
+.bottom_flex .content .cartbottom_left span{
+	margin-left: 5px;
+	display: inline-block;
+
+}
+
+/*合计*/
+.bottom_flex .content .settlement{
+	text-align: right;
+	/*border: 1px solid red;*/
+	
+}
+
+.bottom_flex .content .settlement span{
+	font: 14px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+
+}
+
+.bottom_flex .content .settlement .sum_price span:nth-last-of-type(1){
+	color: #E24912;
+	font: 16px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+}
+
+/*不含运费*/
+.bottom_flex .content .settlement .flag span:nth-last-of-type(1){
+	font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+}
+/*左边 e*/
+
+
+/*右边结算 按钮*/
+.bottom_flex .content .cartbottom_right{
+	width: 28%;
+	/*border: 1px solid black;*/
+	background: #FF5500;
+	margin-left: 10px;
+	display: flex;
+}
+
+.bottom_flex .content .cartbottom_right .msg{
+	margin: auto;
+	display: block;
+} 
+
+.bottom_flex .content .cartbottom_right span{
+	font: 14px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+	color: #FFFFF2;
+}
+
+
+
+/*底部结算条 e*/

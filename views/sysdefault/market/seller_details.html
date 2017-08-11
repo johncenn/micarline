@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>财务结算明细</title>
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+
+<style type="text/css">
+.bill_content{
+	/*border: 1px solid red;*/
+}
+
+.d_table{
+	width: 90%;
+	margin: 0 auto;
+}
+
+.red{
+	color: red;
+}
+
+</style>
+
+</head>
+<body>
+<div class="page-header container">
+  <h1>财务结算详情<small>----------商家申请结算</small></h1>
+</div>
+
+<?php 
+	//echo "<pre>";
+	//print_r($this->result);
+	//echo "</pre>";
+?>
+
+<div class="bill_content">
+	<div class="d_table">
+		<table class="table table-bordered table-hover">
+			<thead >
+				<tr class="info">
+					<td>订单类型</td>
+					<td>同意结算时间</td>
+					<td>订单号</td>
+					<td>买家id</td>
+					<td>买家名称</td>
+					<td>商家id</td>
+					<td>商家名称</td>
+					<td>订单金额</td>
+					<td>费用</td>
+					<td>退款</td>
+					<td>结算金额</td>
+					<td>状态</td>
+					
+				</tr>
+			</thead>
+			
+			<tbody>
+			{foreach:items=$this->result item=$data}
+			
+				<?php 
+					//$res = json_decode($data['log'],true);
+				//	$log_data = $res['data'];
+					//echo "<pre>";
+					//print_r($data);
+					//echo "</pre>";
+					
+				?>
+				
+				<tr>
+					<td>{$data[0]['order_type']}</td>
+					<td>{$data['apply_time']}</td>
+					<td>{$data[0]['no']}</td>
+					{set:$orderno = $data[0]['no']}
+					{query:name=order  where=order_no eq $orderno items=$order}
+						{set:$good_order = "order"}
+					{/query}
+					
+					{if:!$good_order}
+						{set:$good_order = "vr_order"}
+					{/if}
+					
+					
+					{query:name=$good_order  where=order_no eq $orderno item=$o}
+						<?php 
+							//echo "<pre>";
+							//print_r($o);
+							//echo "</pre>";
+						?>
+						<td>{$o['buyer_id']}</td>
+						
+						{if:$o['order_type'] == 'vr'}
+						{set:$uid = $o['buyer_id']}
+						{query:name=user  where=id eq $uid item=$u}
+							<td>{$u['username']}</td>
+						{/query}
+						
+						{else:}
+						<td>{$o['accept_name']}</td>
+						{/if}
+						<td>{$o['seller_id']}</td>
+						<td>{$o['store_name']}</td>
+						{set:$isfinal = $o['final_settl']}
+					{/query}
+					
+					
+					<td class="red">¥{$data[0]['sum']}</td>
+					<td class="red">¥{$data[0]['tichen']}</td>
+					<td class="red">¥{$data[0]['refund']}</td>
+					<td class="red">¥{$data[0]['real_Sum']}</td>
+					<td>
+						{if:$isfinal == 0}
+						<a val="{$data[0]['no']}" type="{$o['order_type']}" class="btn btn-default unsettled"  href="javascript:" role="button">未结算</a>
+						{else:}
+							<a val="{$data[0]['no']}" class="btn btn-default disabled" href="#" role="button" >已结算</a>
+						{/if}
+					</td>
+				</tr>
+			{/foreach}
+			</tbody>
+		
+		</table>
+		
+	</div>
+</div>
+</body>
+
+<script type="text/javascript">
+	$(".unsettled").each(function(){
+		$(this).click(function(){
+			
+			var order_id = $(this).attr("val");
+			var type = $(this).attr("type");
+			
+			console.log(order_id+" "+type);
+			
+			var xhr = new XMLHttpRequest();
+			var url = "{url:market/detailsUpdate}";
+			xhr.open('POST',url,true);
+			var formData = new FormData();
+			formData.append("order_id",order_id);
+			formData.append("type",type);
+			
+			xhr.onload = function(){
+				var msg = this.responseText;
+				//console.log(msg);
+				window.location.reload();
+			}
+			
+			xhr.send(formData);
+			
+		});
+	});
+</script>
+
+</html>

@@ -1,0 +1,26 @@
+{if:$this->needReadNum>0}<h4 class="alert_info">您有{echo:$this->needReadNum}条未读消息通知</h4>{/if}
+<h1 class="page_title">消息通知列表</h1>
+<section class="message_list">
+	<form action="{url:/seller/message_del}" method="post" name="messageForm">
+	<ul>
+		{foreach:items = $this->seller_messageHandle->find()  key=$dataKey}
+		<li>
+			<a href="{url:/seller/message_show/id/$item[id]}" class="title">标题：{$item['title']}</a>
+			<p class="control">
+				{if:$this->seller_messObject->is_read($item['id'])}
+				<span>已读</span>
+				{else:}
+				<span class="success">未读</span>
+				{/if}
+				<time>{$item['time']}</time>
+				<a href="javascript:delModel({link:'{url:/seller/message_del/id/$item[id]}'})">删除</a></td>
+			</p>
+		</li>
+		{/query}
+	</ul>
+	</form>
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+	{$this->seller_messageHandle->getPageBar()}
+</section>

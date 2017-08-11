@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+		<link rel="stylesheet" type="text/css" href="{skin:css/getUserchatlog.css}"/>
+		<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+		<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" src="{skin:js/Chat.js}"></script>
+		<style type="text/css">
+			body{
+				height: 100%;
+				display: flex;
+				background: url({skin:images/chat/bg.png}) no-repeat ;
+				background-size: cover ;
+				justify-content: center;
+				flex-direction: column;
+			}
+
+			.chat_edit_icons .emoji{
+				background: url({skin:images/chat/emoj_g.png}) no-repeat 0 0;
+			}
+			
+			.chat_edit_icons .image{
+				background: url({skin:images/chat/pic.png}) no-repeat 0 0;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<?php 
+			$ex = $_SERVER['HTTP_HOST'];
+		?>
+		
+		{query:name=user where=id eq 1 items=$u}
+			{set:$myava = $u[0]['head_ico'] }
+		{/query}
+		
+		<?php 
+			if($myava){
+				$is = substr($myava, 0,4);
+				if($is == "http"){
+					
+				}else{
+					$myava = "http://".$ex."/".$myava;
+				}
+			}else{
+				$myava = "http://".$ex."/upload/car.jpg";
+			}
+			
+		?>
+		
+		<!--聊天整体 s-->
+		<div class="chat_body">
+			
+			<!--整个聊天框 s-->
+			<div class="chat_center">
+				<!--头部 s-->
+				<div class="chat_header">
+					<span class="name">{$data['f_user']['username']}</span>　与　<span class="name">{$data['t_user']['username']}</span>　的对话
+				</div>
+				<!--头部 e-->
+				
+				<!--发送信息给 ？？？ s-->
+				<div class="sendTO">
+					<span>发送信息给：</span><span class="u_n"></span>
+				</div>
+				<!--发送信息给 ？？？ e-->
+				
+				<!--消息域  s-->
+				<div class="user" id="con">
+					
+					
+					<!--用户发送的消息-->
+					<!--  
+					<div class="message_box ">
+						<div class="message_box_time" data-reactid=".0.5.1.0.2.0.1.0.0:$20796558.0">6月24日 09:58</div>
+						<img class="mssage_box_pic" src="img/132.jpg"/>
+						<div id="message_content">
+							<p class="message_content_inner" >的身份iOSad积分is待回复死的肌肤iOS大方居熊ok</p>
+						</div>
+					</div>
+					
+					<div class="message_box ">
+						<div class="message_box_time" data-reactid=".0.5.1.0.2.0.1.0.0:$20796558.0">6月24日 09:58</div>
+						<img class="mssage_box_pic" src="img/132.jpg"/>
+						<div id="message_content">
+							<p class="message_content_inner" >的身份iOSad积分is待回复死的肌肤iOS大方居熊ok</p>
+						</div>
+					</div>
+					
+					<div class="message_box from_self">
+						<div class="message_box_time" >6月24日 09:58</div>
+						<img class="mssage_box_pic from" src="img/132.jpg"/>
+						<div id="message_content">
+							<p class="message_content_inner" >1的身份iOSad积分is待回复死的肌肤iOS大方居熊ok</p>
+						</div>
+					</div>
+					
+					<div class="message_box from_self">
+						<div class="message_box_time" >6月24日 09:58</div>
+						<img class="mssage_box_pic from" src="img/132.jpg"/>
+						<div id="message_content">
+							<p class="message_content_inner" >
+								<a>
+									<img src="img/12.gif" />
+								</a>
+							</p>
+						</div>
+					</div>
+					
+					<div class="message_box from_self">
+						<div class="message_box_time" >6月24日 09:58</div>
+						<img class="mssage_box_pic from" src="img/132.jpg"/>
+						<div id="message_content">
+							<p class="message_content_inner" >
+								<a>
+									<img src="img/bg.png" />
+								</a>
+							</p>
+						</div>
+					</div>
+					
+					<div class="message_box from_self">
+						<div class="message_box_time" >6月24日 09:58</div>
+						<img class="mssage_box_pic from" src="img/132.jpg"/>
+						<div id="message_content">
+							<p class="message_content_inner" >
+								<a>
+									<img src="img/132.jpg" />
+								</a>
+							</p>
+						</div>
+					</div>
+					-->
+					{foreach:items=$data['msg']}
+						
+						{if:$item['f_id'] == $data['f_user']['id'] }
+							<div class="message_box from_self">
+								<div class="message_box_time" >{$item['add_time']}</div>
+								{if:$data['f_user']['head_ico']}
+									<?php 
+										$img = $data['f_user']['head_ico'];
+										$is = substr($img, 0,4);
+										if($is == "http"){
+											$img = $data['f_user']['head_ico'];
+										}else{
+											$img = "http://".$ex."/".$img;
+										}
+									?>
+									<img title="{$data['f_user']['username']}" dataname="{$data['f_user']['username']}" dataid="{$data['f_user']['id']}" class="mssage_box_pic from" src="{$img}"/>
+									{else:}
+									<img title="{$data['f_user']['username']}" dataname="{$data['f_user']['username']}" dataid="{$data['f_user']['id']}" class="mssage_box_pic from" src="http://{$ex}/upload/car.jpg"/>
+								{/if}
+								
+								<div id="message_content">
+									<p class="message_content_inner" >
+										{if:$item['type'] == 'text'}
+											{$item['t_msg']}
+											{else:}
+											<a>
+												<?php 
+													if($item['type'] == 'b_img'){
+														$i_url = "http://".$ex."/upload/talkimg/".$item['t_msg'];
+													}
+												?>
+												<img src="{$i_url}" />
+											</a>
+										{/if}
+									</p>
+								</div>
+							</div>
+							{else:}
+							<div class="message_box ">
+								<div class="message_box_time" >{$item['add_time']}</div>
+								{if:$data['t_user']['head_ico']}
+									<?php 
+										$img = $data['t_user']['head_ico'];
+										$is = substr($img, 0,4);
+										if($is == "http"){
+											$img = $data['t_user']['head_ico'];
+										}else{
+											$img = "http://".$ex."/".$img;
+										}
+									?>
+									<img title="{$data['t_user']['username']}" dataname="{$data['t_user']['username']}" dataid="{$data['t_user']['id']}"  class="mssage_box_pic" src="{$img}"/>
+									{else:}
+									<img title="{$data['t_user']['username']}" dataname="{$data['t_user']['username']}" dataid="{$data['t_user']['id']}" class="mssage_box_pic" src="http://{$ex}/upload/car.jpg"/>
+								{/if}
+								<div id="message_content">
+									<p class="message_content_inner" >
+										{if:$item['type'] == 'text'}
+											{$item['t_msg']}
+											{else:}
+											<a>
+												<?php 
+													if($item['type'] == 'b_img'){
+														$i_url = "http://".$ex."/upload/talkimg/".$item['t_msg'];
+													}
+												?>
+												<img src="{$i_url}" />
+											</a>
+										{/if}
+									</p>
+								</div>
+							</div>
+						{/if}
+						
+						
+					{/foreach}
+					
+				</div>
+				<!--消息域  e-->
+				
+				<!--输入和表情 s-->
+				<div class="chat_edit">
+					<div class="chat_edit_item">
+						<div class="chat_edit_icons">
+							<span class="emoji chat_edit_icon" title="表情"></span>
+							<span class="image chat_edit_icon" title="图片"></span>
+						</div>
+						<input type="file" id="upp" name="photo" style="display: none" onchange="select_photo()">
+					</div>
+					
+					<div class="s_img">
+						{for:from=1 upto=77  item=$num}
+							<div class="event_one">
+								<img alt="{$num}.gif" src="{url:upload/talkimg/$num}.gif">
+							</div>
+						{/for}	
+					</div>
+					
+					<!--输入 s-->
+					<div class="chat_edit_input">
+						<textarea class="send_message"></textarea>
+					</div>
+					<!--输入 e-->
+					<button class="btn btn-success" type="button">发送</button>
+				</div>
+				<!--输入和表情 e-->
+				
+				
+				
+				
+			</div>
+			<!--整个聊天框 s-->
+			
+			
+			
+		</div>
+		<!--聊天整体 e-->
+	</body>
+</html>
+
+<script type="text/javascript">
+var sendTO = "" ;
+var sendName = "";
+var f_ava= "{$myava}";
+var u_id = 1;
+var u_name = "micar";
+$(function(){
+	var now = new Date();
+	//var add = now.getTime();
+	//console.log($('#con')[0].scrollHeight);
+	$('#con').scrollTop( $('#con')[0].scrollHeight );
+	
+	//表情效果
+	$('.event_one').hover(function(){
+		$(this).css("background","#c2c2c2");
+	},function(){
+		$(this).css("background","white");
+	});
+	
+	//点击其他地方表情隐藏
+	$(document).bind('click',function(){
+	    $('.s_img').hide();
+	});
+	
+	
+	
+	//点击表情显示表情块
+	$('.emoji').bind('click',function(e){
+		stopPropagation(e);
+		$(".s_img").show();
+	 });
+	
+	
+});
+
+
+var select_url = "{url:chat/add}";
+
+//点击图片响应 且查询是否已加好友
+$(".mssage_box_pic").click(function(){
+	
+	var ToName = $(this).attr("dataname");
+	var ToId = $(this).attr("dataid");
+	
+	
+	//查询是否是好友
+	var xhr = new XMLHttpRequest();
+	var formData = new FormData();
+	formData.append("u_id",u_id);
+	formData.append("u_name",u_name);
+	formData.append("t_id",ToId);
+	formData.append("t_name",ToName);
+	
+	xhr.open("POST",select_url,true);
+	xhr.onload = function(e){
+		
+		//假设添加成功
+		sendName=ToName;
+		sendTO = ToId;
+		//显示到标题里
+		$(".u_n").html(ToName);
+		//console.log(ToName+" "+ToId);
+		//console.log(this.responseText);
+	}
+	xhr.send(formData);
+	
+	
+	
+	
+	
+});
+
+function img_click(e){
+	
+	var ToName = $(e).attr("dataname");
+	var ToId = $(e).attr("dataid");
+	
+	//查询是否是好友
+	var xhr = new XMLHttpRequest();
+	var formData = new FormData();
+	formData.append("u_id",u_id);
+	formData.append("u_name",u_name);
+	formData.append("t_id",ToId);
+	formData.append("t_name",ToName);
+	
+	xhr.open("POST",select_url,true);
+	xhr.onload = function(e){
+		
+		//假设添加成功
+		sendName=ToName;
+		sendTO = ToId;
+		//显示到标题里
+		$(".u_n").html(ToName);
+		//console.log(ToName+" "+ToId);
+		//console.log(this.responseText);
+	}
+	xhr.send(formData);
+	
+}
+
+
+//防止冒泡方法
+function stopPropagation(e) {
+    if (e.stopPropagation) 
+      e.stopPropagation();//停止冒泡  非ie
+    else
+      e.cancelBubble = true;//停止冒泡 ie
+}
+
+</script>
+
+
+
+
+
+

@@ -1,0 +1,162 @@
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>板块信息</span><span>></span><span>{if:isset($this->bankuaiRow['plate_id'])}编辑{else:}添加{/if}板块</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/system/bankuai_edit_act}"  method="post" name="bankuai_edit" id="commit" >
+			<input type='hidden' name='id' value="{$this->bankuaiRow['plate_id']}" />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>板块名：</th>
+					<td>
+						<input type='text' value="{if:isset($this->bankuaiRow['plate_name'])} {$this->bankuaiRow['plate_name']}{else:}{/if}"   name='plate_name' class='normal'  onblur="checkName();" />
+						<label id='unique'>* 板块的名称，请填写英文字母，数字或下划线，在4-20个字符之间</label>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>二级域名：</th>
+					<td>
+						<input type='text' value="{if:isset($this->bankuaiRow['plate_domainName'])} {$this->bankuaiRow['plate_domainName']}{else:}{/if}" name='plate_domainName' class='normal'  onblur="checkName();" />
+						<label id='unique'>* 二级域名，请填写英文字母，数字或下划线，在4-20个字符之间</label>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>描述：</th>
+					<td>
+						<textarea rows="10" cols="10" name="plate_describe"  >{if:isset($this->bankuaiRow['plate_describe'])} {$this->bankuaiRow['plate_describe']}{else:}{/if}</textarea>
+						<label id='unique'>　板块的描述</label>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>是否显示：</th>
+					<td>
+						<select name="plate_isshow"  style="padding: 3px 3px 2px 3px;border: 1px solid #elelel;color:#7a7a7a;">
+							<option>1</option>
+							<option>0</option>
+						</select>
+						<label id='unique'>　0为不显示，1位显示。默认为显示</label>
+					</td>
+				</tr>
+				<tr><td></td><td><div style="width: 50px;line-height: 160%;text-align: center;" class="submit" onclick="return checkCommit()"><span>保 存</span></div></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+
+
+
+//ajax检查板块名唯一性
+function checkName()
+{
+	
+	var nameVal = $('[name="plate_name"]').val(); //板块名
+	var idVal   = $('[name="id"]').val();         //板块id
+	
+	if(nameVal == ''){
+		$('[name="bankuai_name"]').removeClass('valid-text');
+		$('#unique').removeClass('valid-msg');
+
+		$('[name="bankuai_name"]').addClass('invalid-text');
+		$('#unique').addClass('invalid-msg');
+		$('#unique').html('板块的名称，请填写英文字母，数字或下划线，在4-20个字符之间');
+		return ;
+		//$('#unique').html(nameVal+'已经存在，请重新更换一个');
+	}
+		
+	//alert(idVal);
+	jQuery.post(
+		'{url:/system/check_bankuaiName}',{bankuai_name:nameVal,bankuai_id:idVal},function(content)
+		{
+			var content = $.trim(content);
+			
+			if(content == -1)
+			{
+				
+				$('[name="bankuai_name"]').removeClass('valid-text');
+				$('#unique').removeClass('valid-msg');
+
+				$('[name="bankuai_name"]').addClass('invalid-text');
+				$('#unique').addClass('invalid-msg');
+
+				$('#unique').html(nameVal+'已经存在，请重新更换一个');
+			}else{
+				$('#unique').html('板块的名称，请填写英文字母，数字或下划线，在4-20个字符之间');
+				$('#unique').removeClass('invalid-msg');
+				$('[name="bankuai_name"]').removeClass('invalid-text');
+				
+				$('#unique').addClass('valid-msg');
+				$('[name="bankuai_name"]').addClass('valid-text');
+			}
+		}
+	);
+}
+
+//提交检查
+function checkCommit(){
+	
+	var nameVal = $('[name="plate_name"]').val(); //板块名
+	var idVal   = $('[name="id"]').val();         //板块id
+	
+	if(nameVal == ""){
+		alert("请填写板块名");
+		console.log("请填写板块名");
+		return false;
+	}
+	
+	/*
+	jQuery.post(
+		'{url:/system/check_bankuaiName}',{bankuai_name:nameVal,bankuai_id:idVal},function(content){
+			var content = $.trim(content);
+			
+			if(content == -1){
+				alert("板块名存在，请重新填写");
+				console.log("板块名存在，请重新填写");
+				return false;
+			}
+			console.log("ok");
+			alert('ok')
+		}
+	);*/
+	
+	$.ajax({  
+        type : "post",  
+         url : "system/check_bankuaiName",  
+         data : "bankuai_name=" + nameVal+"&bankuai_id="+idVal,
+         async : false,  
+         success : function(data){  
+        	//alert(data);
+         	if(data == -1){
+         		alert("板块名存在");
+         		return false;
+         	}else{
+         		
+         		$("#commit").submit();
+         		return true;
+         	}
+         }  
+    }); 
+	
+	//return true;
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

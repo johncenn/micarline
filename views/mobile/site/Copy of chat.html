@@ -1,0 +1,115 @@
+<style>
+
+body{
+	background: #F5F5F5;
+}
+
+/*隐藏返回 和 搜索 框 s*/
+.header_so_btn,.header_back{
+	display: none;
+}
+/*隐藏返回 和 搜索 框 e*/
+
+/*内容区域 s*/
+.content{
+	width: 100%;
+	height: 1rem;
+	background: red;
+}
+/*内容区域 e*/
+
+/*输入区域 s*/
+.input_asc{
+	width: 100%;
+	height: 0.5rem;
+	background: white;
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	justify-content: space-around;
+	align-items:center;
+}
+
+.input_asc div{
+	border: 1px solid red;
+	height: 0.3rem;
+	width: 10%;	
+}
+
+.input_asc div:nth-of-type(2){
+	box-orient:vertical;
+	width: 50%;	
+	position: relative;
+}
+
+.input_asc div:nth-of-type(2) textarea{
+	width: 95%;
+	position: absolute;
+	bottom:0;
+	height: 0.3rem;
+	
+}
+
+/*输入区域 e*/
+
+</style>
+<!-- 内容区域 s -->
+<header class="content">
+
+</header>
+
+<!-- 内容区域 e -->
+
+<div class="input_asc">
+	<div>1</div>
+	<div>
+		<textarea style="overflow: hidden;  font-family: Verdana,Arial; font-style: normal;  font-size: 13px; line-height: normal; " rows="4" cols="30" onfocus="javascript:ResizeTextarea(this,4);" onclick="javascript:ResizeTextarea(this,4);" onkeyup="javascript:ResizeTextarea(this,4);"></textarea>
+	</div>
+	<div>3</div>
+	<div>4</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$("#page_title").html("aa");
+	// 隐藏底部导航
+    hideNav();
+});
+
+
+var agt = navigator.userAgent.toLowerCase();
+var is_op = (agt.indexOf("opera") != -1);
+var is_ie = (agt.indexOf("msie") != -1) && document.all && !is_op;
+
+function ResizeTextarea(a,row){
+    if(!a){return}
+    if(!row)
+        row=5;
+    var b=a.value.split("\n");
+    var c=is_ie?1:0;
+    c+=b.length;
+    var d=a.cols;
+    if(d<=20){d=40}
+    for(var e=0;e<b.length;e++){
+        if(b[e].length>=d){
+            c+=Math.ceil(b[e].length/d)
+        }
+    }
+    c=Math.max(c,row);
+    if(c!=a.rows){
+        a.rows=c;
+    }
+}
+
+
+</script>
+
+
+
+
+
+
+
+
+
+

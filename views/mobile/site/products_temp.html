@@ -1,0 +1,567 @@
+<script src="{theme:javascript/products.js}"></script>
+<script src="{theme:javascript/jquery.slider.js}"></script>
+<style>
+.list{
+	height: 0.3rem;
+	optcity:0.5;
+	letter-spacing: 0.02rem;
+	margin-top: 0.1rem;
+	margin-left: 0.1rem;
+}
+.curst{
+	width: 43%;
+	height: 0.3rem;
+	background: #3DCE3D;
+	optcity:0.5;
+	font: 0.15rem/0.3rem "微软雅黑";
+	text-align: center;
+	letter-spacing: 0.02rem;
+	border-radius: 0.5rem;
+	margin-left: 0.1rem;
+	float:left;
+}
+.curst a{
+	color: white;
+}
+/*到店标识*/
+.s_type{
+	text-align: right;
+	color: red;
+	
+}
+</style>
+<?php
+	
+	$siteConfigObj = new Config("site_config");
+	$site_config   = $siteConfigObj->getInfo();
+	//print_r($site_config);
+	
+	$sum = 0;
+	$userPoint = 0;
+	$openId = ISession::get('wechat_openid');
+?>
+<style>
+
+.customer{
+	width: 0.5rem;
+	height: 0.5rem;
+	position: fixed;
+	top: 70%;
+	right: 3%;
+	z-index: 10000;
+	background: white;
+}
+
+.customer img{
+	width: 0.5rem;
+	height: 0.5rem;
+}
+
+
+
+</style>
+
+
+
+<div class="customer">
+	<a href="{url:/site/mobil_chat/t_id/0}"><img alt="客服" src="{skin:image/customer.png}"></a>
+</div>
+
+<section class="goods_photo">
+
+	<ul>
+		{foreach:items=$photo}
+		<li>
+			<img src="{url:/pic/thumb/img/$item[img]/w/350/h/350}">
+		</li>
+		{/foreach}
+	</ul>
+</section>
+<section class="goods_info">
+	<ul>
+		<li class="goods_name">
+			{$name}
+			
+			<?php 
+				$userid = $this->user['user_id'];
+				echo $userid;
+			?>
+			
+			{if:$userid != ""}
+				{query: name=member where= user_id eq $userid}{/query}
+				{set:$userPoint = $item['point'] }
+			{/if}
+			
+		</li>
+		<!--抢购活动,引入 "_products_time"模板-->
+		{if:$promo == 'time' && isset($time)}
+		{include:_products_time}
+		{/if}
+
+		<!--团购活动,引入 "_products_groupon"模板-->
+		{if:$promo == 'groupon' && isset($groupon)}
+		{include:_products_groupon}
+		{/if}
+		{if:$promo == ''}
+			{if:$group_price}
+			<!--当前用户有会员价-->
+			<li>
+				会员价：<em class="price">￥<span id="data_groupPrice">{$group_price}</span></em>　
+				<del class="old_price">￥<span id="data_sellPrice">{$sell_price}</span></del>
+			</li>
+
+			{else:}
+				
+					<!--当前用户普通价格-->
+					<li>
+						销售价：<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
+					</li>	
+					{if:$isjifen == 1}
+						<?php 
+							$sum = $sell_price * $duihuanpoint * 0.01 * $site_config['jifencon'];
+				?>
+					<li>最高可兑换积分：<span>{$sum}</span></li>
+					
+				{/if}
+			{/if}
+		{/if}
+		<?php 
+			$sum = $sell_price * $duihuanpoint * 0.01 * $site_config['jifencon'];
+								
+		?>
+		
+		<?php 
+           	$tichen= $sell_price *  $xiaoshouticheng / 100;
+			$tichen = substr(sprintf("%.3f",$tichen),0,-1);
+        ?>
+        
+        <!-- 不是积分商品就显示销售提成 -->
+        {if:$isjifen != 1}
+        	 {query:name = seller where=wecharbang eq '$openId'}	
+			<li>
+				销售提成：<span class="number" id="data_tichen" style="color: red">￥{$tichen}</span>
+			</li>
+			{/query}
+		{/if}
+		<li>
+			商品编号：<span class="number" id="data_goodsNo">{echo:$goods_no?$goods_no:$id}</span>
+		</li>
+		<li>
+			库存：<span class="number" id="data_storeNums">{$store_nums}</span>
+		</li>
+		{if:$good_type!=2}
+		<li class="area_li">
+			至
+			<a class="sel_area" href="javascript:;" name="localArea">所在地区</a>：
+			<span id="deliveInfo"></span>
+			<div class="area_box none">
+				<ul>
+					<li><a data-code="1" href="#J_PostageTableCont"><strong>全部</strong></a></li>
+					{foreach:items=Api::run('getAreasListTop')}
+					<li><a href="javascript:$('.area_box').hide();" name="areaSelectButton" value="{$item['area_id']}">{$item['area_name']}</a></li>
+					{/foreach}
+				</ul>
+			</div>
+		</li>
+		
+		<li>
+			商品重量：<span class="number">{$weight}g</span>
+		</li>
+		{/if}
+		{if:isset($seller)}
+		{set:plugin::trigger("onServiceButton",$seller['id'])}
+		<li>
+			商家名称：<strong class="seller_name"><a href='{url:site/home/id/$seller[id]}'>{$seller['store_name']}</a></strong>
+		</li>
+		<li>   
+			商家所在地：<span class="seller_area">{$seller['province']}{$seller['area']}</span>
+		</li>
+		
+		<li>
+			联系客服：<a class="seller_tel" href="tel:{$seller['phone']}">{$seller['mobile']}</a>
+		</li>
+		{/if}
+		<li>
+			商品评价：<span class="number">{$comments} 次</span>
+		</li>
+		<li>
+			商品销量：<span class="number">{$sale} 件</span>
+		</li>
+		{if:$good_type==2}
+		<div class="list">
+		    <div class="curst">
+		    	<a href="{url:/site/mobil_chat/t_id/$sellerRow['id']}">联系客服</a>
+		    </div>
+		     <div class="curst">
+		    	<a href="http://apis.map.qq.com/tools/poimarker?type=0&marker=coord:{$seller['gps']};title:{$seller['store_name']};addr:{$seller['mobile']}&key=GWEBZ-TN635-YIEI5-QV4LJ-RXJ2H-7KFXC&referer=testMap">导航</a>
+		    </div>
+   		</div>
+   		{/if}
+		{if:$point}
+			<li>
+			赠送积分：<span>{$point} 分</span>
+			</li>
+		{/if}
+		
+		{if:$this->user}
+		<li>
+			收藏商品：<span class="goods_favorite" onclick="favorite_add_ajax({$id},this);">点击收藏</span>
+		</li>
+		{/if}
+		<!-- 如果商品有自定义参数 -->
+		{if:$spec_array}
+		{foreach:items=JSON::decode($spec_array)}
+		<li>
+			<dl class="goods_tags" name="specCols">
+				<dt>{$item['name']}：</dt>
+				<dd>
+					{foreach:items=$item['value'] item=$spec_value key=$specValueKey}
+					{set:list($item['tip'],$item['value'])=each($spec_value);}
+					{if:$item['type'] == 1}
+					<span  specId="{$item['id']}" id="{$item['id']}{$specValueKey}" title="{echo:htmlspecialchars($item['tip'])}">
+						{$item['value']}
+					</span>
+					{else:}
+					<span class="img_tags"  specId="{$item['id']}" id="{$item['id']}{$specValueKey}" title="{echo:htmlspecialchars($item['tip'])}">
+						<img src="{webroot:$item['value']}">
+					</span>
+					{/if}
+					<script>$('#{$item['id']}{$specValueKey}').data('specData',{echo:JSON::encode($item)});</script>
+					{/foreach}
+				</dd>
+			</dl>
+		</li>
+		{/foreach}
+		{/if}
+		<!-- 购买数量调整 -->
+		<li>
+			{if:$isjifen == 1}
+				<div class="goods_num_adjust">
+				<span id="buyReduceButton2">-</span>
+				<input type='text' id="buyNums2" onblur="inputPointLost();" value="0">
+				<span id="buyAddButton2">+</span>
+				</div>
+				<span>当前积分：</span><span class="userpoint">{$userPoint}</span>
+				{else:}
+				<div class="goods_num_adjust">
+				<span id="buyReduceButton">-</span>
+				<input type='text' id="buyNums" onblur="checkBuyNums();" value="1">
+				<span id="buyAddButton">+</span>
+			</div>
+			{/if}
+		</li>
+		
+	</ul>
+	<!-- <a class="read_more" href="{url:/site/pro_detail/id/$id}">查看商品详情</a> -->
+</section>
+<section class="pro_tab">
+	<ul>
+		<li class="on">商品详情</li>
+		<li>商品评论</li>
+	</ul>
+</section>
+<section class="pro_con">
+	<div class="con">
+		{if:isset($content) && $content}
+			<article class="article_detail">{$content}</article>
+		{/if}
+	</div>
+	<div class="con none">
+		<div id='commentBox'></div>
+		<script type='text/html' id='commentRowTemplate'>
+		<div class="commet">
+			<div class="user">
+				<img src="{webroot:<%=head_ico%>}" onerror="this.src='{skin:image/user_ico.jpg}'" />
+			</div>
+			<dl class="desc">
+				<%=contents%>
+			</dl>
+		</div>
+		<%if(recontents){%>
+			<div class="recommet">
+				<div class="user"><img src="{skin:image/admin_ico.png}"></div>
+				<div class="desc"><%=recontents%></div>
+			</div>
+		<%}%>
+		</script>
+	</div>
+	<div class="con none">
+		{if:$this->user}
+		<div class="question_btn">
+			<a href="{url:/site/consult/id/$id}">我要咨询</a>
+		</div>
+		{/if}
+		<div id='referBox'></div>
+		<!--购买咨询JS模板-->
+		<script type='text/html' id='referRowTemplate'>
+		<div class="commet">
+			<div class="user">
+				<img src="{webroot:<%=head_ico%>}" onerror="this.src='{skin:image/user_ico.jpg}'" />
+			</div>
+			<dl class="desc">
+				<%=question%>
+			</dl>
+		</div>
+		<%if(answer){%>
+			<div class="recommet">
+				<div class="user"><img src="{skin:image/admin_ico.png}"></div>
+				<div class="desc"><%=answer%></div>
+			</div>
+		<%}%>
+
+		</script>
+	</div>
+</section>
+<div class="btn_bottom_goods">
+	<ul class="btn_ico" style="width: 54%">
+		<li>
+			<a href="{url:/}">
+				<i class="icon-home"></i>
+				<span>首页</span>
+			</a>
+		</li>
+		<li style="border-right: 1px solid #ededed;">
+			<a href="{url:site/home/id/$seller_id}">
+				<i class="icon-hand-up"></i>
+				<span>店铺</span>
+			</a>
+		</li>
+		{if:$isjifen == 1 || $good_type ==2}
+			{else:}
+			<li>
+				<a href="{url:/simple/cart}">
+					<i class="icon-shopping-cart"></i>
+					<span>购物车</span>
+				</a>
+			
+			</li>
+			
+			
+		{/if}
+		
+	</ul>
+	<div class="btn_tab" style="width: 53%">
+		{if:$store_nums <= 0}
+		<a href="{url:/simple/arrival/goods_id/$id}" class="btn_tab_submit blue">商品已售完，到货通知</a>
+		{else:}
+		<span id="buyNowButton" class="btn_tab_submit pink">立即购买</span>
+		{if:$good_type!=2 && $isjifen !=1}
+		<span id="joinCarButton" class="btn_tab_submit blue">加入购物车</span>
+		{/if}
+		{/if}
+	</div>
+</div>
+
+
+
+<script>
+$(function(){
+	// 设置焦点图
+    $(".goods_photo").MobileSlider({
+        width: 720,
+        height: 720
+    });
+    // 隐藏底部焦点图
+    hideNav();
+    
+    {if:$isjifen == 1}
+		//初始化商品详情对象
+		var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}","{$isjifen}");
+    {else:}
+		//初始化商品详情对象
+		var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}");
+	{/if}
+
+	//城市地域选择按钮事件
+	$('.sel_area').focus(
+		function(){
+			$('.area_box').show();
+		}
+	);
+	
+	//清空输入框
+	$("#buyNums2").val(0);
+	
+	/*
+	* 	积分商品计算
+	*/
+	var minpoint = {$site_config['jifencon']};
+	var maxpoint = {$sum};
+	var userpoint = {$userPoint};
+	var sell_price = {$sell_price};
+	
+	//加
+	$("#buyAddButton2").click(function(){
+		var nowpoint = $("#buyNums2").val();
+		console.log("nowpoint is "+nowpoint);
+		var s = parseInt(nowpoint) + parseInt(minpoint);
+		console.log("s is "+s);
+		if(s > maxpoint){
+			
+			var u_point = $(".userpoint").html();
+			var add = maxpoint - nowpoint;
+			$(".userpoint").html(u_point - add);
+			nowpoint = maxpoint;
+			
+		}else if(s > userpoint){
+			var u_point = $(".userpoint").html(0);
+			nowpoint = userpoint ; 
+		}else{
+			var u_point = $(".userpoint").html();
+			$(".userpoint").html(parseInt(u_point) - minpoint);
+			nowpoint = s;
+		}
+		
+		$("#buyNums2").val(nowpoint);
+		
+				
+		//计算兑换积分后的价格
+		var after_price =  parseInt(sell_price) - (parseInt(nowpoint) / parseInt(minpoint));
+		console.log("结算后   "+after_price);
+		
+		if(nowpoint == 0){
+			$("#data_sellPrice").html(after_price);
+		}else{
+			$("#data_sellPrice").html(after_price+"+"+nowpoint+"积分");
+		}
+		
+	}); 
+	
+	
+	//减
+	$("#buyReduceButton2").click(function(){
+		
+		//var u_point = $(".userpoint").html();
+		
+		var nowpoint = $("#buyNums2").val();
+		var s = parseInt(nowpoint) - parseInt(minpoint);
+		if(s < 0){
+			var u_point = $(".userpoint").html();
+			$(".userpoint").html(parseInt(u_point) + parseInt(nowpoint));
+			nowpoint = 0;
+			
+		}else{
+			nowpoint = parseInt(nowpoint) - parseInt(minpoint) ; 
+			var u_point = $(".userpoint").html();
+			$(".userpoint").html(parseInt(u_point) + minpoint);
+		}
+		$("#buyNums2").val(nowpoint);
+		
+		//计算兑换积分后的价格
+		var after_price =  parseInt(sell_price) - (parseInt(nowpoint) / parseInt(minpoint));
+		
+		if(nowpoint == 0){
+			$("#data_sellPrice").html(after_price);
+		}else{
+			$("#data_sellPrice").html(after_price+"+"+nowpoint+"积分");
+		}
+		
+		console.log("结算后   "+after_price);
+		
+	}); 
+	
+	$(".article_detail").find('*').each(function(){
+		var t = $(this);
+		if (t.attr("style")){t.attr("style","")};
+		if (t.attr("width")){t.attr("width","")};
+		if (t.attr("height")){t.attr("height","")};
+	});
+	$(".pro_tab").on('click', 'li', function(){
+		var t = $(this),i = t.index();
+		t.addClass('on').siblings('li').removeClass('on');
+		$(".pro_con").children('.con').eq(i).removeClass('none').siblings('.con').addClass('none');
+		//滑动按钮绑定事件
+		switch(i)
+		{
+			case 1:
+			{
+				productInstance.comment_ajax();
+			}
+			break;
+
+			case 2:
+			{
+				productInstance.refer_ajax();
+			}
+			break;
+
+		}
+	});
+})
+
+
+var minpoint = {$site_config['jifencon']};
+var maxpoint = {$sum};//最高积分
+var userpoint = {$userPoint};
+var sell_price = {$sell_price};
+
+/* console.log("minpoint"+minpoint); 	//1000
+console.log("maxpoint"+maxpoint);	//0
+console.log("userpoint"+userpoint);	//0
+console.log("sell_price"+sell_price);	//100 */
+
+//积分商品输入失去焦点时响应
+function inputPointLost(){
+	var nowpoint = $("#buyNums2").val();
+	nowpoint = parseInt(nowpoint / (minpoint / 100)) * (minpoint / 100) ;
+	
+	//对非数字 和 小于0 的数进行过滤
+	if(nowpoint < 0 || isNaN(nowpoint)){
+		nowpoint = 0;
+	}
+	
+	//当输入的大于最大积分值  且   小于用户拥有的积分数 
+	if(nowpoint > maxpoint && nowpoint <= userpoint){
+		nowpoint = maxpoint;
+	}
+	
+	//当输入的大于最大积分  且  大于用户积分
+	if(nowpoint > maxpoint && nowpoint > userpoint){
+		//console.log("in2");
+		if(maxpoint > userpoint){
+			nowpoint = userpoint;
+		}else{
+			nowpoint = maxpoint;
+		}
+	}
+	//console.log("in3");
+	//console.log("nowpoint is "+nowpoint);
+	$("#buyNums2").val(parseInt(nowpoint));
+	
+	//计算兑换积分后的价格
+	var after_price =  parseInt(sell_price) - (parseInt(nowpoint) / parseInt(minpoint));
+	console.log("结算后   "+after_price);
+	
+	console.log(nowpoint);
+	// 用户剩余积分 = 用户积分 - 输入的分数 
+	var u_point = parseInt(userpoint) - parseInt(nowpoint);
+	
+	//处理临界值
+	if(u_point < 0 ){
+		u_point = 0;
+		nowpoint = userpoint;
+		$("#buyNums2").val(parseInt(nowpoint));
+		
+		var after_price =  parseInt(sell_price) - (parseInt(userpoint) / parseInt(minpoint));
+		console.log("结算后   "+after_price);
+		
+	}else if(u_point > userpoint){
+		//处理用户输入负数
+		u_point = userpoint;
+		$("#buyNums2").val(0);
+		
+		//var after_price =  parseInt(sell_price) - (parseInt(userpoint) / parseInt(minpoint));
+		//console.log("结算后   "+after_price);
+	}
+	
+	if(nowpoint == 0){
+		$("#data_sellPrice").html(after_price);
+	}else{
+		$("#data_sellPrice").html(after_price+"+"+nowpoint+"积分");
+	}
+	
+	$(".userpoint").html(u_point);
+		
+}
+
+</script>

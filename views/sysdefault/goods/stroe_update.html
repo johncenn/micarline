@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>结算价修改</title>
+
+<style type="text/css">
+	*{
+		margin: 0;padding: 0;
+	}
+
+	#header{
+		background: #A4C639;
+		height: 70px;
+		width: 100%;
+	}
+	
+	.content_edit{
+		width: 90%;
+		height: 800px;
+		margin: 0 auto;
+		/*border: 1px solid red;*/
+		min-width: 1000px;
+	}
+	
+	/*返回 div s*/
+	.back{
+		width: 100%;
+		height: 54px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid #E6E6E6;;
+	}
+	
+	.back a{
+		margin-top: 10px;
+		display: block;
+		float: left;
+		width: 49px;
+		height: 44px;
+	}
+	
+	.back h3{
+		font-size: 16px;
+	    font-weight: normal;
+	    line-height: 20px;
+	    color: #333;
+		display: block;
+		float: left;
+		margin: 10px 0 0 10px;
+	}
+	/*返回 div e*/
+	
+	/*内容提交 s*/
+	#form dl{
+		width: 100%;
+		height: 50px;
+		border-bottom: 1px solid #E6E6E6;
+		float: left;
+		display: inline-block;
+		
+		margin: 0;padding: 0;
+		margin-top: 25px;
+	}
+	
+	
+	#form dl dt{
+		width: 14%;
+		/*border: 1px solid red;*/
+		text-align: right;
+		display: inline-block;
+		float: left;
+		height: 26px;
+		font-size: 14px;
+		line-height: 26px;
+		color: #777;
+	}
+	
+	#form dl dt:hover{
+		color: black;
+	}
+	
+	#form dl dd{
+		/*border: 1px solid red;*/
+		width: 80%;
+		text-align: left;
+		display: inline-block;
+		float: left;
+		height: 26px;
+		text-indent: 30px;
+	}
+	
+	#form dl dd input{
+		width: 280px ;
+		border: solid 1px #D7D7D7;
+		border-radius: 5px;
+		height: 24px;
+		/*outline: green;*/
+	}
+	
+	#form dl dd #btn{
+		width: 100px;
+		height: 36px;
+		background: #1BBC9D;
+		border-color: #16A086;
+		color: #fff;
+		border-radius: 2px;
+	}
+	
+	#form dl dd #btn:hover{
+		background: #16A086;
+		cursor: pointer;
+	}
+	
+	#btn_div dl{
+		border-bottom: none;
+	}
+	
+	/*内容提交 e*/
+	
+	
+</style>
+
+</head>
+<body>
+
+<!-- 
+{foreach:items = $good[0] key=$k item=$v}
+key:{$k}---value:{$v}<br/>
+{/foreach}
+ -->
+
+<div id="header" >
+<div class="logo">
+	<a href="{url:/system/default}"><img src="{skin:images/admin/logo.png}" width="303" height="43" /></a>
+</div>
+</div>
+
+<div class="content_edit">
+			<!--返回div s-->
+			<div class="back">
+				<a href="javascript:window.history.go(-1);">
+					<img src="{skin:images/admin/back.png}" />
+				</a>
+				<h3>-结算价修改</h3>
+			</div>
+			<!--返回div e-->
+			
+			<!--修改区 s-->
+			<div>
+				<form action="{url:/goods/store_update}" method="post" id="form">
+					<input type="hidden" name="good_id" value="{echo:$good[0]['id']}"/>
+					<div>
+						<dl>
+							<dt><label>产品名称</label></dt>
+							<dd>
+								<input type="text" disabled="disabled" value="{echo:$good[0]['name']}" />
+							</dd>
+						</dl>
+					</div>
+					
+					<div>
+						<dl>
+							<dt><label>三级提成</label></dt>
+							<dd>
+								<input name="sanjitichen" type="text"  value="{echo:$good[0]['sanjiticheng']}"/>
+							</dd>
+						</dl>
+					</div>
+					
+					<div>
+						<dl>
+							<dt><label>最低结算价</label></dt>
+							<dd>
+								<input name="chenben" type="text" value="{echo:$good[0]['chengben']}" />
+							</dd>
+						</dl>
+					</div>
+					
+					<div>
+						<dl>
+							<dt><label>归属</label></dt>
+							<dd>
+								<input name="guishu" type="text" value="{echo:$good[0]['guishu']}" />
+							</dd>
+						</dl>
+					</div>
+					
+					<div>
+						<dl>
+							<dt><label>销售提成</label></dt>
+							<dd>
+								<input type="text" name="xiaoshouticheng" value="{echo:$good[0]['xiaoshouticheng']}" />
+							</dd>
+						</dl>
+					</div>
+					
+					<div>
+						<dl>
+							<dt><label>平台手续费</label></dt>
+							<dd>
+								<input type="text" name="shouxufei" value="{echo:$good[0]['shouxufei']}" />
+							</dd>
+						</dl>
+					</div>
+					
+					<!--按钮-->
+					<div id="btn_div">
+						<dl>
+							<dt><label></label></dt>
+							<dd>
+								<input type="submit" value="确定提交" id="btn"/>
+							</dd>
+						</dl>
+					</div>
+					
+					
+				</form>
+			</div>
+			
+			<!--修改区 e-->
+			
+		</div> 
+
+</body>
+</html>

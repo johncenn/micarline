@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="{skin:style/mui.css}" rel="stylesheet" />
+		<style>
+			.ui-page-login,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+			.mui-content{height: 100%;}
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+			
+			
+			/*等待图标*/
+			.lod{
+				width: 3rem;
+				height: 3rem;
+				position: fixed;
+				top: 50%;
+				left: 40%;
+				display: none;
+			}
+			
+			.lod img{
+				width: 100%;
+				height: 100%;
+			}
+			
+			/*绑定成功*/
+			.success{
+				width: 100%;
+				height: 7rem;
+				text-align: center;
+				display: none;
+			}
+			
+			.comit{
+				display: none;
+			}
+			
+			.success img{
+				display:block;
+				width:7rem;
+				margin: 0 auto; 
+			}
+			
+			.success span{
+				font: 3rem "宋体","Arial Narrow",HELVETICA;
+				color: #007AFF;
+			}
+			
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">绑定商家</h1>
+		</header>
+		
+		
+		<div class="mui-content">
+		
+		<div class="comit">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text"  class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">绑定</button>
+			</div>
+		</div>
+		
+			<div class="success">
+				<img alt="成功" src="{skin:image/success.png}">
+				<span>绑定成功</span>
+			</div>
+			
+			<div class="lod">
+				<img src="{skin:image/loading.gif}"/>
+			</div>
+			
+			<div class="mui-content-padded oauth-area">
+
+			</div>
+		</div>
+		
+		
+		
+		<script src="{theme:javascript/jquery-1.9.1.js}"></script>
+		<script src="{theme:javascript/mui.js}"></script>
+		{if:$res}
+			<script type="text/javascript">
+				$(".comit").hide();
+				$(".success").show();
+			</script>
+		{else:}
+			<script type="text/javascript">
+				$(".comit").show();
+				$(".success").hide();
+			</script>
+		{/if}
+		<script>
+			mui.init();
+			
+			
+			document.getElementById("login").addEventListener('tap',function(){
+				var user = mui("#account")[0].value;
+				var pwd = mui("#password")[0].value;
+				$(".lod").show();
+				$("#login").attr('disabled','disabled');
+				
+				if(user && pwd){
+					//验证
+					//console.log(user+" "+pwd);
+					var form = new FormData();
+					form.append("user",user);
+					form.append("pwd",pwd);
+					//发送ajax请求
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST",'{url:/site/banguser}',true);
+					xhr.onload = function(e){
+						$(".lod").hide();
+						$("#login").removeAttr('disabled');
+						console.log("返回   "+this.responseText);
+						var res = this.responseText ;
+						if(res == 1){
+							mui.alert('绑定成功','提示');
+							$(".comit").hide();
+							$(".success").show();
+							return ;
+						}else if(res == 0){
+							mui.alert('账号或密码错误','警告');
+							return ;
+						}else if(res == 2){
+							mui.alert('用户不存在','警告');
+							return ;
+						}
+					}
+					
+					xhr.send(form);
+					
+				}else{
+					mui.alert('账号或密码不能为空','警告');
+					$(".lod").hide();
+					$("#login").removeAttr('disabled');
+				}
+				
+				
+			})
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,66 @@
+{set:$seller_id = $this->seller['seller_id']}
+<h1 class="page_title">规格列表</h1>
+<section class="regiment_list">
+	<form action='{url:/seller/spec_del}' method='post' name='specForm'>
+		{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+		{query:name=spec where=is_del eq 0 and seller_id eq $seller_id order=id desc page=$page  key=$dataKey}
+		<div class="item">
+			<p>
+				<strong>规格名称：</strong>{$item['name']}{echo:$item['note']?"【".$item['note']."】":"";}<br>
+				<strong>显示方式：</strong>{if:$item['type']==1}文字{else:}图片{/if}<br>
+				<strong>规格数据：</strong>{set:$_specValue = JSON::decode($item['value'])}
+				{if:$_specValue}
+				{foreach:items=$_specValue item=$rs key=$tip}【{$tip}】{/foreach}
+				{/if}<br>
+			</p>
+			<div class="regiment_btn">
+				<span class="btnn" onclick="addNewSpec({$item['id']})">修改</span>
+				<span class="btnn" onclick="delModel({link:'{url:/seller/spec_del/id/$item[id]}'})">删除</span>
+			</div>
+		</div>
+		{/query}
+	</form>
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+	{$query->getPageBar()}
+</section>
+<div class="btn_bottom">
+	<input type="button" class="btn_submit" onclick="addNewSpec();" value="添加规格" />
+</div>
+
+
+<script>
+//添加新规格
+function addNewSpec(spec_id)
+{
+	var url = '{url:/goods/spec_edit/id/@spec_id@/seller_id/$seller_id}';
+	url = url.replace('@spec_id@',spec_id?spec_id:0);
+
+	art.dialog.open(url,{
+		id:'addSpecWin',
+	    title:'规格设置',
+	    okVal:'确定',
+	    width:'96%',
+	    ok:function(iframeWin, topWin){
+	    	var formObject = iframeWin.document.forms['specForm'];
+	    	if(formObject.onsubmit() == false)
+	    	{
+	    		return false;
+	    	}
+			$.post(formObject.action,$(formObject).serialize(),function(json){
+				if(json.flag == 'success')
+				{
+					window.location.reload();
+					return true;
+				}
+				else
+				{
+					alert(json.message);
+					return false;
+				}
+			},'json');
+	    }
+	});
+}
+</script>

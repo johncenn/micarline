@@ -1,0 +1,121 @@
+<!-- 焦点图和选项卡插件 -->
+<script src="{theme:javascript/FengFocus.js}"></script>
+<script src="{theme:javascript/FengTab.js}"></script>
+<script src="{theme:javascript/jquery.marquee.js}"></script>
+
+<?php
+	//$type   = ISession::get('plate_type');
+	//$type = $plate_type[0]['plate_id'];		//int 
+	//$type = 2;
+?>
+
+
+<section id="home_fouse" class="home_fouse">
+	{if:$this->index_slide}
+	<ul>
+		{foreach:items=$this->index_slide}
+		<li><a href="{url:$item[url]}"><img src="{url:/pic/thumb/img/$item['img']}"></a></li>
+		{/foreach}
+	</ul>
+	{/if}
+</section>
+
+<section class="home_focus_show">
+	<div class="promise">
+		<ul>
+			<li><i class="icon-truck"></i><span>货到付款</span></li>
+			<li><i class="icon-star"></i><span>星级服务</span></li>
+			<a href="{url:/site/points}"><li><i class="icon-tags"></i><span>积分商品</span></li></a>
+			<li><i class="icon-time"></i><span>急速送货</span></li>
+			<li><i class="icon-umbrella"></i><span>安全保证</span></li>
+			<li><i class="icon-wrench"></i><span>售后保证</span></li>
+		</ul>
+	</div>
+	<div class="show">{echo:Ad::show("首页焦点图下广告1_305*160(xiaomi)")}</div>
+	<div class="show">{echo:Ad::show("首页焦点图下广告2_305*160(xiaomi)")}</div>
+	<div class="show">{echo:Ad::show("首页焦点图下广告3_305*160(xiaomi)")}</div>
+</section>
+
+<section class="home_rec">
+	<header>
+		<h3>推荐商品</h3>
+		<div class="control">
+			<i id="home_rec_left" class="icon-angle-left"></i>
+			<i id="home_rec_right" class="icon-angle-right"></i>
+		</div>
+	</header>
+	<div id="home_rec" class="con">
+		<ul>
+			{foreach:items=Api::run('getCommendRecom',10)}
+			<!--  -->
+			<li>
+				<a href="{url:/site/products/id/$item['id']}">
+					<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+					<h4>{$item['name']}</h4>
+					<del>￥{$item['market_price']}</del>
+					<em>￥{$item['sell_price']}</em>
+				</a>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+</section>
+
+
+<!-- 开始循环楼层 -->
+{foreach:items=Api::run('getCategoryListTop') item=$first }
+
+
+
+<section class="home_floor">
+	<header class="floor_head">
+		<h2>{$first['name']}</h2>
+		<nav class="floor_nav">
+			<ul>
+				{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+				<li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
+				{/foreach}
+				<li class="more"><a href="{url:/site/pro_list/cat/$first[id]}">更多 <i class="icon-angle-right"></i></a></li>
+			</ul>
+		</nav>
+	</header>
+	<section class="floor_body">
+		<div class="floor_show">
+			{echo:Ad::show("汽车广告",$first['id'])}
+		
+		</div>
+		<div class="floor_goods">
+			<ul>
+				{foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),8)}
+				<li>
+					<a href="{url:/site/products/id/$item['id']}">
+						<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+						<h4>{$item['name']}</h4>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+	</section>
+</section>
+{/foreach}
+
+
+<script>
+//dom载入完毕执行
+$(function(){
+	// 调用焦点图
+	$("#home_fouse").FengFocus({trigger : "mouseover"});
+	$('#home_rec').kxbdSuperMarquee({
+		distance:1215,
+		time:5,
+		btnGo:{left:'#home_rec_left',right:'#home_rec_right'},
+		direction:'left'
+	});
+	
+	
+	
+});
+</script>

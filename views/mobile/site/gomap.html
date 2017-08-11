@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>米喀地图搜索</title>
+ <!--定位JS-->
+<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+<!--计算距离JS-->
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor"></script>
+
+</head>
+<body>
+{if:$resultData}
+	<script type="text/javascript">
+		var str = {$resultData};
+		
+		
+		var arr;
+		var key = "GWEBZ-TN635-YIEI5-QV4LJ-RXJ2H-7KFXC";
+    	var referer = "testMap";
+    	var geolocation = new qq.maps.Geolocation(key,referer);
+        var options = {timeout: 8000};
+
+		//定位
+		geolocation.getLocation(showPosition, showErr, options);
+		
+		function showPosition(res){
+			console.log('定位成功');
+			
+			//定位成功，封装当前的位置
+			var lat = res.lat;
+			var lng = res.lng;
+			var d = new qq.maps.LatLng(lat,lng);
+			console.log("d is "+d);
+			
+			//循环把坐标拿出来
+			for(var key in str){
+				var u_lat = str[key]['gps'].split(',')[0];
+	       		var u_lng = str[key]['gps'].split(',')[1];
+	       		var m = new qq.maps.LatLng(u_lat,u_lng);
+	       		
+	       		//相差距离
+	       		var t = qq.maps.geometry.spherical.computeDistanceBetween(m, d);
+	       		str[key]['length'] = t;
+	       		
+			}
+			
+			//排好序的结果
+			var temp = sort(str);
+			
+			//for循环拼接数据
+			var marks = "";
+			var i = 0;
+			for(var key in temp){
+				if(i==9){
+					break;
+				}
+				console.log(temp[key]);
+				marks = marks+"coord:"+temp[key]['gps']+";title:"+temp[key]['store_name']+";addr:"+temp[key]['address']+"|";
+				++i;
+			}
+			
+			
+			/*
+			var sum = marks.length ;
+			sum = parseInt(sum);
+			console.log(sum);
+			console.log(marks.length);
+			*/
+			var newmarks = marks.substring(0,marks.length-1);
+			newmarks = encodeURI(newmarks);
+			//console.log(marks);
+			var map_url = "http://apis.map.qq.com/tools/poimarker?type=0&marker="+newmarks
+						+"&key=2XZBZ-42SRS-Q2GO2-67BOD-WWXY3-5EFAP&referer=test";
+			
+			//console.log(newmarks);
+			window.location.href = map_url;
+			
+		}
+		
+		function showErr(){
+			console.log('定位失败');
+		}
+		
+		
+		//排序地图方法
+		function sort(result){
+			for (var i = 0;i<result.length;i++) {
+				for (var j = 0; j < result.length-i-1; j++) {
+					if (result[j]['length']>result[j+1]['length']) {
+							
+							var temp = result[j];
+							result[j] = result[j+1];
+							result[j+1] = temp;
+						}
+					}
+			}
+			return result;
+			
+		}
+		
+		
+		
+		
+	</script>
+{/if}
+</body>
+</html>

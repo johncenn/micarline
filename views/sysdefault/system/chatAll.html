@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>聊天监控</title>
+<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+
+<style type="text/css">
+	table{
+		text-align: center;
+	}
+	
+	.panel{
+		width: 1000px;
+		margin-left: 20px;
+	}
+	
+	.ref{
+		text-align: center;
+	}
+	
+	.ref_user{
+		text-align: center;
+	}
+	
+	.online{
+		width: 200px;
+		margin: 100px 10px;
+	}
+	
+</style>
+
+</head>
+<body>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">查看用户聊天状态</div>
+  <div class="panel-body">
+    <p>未读消息</p>
+  </div>
+
+  <!-- Table -->
+  <table class="table table-hover table-bordered ">
+   	  <thead>
+   	  	<tr>
+   	  		<td style="color: blue;">待回复 或 聊天中</td>
+   	  		<td style="color: blue;">操作</td>
+   	  	</tr>
+   	  </thead>
+   	  
+   	  <tbody>
+   	  	{foreach:items=$msg}
+   	  	  <tr>
+   	  	  	<td>{$item['f_name']} 与  {$item['t_name']} 的对话</td>
+   	  	  	<td class="ref"><a target="_bank" href="{url:system/getUserchatlog/fid/$item[f_id]/tid/$item[t_id]}"><button class="	btn btn-info" type="button">查看</button></a></td>
+   	  	  </tr>
+   	  	  {/foreach}
+   	  </tbody>
+   	  
+  </table>
+</div>
+
+<!-- 
+<div class="online">
+
+	<div class="panel-body">
+    <p>在线用户</p>
+  </div>
+
+	<table class="table table-hover table-bordered ">
+		<thead>
+   	  	<tr>
+   	  		<td>用户</td>
+   	  		<td>操作</td>
+   	  	</tr>
+   	  </thead>
+   	  
+   	  <tbody class="td_online">
+   	  	<tr>
+	 	  	<td>aa</td>
+	 	  	<td ><a href="#"><button class="btn btn-info" type="button">查看</button></a></td>
+   	  	</tr>
+   	  </tbody>
+   	  
+	</table>
+</div>
+ -->
+
+</body>
+</html>

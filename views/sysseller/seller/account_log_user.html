@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>关联账户详情</title>
+
+<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+
+<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+
+<style type="text/css">
+	.table{
+		width: 80%;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
+	.page-header{
+		text-indent: 20px;
+	}
+	
+</style>
+
+</head>
+<body>
+
+<div class="page-header">
+  <h1>尊敬的用户<small>　你的账单详情</small></h1>
+</div>
+
+<div class="content table-responsive">
+	{if:$account_log}
+	<table class="table table-striped table-hover table-bordered">
+		<thead>
+			<tr class="info">
+				<td>时间</td>
+				<td>收入/支出</td>
+				<td>金额</td>
+				<td>事件</td>
+				<td>余额</td>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{foreach:items=$account_log}
+			<tr>
+				<td>{$item['time']}</td>
+				{if:$item['type']}
+				<td style="color: green;">支出</td>
+				{else:}
+				<td style="color: red">收入</td>
+				{/if}
+				<td>{$item['amount']}</td>
+				<td>{$item['note']}</td>
+				<td>¥{$item['amount_log']}</td>
+			</tr>
+			{/foreach}
+		</tbody>
+		
+	</table>
+	{else:}
+		<h1 style="text-align: center;">暂无数据</h1>
+	{/if}
+</div>
+
+
+
+
+
+
+</body>
+</html>

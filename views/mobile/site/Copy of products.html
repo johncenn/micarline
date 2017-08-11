@@ -1,0 +1,554 @@
+<?php 
+
+$ex = $_SERVER['HTTP_HOST'];
+	
+?>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>商品页面</title>
+		<script type="text/javascript">
+			var express_obj = "";
+		</script>
+		<script type="text/javascript" src="{theme:javascript/jquery-1.9.1.js}"></script>
+		<script type="text/javascript" src="{theme:javascript/products.js}"></script>
+		<script type="text/javascript" src="{theme:javascript/site.js}"></script>
+		
+		<!-- 
+		<link rel="stylesheet" type="text/css" href="bootstr/css/bootstrap-theme.min.css"/>
+		<link rel="stylesheet" type="text/css" href="bootstr/css/bootstrap.min.css"/>
+		<script src="bootstr/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		 -->
+		 
+		<link rel="stylesheet" type="text/css" href="{skin:products/hui/css/hui.css}"/>
+		<link rel="stylesheet" type="text/css" href="{skin:products/css/products.css}"/>
+		
+		<style type="text/css">
+			
+			#demo,.produce_xq,.produce_pingjia{
+				overflow: auto;
+				/*width: 100%;*/
+				margin-top: 44px;
+			}
+			
+				 
+			.hui-list{
+				padding: 0;
+				margin: 0;
+			}
+			
+			
+		</style>
+
+				 
+		
+	</head>
+	<body>
+		<header class="hui-header header">
+		    <div id="hui-back"></div>
+		    <span>购买</span>
+		</header>
+		<div class="hui-wrap">
+			<!--tab start-->
+			<div class="hui-tab">
+			    <div class="hui-tab-title tab_header">
+			        <div>基本信息</div>
+			       <div>商品详情</div>
+			       <div>评价<span class="pingjia">{$comments}</span></div>
+			    </div>
+			    <div class="hui-tab-body" >
+			        <div class="hui-tab-item hui-list" >
+			        	<!--滚动 demo s-->
+			           	<div id="demo">
+							<!--图片轮播 s-->
+							<div class="hui-swipe" id="swipe">
+								<div class="hui-swipe-pre"><img src="{skin:image/micar.jpg}"/></div>
+								{if:$photo}
+								{foreach:items=$photo item=$p}
+					            <div class="hui-swipe-item"><img src="{url:/pic/thumb/img/$p[img]}"/></div>
+					            {/foreach}
+					            {else:}
+					            <div class="hui-swipe-item"><img src="{skin:image/micar.jpg}"/></div>
+					            {/if}
+					        </div>
+							<!--图片轮播 s-->
+							
+							<!--商品简单描述 s-->
+							<?php 
+								echo "<pre>";
+								//print_r($photo);
+										
+								echo "</pre>";
+							?>
+							<div class="simple_desc">
+								<div class="box">
+									<span class="desc">{$name}</span>
+									<h2 class="price">¥{$sell_price}</h2>
+									<span class="del_price">价格</span><del class="del">¥{$market_price}</del>
+									<br />
+									<span class="del_price">销售提成：</span><span class="del">¥{$tichen}</span>
+									<div class="desc_bottom">
+										<div><span class="express">快递：</span><span class="express_pirce">0.00</span></div>
+										<div><span class="sell_num">销量</span><span class="num">{$sale}</span><span class="jian">件</span></div>
+										<div><span class="diqu">{echo:join(' ',area::name($seller['province'],$seller['city']))}</span></div>
+									</div>
+								</div>
+								<div class="padding"></div>
+							</div>
+							<!--商品简单描述 e-->
+							
+							<!--购物券 s-->
+							<div class="shop_juan">
+								<div class="shop_box">
+									<div class="con">
+										<!--title s-->
+										<div class="title">
+											<div>
+												<span>米喀购物券</span>
+												<span>全天米喀实物商品通用</span>
+											</div>
+											<div>
+												<span>店铺优惠</span>
+												<span>领取优惠券</span>
+											</div>
+										</div>
+										<!--title e-->
+										<div class="get">
+											<div><span>领取</span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--购物券 e-->
+							
+							<!--积分和促销简介 s-->
+							<div class="point_desc">
+								<div class="point_desc_box">
+									<div class="point_con">
+										<!--title s-->
+										<div class="title">
+											
+											
+												<div>
+													<span>促销</span>
+													{if:$promo == 'time' && isset($time)}
+													<span>满2件,打9.8折</span>
+													{else:}
+													<span>暂无活动</span>
+													{/if}
+												</div>
+											
+											<div>
+												<span>积分</span>
+												<span>购买可得{$point}积分</span>
+											</div>
+										</div>
+										<!--title e-->
+										<div class="how">
+											<div><span>...</span></div>
+										</div>
+									</div>
+								</div>	
+							</div>
+							<!--积分和促销简介 e-->
+							
+							<!--基础服务 s-->
+							<div class="server">
+								<div class="server_desc_box">
+									<div class="server_con">
+										<div class="title">
+											<span>正品保证 • 公益宝贝 • 赠送费险 • 极速退款</span>
+										</div>
+										<div class="how">
+											<div><span>...</span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--基础服务 e-->
+							
+							<!--规格 s-->
+							<div class="guige">
+								<div class="guige_desc_box">
+									<div class="con">
+										<div class="title">
+											<span>选择：规格/颜色分类</span>
+										</div>
+										<div class="more">
+											<span>...</span>
+										</div>
+									</div>	
+								</div>
+							</div>
+							<!--规格 e-->
+							
+							<!--商店 s-->
+							<div class="store">
+								<div class="con">
+									<!--头像 和 店名 s-->
+									<div class="store_name_img">
+										<div class="store_img">
+											{if:$seller['store_img']}
+												<img src="{$ex}/{$seller['store_img']}"/>
+												{else:}
+												<img src="{skin:image/micar.jpg}"/>
+											{/if}
+										</div>
+										<div class="store_name">
+											<span>{$seller['store_name']}</span>
+										</div>
+									</div>
+									<!--头像 和 店名 e-->
+									
+									<!--评价 s-->
+									<div class="pj">
+										<div><span class="fg">描述相符合</span><span class="red">4.8</span></div>
+										<div><span class="fg">描述相符合</span><span class="red">4.8</span></div>
+										<div><span class="fg">描述相符合</span><span class="red">4.8</span></div>
+									</div>
+									<!--评价 e-->
+									
+									<!--进入店铺 s-->
+									<div class="goStore">
+										<div class="all_shop">
+											<a href="{url:site/home/id/$seller[id]}">
+												<span class="hui-icons hui-icons-eyes">　全部商品</span>
+											</a>
+										</div>
+										<div class="go">
+											<a href="{url:site/home/id/$seller[id]}">
+												<span class="hui-icons hui-icons-shop">　进入店铺</span>
+											</a>
+										</div>
+									</div>
+									<!--进入店铺 e-->
+								</div>
+							</div>
+							<!--商店 e-->
+							
+							<div  class="botton_xg">
+							<span>亲,没有了</span>
+						</div>
+						
+						</div>
+						<!--滚动 demo e-->
+						
+			        </div>
+			        <div class="hui-tab-item hui-list">
+			           <div class="produce_xq">
+			           	项目主体2
+			           </div>
+			        </div>
+			        <div class="hui-tab-item hui-list">
+			            <div class="produce_pingjia">
+			           		项目主体2
+			           </div>
+			        </div>
+			    </div>
+			</div>
+			<!--tab end-->
+			
+			<!--底部隐藏 优惠券 s-->
+			<div class="juan_bottom">
+				<div class="items">
+					<h3>店铺优惠券</h3>
+					<div class="item">
+						<div class="left">
+							<div class="con">
+								<div class="one">
+									<span>¥</span>
+									<h1 class="juan_price">2</h1>
+									<p>满35使用</p>
+									<p>有效期2017.04.05-2017.07.05</p>
+								</div>
+							</div>
+						</div>
+						<div class="right">
+							<div class="lingjuan">
+								<span>立即领取</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="item"></div>
+				</div>
+				
+				<div class="j_btn">
+					<span>完成</span>
+				</div>
+			</div>
+			<!--底部隐藏 优惠券 e-->
+			
+			<!--底部隐藏促销打折 s-->
+			<div class="dazhe">
+				<div class="dz_items">
+					<div class="item">
+					
+					
+					
+						<div>
+							<span class="xc_bor">促销</span>
+						</div>
+						{if:$promo == 'time' && isset($time)}
+						<div class="cx_content">
+							<span>满2件,打9.8折</span>
+							<span>2016.12.27-2018.09.01</span>
+						</div>
+						{else:}
+						<div class="cx_content">
+							<span></span>
+							<span>暂无活动</span>
+						</div>
+						{/if}
+					</div>
+					
+					<div class="item">
+						<div>
+							<span class="xc_bor">积分</span>
+						</div>
+						<div class="cx_content">
+							<span>购买可得{$point}积分</span>
+						</div>
+					</div>
+					
+					<div class="item"></div>
+					
+				</div>
+				
+				<div class="j_btn dazhe_btm">
+					<span>完成</span>
+				</div>
+				
+			</div>
+			<!--底部隐藏促销打折 e-->
+			
+			<!--基础服务 s-->
+			<div class="btm_server">
+				<div class="ser_items">
+					<h3>基础服务</h3>
+					<div class="item">
+						<p>正品保证</p>
+						<span>购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证</span>
+					</div>
+					
+					<div class="item">
+						<p>正品保证</p>
+						<span>购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证</span>
+					</div>
+					
+					<div class="item">
+						<p>正品保证</p>
+						<span>购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证</span>
+					</div>
+					
+					<div class="item">
+						<p>正品保证</p>
+						<span>购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证购买该商品,正品保证</span>
+					</div>
+					
+					<div class="item" style="height: 100px;"></div>
+					
+				</div>
+				
+				<div class="j_btn server_btn">
+					<span>完成</span>
+				</div>
+				
+			</div>
+			<!--基础服务 e-->
+			
+			<!--规格 s-->
+			<div class="btn_guige">
+				<div class="guige_box">
+					
+					<!--头部 s-->
+					<div class="box_title">
+						<div class="product_img">
+							<img src="img/bg.png"/>
+						</div>
+						<div class="product_xq">
+							<p class="pxq_price">¥{$sell_price}</p>
+							<p>库存  {$store_nums}件</p>
+							<p>请选择：规格 颜色分类</p>
+						</div>
+					</div>
+					<!--头部 e-->
+					
+					<!--规格选择滚动区域 s-->
+					<div class="select_area">
+						<div class="s_a_box">
+						{if:$spec_array}
+							{foreach:items=JSON::decode($spec_array)}
+							<div class="guige_select_box">
+								<span>{$item['name']}</span>
+								<div class="g_select">
+									{foreach:items=$item['value'] item=$spec_value key=$specValueKey}
+									{set:list($item['tip'],$item['value'])=each($spec_value);}
+									{if:$item['type'] == 1}
+										<p specId="{$item['id']}" id="{$item['id']}{$specValueKey}" title="{echo:htmlspecialchars($item['tip'])}">
+											{$item['value']}
+										</p>
+										{else:}
+										<p class="guige_pimg" specId="{$item['id']}" id="{$item['id']}{$specValueKey}" title="{echo:htmlspecialchars($item['tip'])}">
+											<img src="{webroot:$item['value']}">
+										</p>
+									{/if}
+									{/foreach}
+									<input type="hidden" value="g_size" val="10" name="规格" select="0" />
+								</div>
+							</div>
+							{/foreach}
+						{/if}
+							<div class="guige_select_box">
+								<span>颜色分类</span>
+								<div class="g_select">
+									<p value="20">颜色1颜色1颜色</p>
+									<p value="40">颜色1颜色1颜色</p>
+									<p value="84">红色</p>
+									<p value="95">黄色</p>
+									<p value="136">黑色</p>
+									<input type="hidden" value="g_color" val="20" name="颜色" select="0" />
+								</div>
+							</div>
+						</div>
+						
+						<div class="num">
+							<p>数量</p>
+							<div class="hui-number-box" min="1" max="3">
+					            <div class="reduce">-</div>
+					            <input type="number" value="1" />
+					            <div class="add">+</div>
+					        </div>
+						</div>
+						
+						<div style="height: 100px;"></div>
+						
+					</div>
+					<!--规格选择滚动区域 e-->
+					<div class="guige_btn">
+						<div class="shop_car"><span>加入购物车</span></div>
+						<div class="buy">
+							<a href="#">立即购买</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--规格 e-->
+			<!--底部菜单-->
+			<div class="list_btm">
+				<div class="left">
+					<div class="customer">
+						<a href="{url:/site/mobil_chat/t_id/$seller[id]}">
+							<div class="txt">
+								<span class="hui-icons hui-icons-forum"></span>
+								<span>客服</span>
+							</div>
+						</a>
+					</div>
+					<div class="go_store">
+						<a href="{url:site/home/id/$seller[id]}">
+							<div class="txt">
+								<span class="hui-icons hui-icons-shop"></span>
+								<span>进店</span>
+							</div>
+						</a>
+					</div>
+					{if:$this->user}
+					
+					<div onclick="favorite_add_ajax({$id},this)" class="collect">
+						<a href="javascript:">
+							<div class="txt">
+								<span class="hui-icons hui-icons-star collect_span"></span>
+								<span>收藏</span>
+							</div>
+						</a>
+					</div>
+					
+					{set:$u_id = $this->user['user_id']}
+					{query:name=favorite where=user_id eq $u_id and rid eq $id items=$f}
+						{if:$f}
+							<script type="text/javascript">
+								$(".collect_span").css("color","red");
+							</script>
+						{/if}
+					{/query}
+					
+					{else:}
+					<div  class="collect">
+						<a href="{url:/simple/login?callback=/site/products/id/$id}">
+							<div class="txt">
+								<span class="hui-icons hui-icons-star"></span>
+								<span>收藏</span>
+							</div>
+						</a>
+					</div>	
+					{/if}
+				</div>
+				<div class="right">
+					<div class="list_shopcar">
+						<span>加入购物车</span>	
+					</div>
+					<div class="list_buy">
+						<a href="#">
+							<span>立即购买</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="{skin:products/hui/js/hui.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:products/hui/js/hui-tab.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:products/hui/js/hui-swipe.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{skin:products/js/products.js}" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			console.log(express_obj);
+			//console.log("{$id}"+"{$this->user['user_id']}"+"{$promo}"+"{$active_id}"+"{$isjifen}");
+			
+			//初始化商品详情对象
+			var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}","{$isjifen}");
+			
+			var default_one = 10 ; 
+			var default_two = 20 ;
+			
+			hui.tab(".hui-tab");
+			
+			//hui(".items").scrollY("80%");
+			hui(".dz_items").scrollY("80%");
+			hui(".ser_items").scrollY("80%");
+			hui(".select_area").scrollY("80%");
+			hui.numberBox();
+			//tab切换处理 s
+			/*var old_tap = "";
+			hui(".tab_header").click(function(e){
+				
+				if(old_tap != ""){
+					hui(old_tap).css({'color':'black'});
+				}
+				var item_tab = e.path[0];
+				old_tap = item_tab;
+				hui(item_tab).css({'color':'red'});
+				
+			});*/
+			//tab切换处理 e
+			
+			//图片轮播 s
+			var swipe = new huiSwpie('#swipe');
+			swipe.autoPlay = false;
+			swipe.speed = 200;
+			swipe.run();
+			
+			
+			
+			
+						
+		</script>
+	</body>
+</html>
+
+
+ 

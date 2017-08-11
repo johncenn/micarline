@@ -1,0 +1,84 @@
+<style>
+	.list_table{
+		font-size: 13px;
+		
+	}
+	
+	
+</style>
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>板块信息</span><span>></span><span>添加板块</span></div>
+	<div class="operating">
+		<a href="javascript:;" onclick="event_link('{url:/system/bankuai_edit}')"><button class="operating_btn" type="button"><span class="addition">添加板块</span></button></a>
+		<a href="javascript:void(0)" onclick="selectAll('id[]');"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0)" onclick="delModel({msg:'是否把信息放到回收站内1？'});"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+		<a href="javascript:;" onclick="event_link('{url:/system/bankuai_recycle}')"><button class="operating_btn" type="button"><span class="recycle">回收站</span></button></a>
+	</div>
+</div>
+
+<div class="content">
+	<form name='bankuai_list' method='post' action='{url:/system/bankuai_update/recycle/del}'>
+		<table class="list_table" >
+			<colgroup>
+				<col width="40px" />
+				<col width="100px" />
+				<col width="200px" />
+				<col width="200px" />
+				<col />
+			</colgroup>
+
+			<thead>
+				<tr >
+					<th>选择</th>
+					<th >板块名</th>
+					<th>创建时间</th>
+					<th>最后一次修改板块的时间</th>
+					<th>修改板块的次数</th>
+					<th>是否显示这个板块</th>
+					<th>板块的二级域名</th>
+					<th>板块的描述信息</th>
+					<th>二级域名的访问次数</th>
+					<th>创建板块者的ip地址</th>
+					<th>修改板块者的ip地址</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query: name=plate where=is_del eq 0 }
+				<tr>
+					<td><input type='checkbox' name='id[]' value='{$item['plate_id']}' /></td>
+					<td>{$item['plate_name']}</td>
+					<td>{$item['plate_createTime']}</td>
+					<td>{$item['plate_updateTime']}</td>
+					<td>{$item['plate_updateCount']}</td>
+					<td>{$item['plate_isshow']}</td>
+					<td>{$item['plate_domainName']}</td>
+					<td>{$item['plate_describe']}</td>
+					<td>{$item['plate_visitCount']}</td>
+					<td>{$item['plate_creatorIP']}</td>
+					<td>{$item['plate_updaterIP']}</td>
+					<td>
+						<a href='{url:/system/bankuai_edit/id/$item[plate_id]}'><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="编辑" title="编辑" /></a>
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/system/bankuai_update/recycle/del/id/$item['plate_id']}',msg:'是否把信息放到回收站内？'});"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" title="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+ 

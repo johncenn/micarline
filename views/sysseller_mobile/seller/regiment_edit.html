@@ -1,0 +1,90 @@
+{js:my97date}
+{set:$seller_id = $this->seller['seller_id']}
+<h1 class="page_title">编辑团购</h1>
+<section class="input_li">
+	<form action="{url:/seller/regiment_edit_act}"  method="post" name='regiment_edit' enctype='multipart/form-data'>
+		<input type='hidden' name='id' />
+		<input type='hidden' name='goods_id' />
+		<ul>
+			<li>
+				<span class="input_item">团购标题 <em>*</em></span>
+				<input type='text' class="input_text" name='title' pattern='required' alt='请填写团购标题' />
+			</li>
+			<li>
+				<span class="input_item">团购开始时间 <em>*</em></span>
+				<input type='text' class="input_text time" name='start_time' pattern='datetime' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" alt='请选择一个日期' />
+			</li>
+			<li>
+				<span class="input_item">团购结束时间 <em>*</em></span>
+				<input type='text' class="input_text time" name='end_time' pattern='datetime' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" alt='请选择一个日期' />
+			</li>
+			<div id='regiment_box'></div>
+			<li>
+				<span class="btn_add" onclick='searchGoods("{url:/block/search_goods/type/radio/seller_id/$seller_id}",searchGoodsCallback);'>添加商品</span>
+			</li>
+			<li>
+				<span class="input_item">团购描述 <em>*</em></span>
+				<textarea class='input_textarea' name='intro'>{$this->regimentRow['intro']}</textarea>
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>
+
+<script>
+	//输入筛选商品的条件
+	function searchGoodsCallback(goodsList)
+	{
+		goodsList.each(function()
+		{
+			var temp = $.parseJSON($(this).attr('data'));
+			var content = {
+				"data":
+				{
+					"id":temp.goods_id,
+					"name":temp.name,
+					"img":temp.img,
+					"sell_price":temp.sell_price,
+					"img":temp.img,
+					"store_nums":temp.store_nums
+				}
+			};
+			relationCallBack(content);
+		});
+	}
+
+	//关联商品回调处理函数
+	function relationCallBack(content,regimentImg)
+	{
+		if(content)
+		{
+			$('[name="goods_id"]').val(content['data']['id']);
+			regimentImg = !regimentImg ? content['data']['img'] : regimentImg;
+			var imgUrl  = webroot(regimentImg);
+
+			var html = '<li><span class="input_item">商品名称</span><div class="input_tip">'+content['data']['name']+'</div></li>'+
+						'<li><span class="input_item">团购价格 <em>原价'+content['data']['sell_price']+'</em></span>'+
+						'<input type="text" class="input_text" name="regiment_price" pattern="float" alt="填写数字" /></li>'+
+						'<li><span class="input_item">团购最大销售量 <em>库存'+content['data']['store_nums']+'</em></span>'+
+						'<input type="text" class="input_text" name="store_nums" pattern="int" alt="填写数字" /></li>'+
+						'<li><span class="input_item">每人团购最小量</span>'+
+						'<input type="text" class="input_text" name="limit_min_count" pattern="^[1-9]\\d*$" alt="填写数字" /></li>'+
+						'<li><span class="input_item">每人团购最大量</span>'+
+						'<input type="text" class="input_text" name="limit_max_count" pattern="^[1-9]\\d*$" alt="填写数字" /></li>';
+
+			$('#regiment_box').html(html);
+			$('.btn_add').html("更换商品")
+		}
+	}
+
+	//关联商品信息
+	{if:isset($this->regimentRow['goodsRow'])}
+	relationCallBack({$this->regimentRow['goodsRow']},"{$this->regimentRow['img']}");
+	{/if}
+
+	//表单回填
+	var formObj = new Form('regiment_edit');
+	formObj.init({echo:JSON::encode($this->regimentRow)});
+</script>

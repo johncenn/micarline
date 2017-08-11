@@ -1,0 +1,75 @@
+{js:my97date}
+{set:$seller_id = $this->seller['seller_id']}
+<h1 class="page_title">货款结算单编辑</h1>
+<section class="input_li">
+	<form action="{url:/seller/bill_update}"  method="post" name="bill_edit">
+		<input type='hidden' name='id' />
+		<ul>
+			<li>
+				<span class="input_item">结算货款开始日期</span>
+				<input type='text' class="input_text time" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='' title="" />
+			</li>
+			<li>
+				<span class="input_item">结算货款结束日期</span>
+				<input type='text' class="input_text time" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='' title="" />
+			</li>
+			<li>
+				<input class="input_btn" type="button" value="点击计算结算明细" id="checkButton" onclick="checkoutFee();" />
+			</li>
+			<li>
+				<span class="input_item">详情报告 <em>点击上方按钮自动生成</em></span>
+				<textarea class="input_textarea" name="log" disabled="disabled"></textarea>
+				<p class="input_tip">根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</p>
+			</li>
+			<li>
+				<span class="input_item">申请结算附言 <em>*</em></span>
+				<textarea class="input_textarea" name="apply_content"></textarea>
+			</li>
+			<li>
+				<span class="input_item">管理员回复 <em>无需填写</em></span>
+				<textarea class="input_textarea" name="pay_content" disabled="disabled"></textarea>
+			</li>
+			<li>
+				<input type="submit" class="input_submit" value="确 定" />
+			</li>
+		</ul>
+	</form>
+</section>
+
+
+<script>
+//表单回填
+var formObj = new Form('bill_edit');
+formObj.init({echo:JSON::encode($this->billRow)});
+
+//存在结算单数据就要锁定已有数据
+{if:$this->billRow}
+$("[name='start_time']").prop("disabled",true);
+$("[name='end_time']").prop("disabled",true);
+$("#checkButton").hide();
+{/if}
+
+//计算结算款明细
+function checkoutFee()
+{
+	var startTime = $("[name='start_time']").val();
+	var endTime   = $("[name='end_time']").val();
+	if(!startTime || !endTime)
+	{
+		alert("请填写完整的时间段");
+		return;
+	}
+
+	$.getJSON("{url:/seller/countGoodsFee}",{"start_time":startTime,"end_time":endTime}, function(json)
+	{
+		if(json.result == 'success')
+		{
+			$("[name='log']").val(json.data);
+		}
+		else
+		{
+			alert(json.data);
+		}
+	})
+}
+</script>

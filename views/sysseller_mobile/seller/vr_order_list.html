@@ -1,0 +1,22 @@
+{js:my97date}
+<h1 class="page_title">订单列表</h1>
+<section class="address_list">
+	{foreach:items = $this->orderHandle->find()  key=$dataKey}
+		<div class="address_info">
+			<p>
+				<strong>订单号：</strong>{$item['order_no']} <br>
+				<strong>联系电话：</strong>{$item['mobile']} <br>
+				<strong>支付状态：</strong>{if:$item['pay_type']==0}货到付款{/if}　{echo:Order_class::getVrOrderPayStatusText($item)}<br>
+				<strong>订单状态：</strong>{echo:order_class::vrorderStatusText(order_class::getVrOrderStatus($item))}<br>
+				<strong>下单时间：</strong>{$item['create_time']}<br>
+			</p>
+			<div class="address_btn">
+				<a class="btnn" href="{url:/seller/vr_order_show/order_no/$item['order_no']}">订单详情</a>
+			</div>
+		</div>
+	{/foreach}
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+</section>
+{$this->orderHandle->getPageBar()}

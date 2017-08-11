@@ -1,0 +1,137 @@
+.header {
+	height: .4rem;line-height: .4rem;background: $blue;
+	position: fixed;left: 0;top: 0;right: 0;
+	.open_nav {
+		float: left;
+		i {
+			width: .4rem;height: .4rem;display: block;float: left;text-align: center;line-height: .4rem;
+			background: darken($blue,10%);font-size: .18rem;margin-right: .1rem;color: $cff;
+		}
+	}
+	ul {
+		float: right;
+		li {
+			float: left;border-left: 1px solid darken($blue,5%);
+			a {
+				display: block;padding: 0 .2rem;font-size: .14rem;color: $cff;
+				@include dz();background: $blue;
+				&:hover {
+					text-decoration: none;
+					background: $green;
+				}
+			}
+		}
+	}
+}
+
+.sidebar {
+	position: fixed;left: -2.2rem;top: .4rem;width: 2.2rem;bottom: 0;
+	background: #2F4050;overflow-y: auto;z-index: 10;
+	@include dz();
+	&.open {
+		left: 0;
+	}
+	.user{
+		background: #263646;padding: .4rem 0;
+		.ico {
+			width: .8rem;height: .8rem;border-radius: 50%;display: block;margin: 0 auto;overflow: hidden;position: relative;
+			cursor: pointer;
+			&:hover {
+				&:after {
+					content:"设置头像";position: absolute;display: block;z-index: 2;border-radius: 50%;
+					left: 0;top: 0;width: .8rem;height: .4rem;text-align: center;line-height: .4rem;padding-top: .4rem;
+					background: rgba($c00,.5);color: rgba($cff,.7);
+				}
+			}
+			img {
+				width: .8rem;height: .8rem;display: block;margin: 0 auto;
+				display: none;
+			}
+		}
+
+		strong {
+			text-align: center;color: $cff;display: table;
+			margin: .15rem auto 0;padding: .05rem 8px;background: rgba($c00,.5);
+			border-radius: .1rem;
+			em {
+				font-weight: normal;margin-right: .05rem;color: #8095A8;
+			}
+		}
+
+	}
+	.nav {
+
+		h3 {
+			height: .46rem;line-height: .46rem;padding-left: .2rem;color: #A7B1C2;font-size: .14rem;
+			border-top: 1px solid #263646;position: relative;cursor: pointer;
+			&:after {
+				content: "";display: block;width: .05rem;height: .05rem;box-shadow: 1px 1px #A7B1C2;
+				@include xz(45);position: absolute;right: .2rem;top: .18rem;
+				@include dz();
+			}
+			&:hover {
+				background: #293846;
+			}
+			i {margin-right: .1rem;}
+			&.on {
+				color: $cff;background: #293846;border-left: 4px solid $cyan;border-top: none;
+				&:after {
+					@include xz(225);
+					// box-shadow: -1px -1px #A7B1C2;
+					top: .22rem;
+				}
+			}
+		}
+		ul {
+			display: none;
+			background: #293846;padding-bottom: .1rem;
+			border-left: 4px solid $cyan;
+			// &:nth-of-type(2){
+			// 	li:last-child{display: none;}
+			// }
+			li {
+				height: .32rem;line-height: .32rem;padding-left: .45rem;
+				a {
+					color: #A7B1C2;
+					&:hover {
+						color: $cff;
+					}
+				}
+				&.on {
+					font-weight: bold;
+					a {color: $cff;}
+				}
+			}
+		}
+	}
+}
+
+#main {
+	position: fixed;top: .4rem;left: 0;bottom: 0;right: 0;padding: .15rem;overflow-y: auto;
+}
+.copy {
+	position: fixed;right: 0;bottom: 0;padding: 8px .1rem;border-radius: .1rem 0 0 0;
+	box-shadow: 0 0 .05rem $c99;font-size: .11rem;background: rgba($cff,.6);
+	a {font-weight: bold;color: $blue;}
+}
+.ico_list {
+	position: fixed;top: 50%;left: 50%;width: 600px;z-index: 3;padding: .2rem .1rem;border-radius: .1rem;background: $cff;
+	box-shadow: 0 0 .05rem $c55,0 0 0 10000px rgba($c00,.5);display: none;
+	@include yd(-50%,-50%);
+	h3 {
+		font-size: .15rem;height: .3rem;line-height: .2rem;padding-left: .1rem;
+	}
+	i {
+		position: absolute;right: .15rem;top: .15rem;font-size: .22rem;color: $red;display: block;
+		@include dz();cursor: pointer;
+		&:hover {
+			@include xz(90);
+		}
+	}
+	ul {
+		li {
+			float: left;padding: .1rem;
+			img {cursor: pointer;display: block;}
+		}
+	}
+}

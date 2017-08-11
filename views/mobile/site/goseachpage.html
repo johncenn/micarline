@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="{skin:style/mui.css}">
+		
+		<style type="text/css">
+			body{
+				margin: 0;padding: 0;
+				background: white;
+			}
+			
+			/*整个搜索框*/
+			.top_bar{
+				width: 100%;
+				height: 2.5rem;
+				background: #f6f6f6;
+				display: flex;
+			}
+			
+			.top_bar div{
+				/*border: 1px solid red;*/
+				
+			}
+			
+			/*返回*/
+			.top_bar div:nth-of-type(1){
+				flex-grow:1;
+				display: flex;
+				width: 1rem;
+				align-items: center;
+			}
+			
+			.top_bar div:nth-of-type(1) .back{
+				text-align: center;
+				width: 1.5rem;
+				height:1.5rem;
+				margin: 0 auto;;
+			}
+			
+			/*搜索按钮*/
+			.top_bar div:nth-of-type(3){
+				flex-grow:1;
+				/*border: 1px solid black;*/
+				text-align: center;
+				display: flex;
+				align-items: center;
+			}
+			
+			.top_bar div:nth-of-type(3) .seach_btn{
+				width: 1.5rem;
+				height: 1.5rem;
+				display: block;
+				margin: 0;padding: 0;
+				margin: 0 auto;
+			}
+			
+			/*输入内容*/
+			.top_bar div:nth-of-type(2){
+				flex-grow:5;
+				display: flex;
+				align-items: center;
+			}
+			
+			.seach{
+				width: 100%;
+				height: 1.7rem;
+				border-bottom: 1px solid black;
+				position: relative;				
+				
+			}
+			
+			.seach span{
+				position: absolute;
+				bottom: 0;
+				
+			}
+			.seach img{
+				display: block;
+				width: 0.8rem;
+				height: 0.8rem;
+				position: absolute;
+				bottom: 0;
+				left: 2.2rem;
+			}
+			
+			.seach .inpo{
+				position: absolute;
+				left: 3.3rem;
+				bottom: 0;
+				margin: 0;
+				padding: 0;
+				height: 1rem;
+				width: 70%;
+				font-size: 0.8rem;
+				border: none;
+				background: #f6f6f6;
+				
+			}
+			
+			
+			/*热门搜索*/
+			.hot_seach{
+				width: 100%;
+				height: 10rem;
+				background: white;
+			}
+			
+			.hot_seach span{
+				display: block;
+				font: 16px "宋体","Arial Narrow",HELVETICA;
+				padding: 1.5rem 0.5rem;
+			}
+			
+			.hot_seach ul{
+				width: 100%;
+				list-style: none;
+				margin: 0;padding: 0;
+			}
+			
+			.hot_seach ul li{
+				width: 4.5rem;
+				height: 1.8rem;
+				float: left;
+				margin-left: 0.5rem;
+				font: 0.8rem "宋体","Arial Narrow",HELVETICA;
+				letter-spacing: 0.05rem;
+				text-align: center;
+				border-radius:68px ;
+				line-height: 1.8rem;
+				background: #EFEFF4;
+			}
+			
+			/*下拉表效果*/
+			.show{
+				width: 10rem;
+				position: absolute;
+				top: 1rem;
+				left: 1.1rem;
+				display: none;
+			}
+			
+			.show ul{
+				width: 100%;
+				list-style: none;
+			}
+			
+			.show ul li{
+				width: 100%;
+				height: 2.8rem;
+				font: 1rem "宋体","Arial Narrow",HELVETICA;
+				text-align: center;
+				line-height: 2.8rem;
+				background: black;
+				color: white;
+				border-bottom: 1px solid #f5f5f5;
+			}
+			
+			.show ul li img{
+				width: 1rem;
+				height: 1rem;
+				margin: 0;
+				padding: 0;
+				margin-right: 10px;
+				margin-top: 10px;
+			}
+			
+		</style>      
+		<script src="{theme:javascript/vue.js}" type="text/javascript" charset="utf-8"></script>
+		<script src="{theme:javascript/jquery-1.9.1.js}" type="text/javascript" charset="utf-8"></script>
+		<script src='{theme:javascript/site.js}'></script>
+	</head>
+	<body>
+		<div class="con">
+			<header class="top_bar">
+				<div>
+					<img class="back" src="{skin:image/s_bak.png}"/>
+				</div>
+				<div>
+					<div class="seach" id="app">
+							<span v-bind:val="mclass">{{message}}</span>
+							<img src="{skin:image/san.png}"/>
+							<input class="inpo" type="text" value="" placeholder="输入产品"/>
+					</div>
+				</div>
+				<div>
+					<img class="seach_btn" src="{skin:image/sseach.png}" />
+				</div>
+			</header>
+			<div class="show">
+				<ul>
+					<li val='goods'><img src="{skin:image/s_goods.png}" />商品</li>
+					<li val='store'><img src="{skin:image/s_store.png}" />店铺</li>
+				</ul>
+			</div>			
+			<div class="hot_seach">
+				<span>热门搜索</span>
+				<ul>
+					<a href="{url:/site/myseach/type/goods/content/汽车产品}"><li>汽车产品</li></a>
+					<a href="{url:/site/myseach/type/goods/content/轮胎}"><li>轮胎</li></a>
+				</ul>
+			</div>
+			
+		</div>
+		
+	</body>
+	
+	<script type="text/javascript">
+		var sitem = 'goods';
+		var ex = "http://"+window.location.host+"/";
+		$(function(){
+			//选择响应
+			$("#app span").click(function(){
+				$(".show").show();
+			});
+			
+			$(".seach_btn").click(function(){
+				var type = sitem;
+				var content = $(".inpo").val();
+				
+				window.location.href = ex+"git/micarshop/site/myseach?type="+type+"&content="+content;
+				
+			});
+		})
+		
+		//vue.js
+		var app = new Vue({
+			el:'#app',
+			data:{
+				message:'商品',
+				mclass:'goods'
+			},
+		});
+		
+		//点击li响应
+		
+		$('.show li').click(function(){
+			console.log($(this).attr('val'));
+			sitem = $(this).attr('val');
+						
+			app.mclass = sitem;
+			if(sitem == 'goods'){
+				app.message = "商品";
+			}else{
+				app.message = "店铺";
+			}
+			
+			$(".show").hide();
+			
+		});
+		
+		
+		
+	</script>
+	
+</html>

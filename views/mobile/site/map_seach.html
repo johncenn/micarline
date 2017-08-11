@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>地图搜索</title>
+<link rel="stylesheet" type="text/css" href="{skin:style/hcss/hui.css}" />
+<link rel="stylesheet" href="{skin:style/hcss/index.css}" />
+<script src="{skin:style/hcss/js/jquery-1.11.0.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="{skin:style/hcss/js/index.js}" ></script>
+
+<script type="text/javascript">
+var img_url = "{skin:style/hcss/img}";
+</script>
+
+</head>
+<body style="background:#F4F5F6;">
+
+<header class="hui-header">
+
+<div class="select_icon">
+	<img  src="{skin:style/hcss/img/se.png}" />
+</div>
+
+<div class="select">
+	
+	<select id="select1" >
+		<option value="1" selected="selected">当前</option>
+		<option value="2" >指定</option>
+	</select>
+</div>
+	
+	<div id="hui-back"></div>
+	<div id="hui-header-sreach">
+		<input type="search" id="searchKey" placeholder="请输入店铺名" />
+	</div>
+</header>
+
+
+<div class="hui-wrap">
+	<button type="button" class="hui-button hui-primary btn_go" >指定位置</button>
+	<div class="one">
+		<div>
+			<a href="{url:site/getstores}" class="food">
+				<img src="{skin:style/hcss/img/car.png}"/>
+			</a>
+			<span>汽车</span>
+		</div>
+		
+		<div>
+			<a class="hodel">
+				<img src="{skin:style/hcss/img/hold.png}"/>
+			</a>
+			<span>酒店</span>
+		</div>
+		
+		<div>
+			<a class="bus">
+				<img src="{skin:style/hcss/img/bus.png}"/>
+			</a>
+			<span>公交站</span>
+		</div>
+		
+		<div>
+			<a class="bank">
+				<img src="{skin:style/hcss/img/bank.png}"/>
+			</a>
+			<span>银行</span>
+		</div>
+		
+		<div>
+			<a class="jingdian">
+				<img src="{skin:style/hcss/img/jingdian.png}"/>
+			</a>
+			<span>景点</span>
+		</div>
+		
+		<div>
+			<a class="jiayou">
+				<img src="{skin:style/hcss/img/jiayou.png}"/>
+			</a>
+			<span>加油站</span>
+		</div>
+		
+		<div>
+			<a class="start">
+				<img src="{skin:style/hcss/img/collect.png}"/>
+			</a>
+			<span>收藏夹</span>
+		</div>
+		
+		<div>
+			<a class="more">
+				<img src="{skin:style/hcss/img/more.png}"/>
+			</a>
+			<span>更多</span>
+		</div>
+		
+	</div>
+	
+	<div class="list">
+		
+		<a href="http://apis.map.qq.com/tools/poimarker?type=0&marker=coord:23.014730,113.112290;title:米喀服务店;addr:禅城区-同华路12号&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp" class="item">
+			<div class="icon">
+				<img src="{skin:style/hcss/img/local.png}"/>
+			</div>
+			<div class="content"> 
+				<div class="title">
+					<p>米喀服务店</p>
+					<p>禅城区-同华路12号</p>
+				</div>
+				<div class="go">
+					<img src="{skin:style/hcss/img/go.png}"/>
+					<span>去这里</span>
+				</div>
+			</div>
+		</a>
+		
+		<a href="#" class="item">
+			<div class="icon">
+				<img src="{skin:style/hcss/img/local.png}"/>
+			</div>
+			<div class="content"> 
+				<div class="title">
+					<p>米喀服务店</p>
+					<p>禅城区-同华路</p>
+				</div>
+				<div class="go">
+					<img src="{skin:style/hcss/img/go.png}"/>
+					<span>去这里</span>
+				</div>
+			</div>
+		</a>
+		
+		<a href="#" class="item">
+			<div class="icon">
+				<img src="{skin:style/hcss/img/local.png}"/>
+			</div>
+			<div class="content"> 
+				<div class="title">
+					<p>米喀服务店</p>
+					<p>禅城区-同华路</p>
+				</div>
+				<div class="go">
+					<img src="{skin:style/hcss/img/go.png}"/>
+					<span>去这里</span>
+				</div>
+			</div>
+		</a>
+		
+		
+		<!--搜索-->
+		<a href="#" class="item">
+			<div class="icon">
+				<img src="{skin:style/hcss/img/seach.png}"/>
+			</div>
+			<div class="content"> 
+				<div class="title seach_title">
+					<p>肯德基</p>
+				</div>
+			</div>
+		</a>
+		
+		<a href="#" class="item">
+			<div class="icon">
+				<img src="{skin:style/hcss/img/seach.png}"/>
+			</div>
+			<div class="content"> 
+				<div class="title seach_title">
+					<p>麦当劳</p>
+				</div>
+			</div>
+		</a>
+		
+		<a href="#" class="item">
+			<div class="icon">
+				<img src="{skin:style/hcss/img/seach.png}"/>
+			</div>
+			<div class="content"> 
+				<div class="title seach_title">
+					<p>华莱士</p>
+				</div>
+			</div>
+		</a>
+		
+	</div>
+	
+	
+	
+	
+</div>
+<script type="text/javascript" src="{skin:style/hcss/js/hui.js}" charset="UTF-8"></script>
+<script src="{skin:style/hcss/js/hui-select-beautify.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+//select
+hui('#select1').selectBeautify(showVal);
+function showVal(val){
+	//hui.toast('选项值 : ' + val);
+	if(val == 2){
+		var url = '{url:site/change_map}';
+		window.location.href = url;
+	}
+	
+}
+
+	
+//监听搜索按钮时间
+document.getElementById('searchKey').addEventListener('keyup', function(e){if(e.keyCode == 13){searchNow();}});
+function hotSearch(k){
+	hui('#searchKey').val(k);
+	searchNow();
+}
+function searchNow(){
+	document.activeElement.blur();
+	var kwd = hui('#searchKey').val();
+	kwd = kwd.trim();
+	if(kwd.length < 2){hui.toast('关键字至少2个字符'); return false;}
+	hui.toast('搜索 '+ kwd);
+}
+</script>
+</body>
+</html>

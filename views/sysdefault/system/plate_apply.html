@@ -1,0 +1,102 @@
+<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+
+<style>
+
+.con{
+	height: 1000%;;
+}
+
+.container{
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.menu{
+	background-color: #A4C639;
+}
+
+ol, ul {
+	margin-bottom: 0px;
+}
+
+.seller_title{
+	font-size: 18px;
+}
+
+
+
+#admin_left ul.submenu li a {
+	font-size: 12px;
+	height: 28px;
+}
+
+.table{
+	width: 1000px;
+	margin: 0 auto;
+	text-align: center;
+	overflow-x:auto;
+}
+
+.msg td{
+	padding: 0;
+}
+
+</style>
+
+<h1 >商家板块申请</h1>
+<?php 
+	
+/*echo "<pre>";
+	print_r($apply);
+	echo "</pre>";*/
+?>
+
+<div class="con">
+<table class="table table-bordered  table-hover ">
+	<thead>
+		<tr class="msg">
+			<td>申请商家名</td>
+			<td>申请的板块</td>
+			<td>申请时间</td>
+			<td>处理</td>
+		</tr>
+	</thead>
+	
+	<tbody>
+		{foreach:items=$apply}
+		<tr>
+			<td>{$item['seller_name']}</td>
+			<td>{$item['plate_name']}</td>
+			<td>{$item['apply_time']}</td>
+			<td>
+				<div class="dropdown">
+				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					  申请
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				    <li><a value="2" href="{url:system/apply_deal/id/2/dealid/$item['apply_id']/sell_id/$item['seller_id']/plateid/$item['plate_id']}">同意</a></li>
+				     <li><a value="3" href="{url:system/apply_deal/id/3/dealid/$item['apply_id']/sell_id/$item['seller_id']/plateid/$item['plate_id']}">不同意</a></li>
+				  </ul>
+				</div>
+			</td>
+		</tr>
+		{/foreach}
+	</tbody>
+	
+</table>
+</div>
+
+
+
+
+
+
+
+
+

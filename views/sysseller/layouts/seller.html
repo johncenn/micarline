@@ -1,0 +1,467 @@
+{set:$seller_id = $this->seller['seller_id'];$seller_name = $this->seller['seller_name'];}
+{query:name = seller where= id eq $seller_id}
+{set:$member_id = $item['member_id']}
+{/query}
+
+{query:name = user where= id eq $member_id}
+{set:$user_ava = $item['head_ico']}
+{set:$user_id = $item['id']}
+{set:$user_name = $item['username']}
+{/query}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="{skin:css/chat.css}">
+	
+	<title>商家管理后台</title>
+	<link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
+	{js:jquery}
+	{js:dialog}
+	{js:form}
+	{js:artTemplate}
+	<script type='text/javascript' src="{theme:javascript/html5.js}"></script>
+	<script type='text/javascript' src="{theme:javascript/common.js}"></script>
+	<!--[if lt IE 9]>
+	<link rel="stylesheet" href="{skin:css/ie.css}" type="text/css" media="screen" />
+	<![endif]-->
+	<link rel="stylesheet" href="{skin:css/admin.css}" type="text/css" media="screen" />
+	<script type="text/javascript" src="{theme:javascript/chat.js}"></script>
+	{js:validate}
+	
+	<script type="text/javascript">
+		var user_ava = '{$user_ava}';
+	</script>
+	
+	<script type="text/javascript">
+			console.log("id is "+{$user_id});
+		</script>
+	
+</head>
+
+<body>
+	<!--头部 开始-->
+	<header id="header">
+		<hgroup>
+			<h1 class="site_title"><a href="{url:/seller/index}"><img src="{skin:images/main/logo.png}" /></a></h1>
+			<h2 class="section_title"></h2>
+			<div class="btn_view_site"><a href="{url:}" target="_blank">网站首页</a></div>
+			<div class="btn_view_site"><a href="{url:/site/home/id/$seller_id}" target="_blank">商家主页</a></div>
+			<div class="btn_view_site"><a href="{url:/systemseller/logout}">退出登录</a></div>
+		</hgroup>
+	</header>
+	<!--头部 结束-->
+
+	<!--面包屑导航 开始-->
+	<section id="secondary_bar">
+		<div class="user">
+			<p>{$seller_name}</p>
+		</div>
+	</section>
+	<!--面包屑导航 结束-->
+
+	<!--侧边栏菜单 开始-->
+	<aside id="sidebar" class="column">
+		{foreach:items=menuSeller::init()}
+		<h3>{$key}</h3>
+		<ul class="toggle">
+			{foreach:items=$item key=$moreKey item=$moreValue}
+			<li><a href="{url:$moreKey}">{$moreValue}</a></li>
+			{/foreach}
+		</ul>
+		{/foreach}
+
+		<footer>
+			<hr />
+			<p><strong>Copyright &copy; 2010-2015 iWebShop</strong></p>
+			<p>Powered by <a href="http://www.aircheng.com">iWebShop</a></p>
+		</footer>
+	</aside>
+	<!--侧边栏菜单 结束-->
+
+	<!--主体内容 开始-->
+	<section id="main" class="column">
+		{viewcontent}
+	</section>
+	<!--主题内容 结束-->
+
+	<script type="text/javascript">
+	//菜单图片ICO配置
+	function menuIco(val)
+	{
+		var icoConfig = {
+			"个人中心":"icn_profile",
+			"供应商商品购买" : "icn_photo",
+			"管理首页" : "icn_tags",
+			"销售额统计" : "icn_settings",
+			"货款明细列表" : "icn_categories",
+			"货款结算申请" : "icn_photo",
+			"商品列表" : "icn_categories",
+			"添加商品" : "icn_new_article",
+			"平台共享商品" : "icn_photo",
+			"商品咨询" : "icn_audio",
+			"商品评价" : "icn_audio",
+			"商品退款" : "icn_audio",
+			"规格列表" : "icn_categories",
+			"实物交易订单列表" : "icn_categories",
+			"到店服务订单列表" : "icn_categories",
+			"团购" : "icn_view_users",
+			"促销活动列表" : "icn_categories",
+			"物流配送" : "icn_folder",
+			"发货地址" : "icn_jump_back",
+			"资料修改" : "icn_profile",
+		};
+		return icoConfig[val] ? icoConfig[val] : "icn_categories";
+	}
+
+	$(".toggle>li").each(function()
+	{
+		$(this).addClass(menuIco($(this).text()));
+	});
+	
+	//$this->seller['seller_id']
+	</script>
+	
+
+	{if:$user_id}
+	
+		<input class="self_id" type="hidden" value="{$user_id}"/>
+		<input class="self_name" type="hidden" value="{$user_name}"/>
+			
+		
+		
+		<!-- 右边竖条  s-->
+		<div class="right">
+			<span>在线联系</span>
+			<div class="message" id="showFriend" >
+				<a href="javascript:"></a>
+			</div>
+		</div>
+		<!-- 右边竖条  e-->
+		
+		
+		<!-- 聊天窗口我好友列表   s -->
+		<div class="chat_list" >
+			<div class="chat_top">
+				<h1>
+					<i></i>
+					联系人
+				</h1>
+				<span class="close"></span>		
+			</div>
+		{set:$f_uid} <!-- 对方的id -->
+		
+		<!-- 好友列表 s -->
+	<div class="chat_user">
+		<dl class="chat_user_friend">
+			<dt>
+				我的好友
+				<span class="show"></span>
+			</dt>
+			<!-- 查找好友表 -->
+			{query:name = friends where= (f_id eq $member_id or t_id eq $member_id) and state eq 1}
+				{if:$item['f_id'] == $member_id}
+					{set:$f_uid = $item['t_id']}
+				{else:}
+					{set:$f_uid = $item['f_id']}	
+				{/if}	
+			<dd from_id={$f_uid}>
+				<span class="user_avatar">
+					{query:name = user where= id eq $f_uid item=$first } 
+						{if:$first['head_ico'] == ""}
+							<img alt="" src="{url:upload/car.jpg}"> 
+							{set:$ava_img='upload/car.jpg'}
+					 		{else:}
+					 		<img alt="" src="{url:$first['head_ico']}"> 
+							{set:$ava_img=$first['head_ico']}
+					 	{/if}
+					{/query}
+					<i class="offline" f_id="{$f_uid}"></i>
+				</span>
+				{if:$item['f_id'] == $member_id}
+					<h5>{$item['t_name']}</h5>
+					<a href="javascript:"  onclick="talk({$member_id},{$item['t_id']},{$item['id']},'{url:$ava_img}','{$item['t_name']}')"></a>
+					{else:}
+					<h5>{$item['f_name']}</h5>
+					<a href="javascript:"  onclick="talk({$member_id},{$item['f_id']},{$item['id']},'{url:$ava_img}','{$item['f_name']}')"></a>
+				{/if} 
+			</dd>
+			{/query}
+		</dl>
+		
+		<!-- 最近联系人 s -->
+		<!-- 查找好友表 -->
+		<dl class="chat_user_recent">
+			<dt>
+				最近联系人
+				<span class="show"></span>
+			</dt>
+			
+			{query:name = friends where= (f_id eq $member_id or t_id eq $member_id) and state eq 0}
+				{if:$item['f_id'] == $member_id}
+					{set:$l_uid = $item['t_id']}
+				{else:}
+					{set:$l_uid = $item['f_id']}	
+				{/if}		
+				<dd from_id='{$l_uid}'>
+					<span class="user_avatar">
+						{query:name = user where= id eq $l_uid item=$first } 
+							{if:$first['head_ico'] == ""}
+								<img alt="" src="{url:upload/car.jpg}"> 
+								{set:$ava_img='upload/car.jpg'}
+						 		{else:}
+						 		<img alt="" src="{url:$first['head_ico']}"> 
+								{set:$ava_img=$first['head_ico']}
+					 		{/if}
+						{/query}
+						<i class="offline" f_id="{$l_uid}"></i>
+					</span>
+					{if:$item['f_id'] == $member_id}
+					<h5>{$item['t_name']}</h5>
+					<a href="javascript:"  onclick="talk({$member_id},{$item['t_id']},{$item['id']},'{url:$ava_img}','{$item['t_name']}')"></a>
+					{else:}
+					<h5>{$item['f_name']}</h5>
+					<a href="javascript:"  onclick="talk({$member_id},{$item['f_id']},{$item['id']},'{url:$ava_img}'),'{$item['f_name']}' "></a>
+				{/if} 
+				</dd>
+			{/query}
+		</dl>
+		
+	</div>
+	<!-- 好友列表 e -->
+	
+</div>
+	
+		
+			
+	{/if}
+	
+	
+{if:$user_id}
+<!-- 聊天窗口内容接收与发送 s msg-dialog 1-->
+{set:$i=1}	
+{set:$to_Id}
+{set:$to_uname}
+{set:$ava}
+{query:name = friends where=f_id eq $member_id or t_id eq $member_id}
+		{if:$item['f_id'] == $member_id}
+			{set:$to_Id = $item['t_id']}
+			{else:}
+			{set:$to_Id = $item['f_id']}
+		{/if}
+		
+		{query:name = user where= id eq $to_Id item=$first }
+			{set:$to_uname = $first['username']}
+			{if:$first['head_ico'] == ""}
+				
+				{set:$ava='upload/car.jpg'}
+			{else:}
+				{set:$ava = $first['head_ico']}
+			{/if}
+		{/query}
+		
+<div class="msg-dialog isshow{$item['id']}" id="dialog" draggable="false" from_id="">
+	<div id="dialog_header" class="d_h" value="{$i}" draggable="true">
+	{if:$ava == ""}
+		<img class="to_user_img" alt="" src="{url:upload/car.jpg}"> 
+		{else:}
+		<img class="to_user_img" alt="" src="{url:$ava}"> 
+	{/if}
+		<span>{$to_uname}</span>
+		<div class="close_big">
+			<span>×</span>
+		</div>
+	</div>
+	
+	
+	<input class="to" type="hidden" value="{$to_Name}"/>
+	
+	<!-- 聊天记录 -->
+	<div class="dialog-body">
+		<!-- 用户的聊天内容 -->
+		<div class="msg_list">
+			<div class="chat_con"> 
+				<!-- 发送者信息 -->
+			<!--	<div class="to_user">
+					<span class="user-avatar">
+						<img alt="" src="{webroot:$user_ico}">
+					</span>-->
+					<!-- 发送给用户的内容 s-->
+					<!--<dl>
+						<dt>2017-05-16 10:49:19</dt>
+						<dd>kdf;msdlfmmsdlfmsdklfmsdklmsdlfmmsdlfmsdklfmsdklgsdklfmsdklggsdklfmsdklg</dd>
+						<dd class="arrow"></dd>
+					</dl>
+				</div>-->
+				<!-- 发送给用户的内容 e-->
+				
+				<!-- 接收用户的内容  s-->
+				<!-- <div class="from_user">
+					<span class="user-avatar">
+						<img alt="" src="{skin:image/logo.png}">
+					</span> -->
+					<!-- 发送内容 -->
+					<!--<dl>
+						<dt>2017-05-16 10:49:19</dt>
+						<dd>kdf;msdlfmmsklmsdlfmmsklfklfmsdklgmsdlfmmsklfklfmsdklgfklfmsdklg</dd>
+						<dd class="arrow"></dd>
+					</dl>
+				</div> -->
+				<!-- 接收用户的内容 e-->
+				
+			</div>
+		</div>
+		<div class="msg-input-box">
+			<!-- 表情栏 s-->
+			
+			<!-- 表情 -->
+			<div class="s_img">
+				{for:from=1 upto=77  item=$num}
+					<div  class="event_one">
+						<img alt="{$num}.gif" src="{url:upload/talkimg/$num}.gif">
+					</div>
+				{/for}
+			</div>
+			
+			<div class="msg-input-title">
+				<span class="chat_show">
+					<img alt="" src="{skin:image/show.png}">
+				</span>
+				
+				<span class="chat_phpne">
+					<img alt="" src="{skin:image/photo.png}" class="photo_upload">
+						<input type="file" id="upp" name="photo" style="display: none" onchange="select_photo()" />
+					</img>
+				</span>
+				
+				<span class="message">
+					消息记录
+					<img alt="" src="{skin:image/down.png}">
+				</span>
+			</div>
+			<!-- 表情栏 e-->
+			
+			<!-- 内容输入框 s-->
+			<textarea class="send_message"></textarea>
+			<!-- 内容输入框 e-->
+			<span class="ad"><a href="#">广告词可以在这里加链接</a></span>
+			<span class="send_btn" ><a href="javascript:">发送消息</a></span>
+						
+		</div>
+	</div>
+	
+	<div class="dialog_chat_right" >
+		<!-- 消息记录 -->
+	</div>
+	
+</div>
+{set:$i=$i+1}	
+{/query}
+{/if}
+<!-- 聊天窗口内容接收与发送 s msg-dialog-->	
+
+	
+</body>
+</html>
+
+<script>
+$(function(){
+	//聊天
+	$(".message").mouseover(function(){
+		$(".right span").show();
+	});
+	
+	$(".message").mouseout(function(){
+		$(".right span").hide();
+	});
+	
+	//响应拖拽
+	var dh = $(".d_h");
+	for(var i=0; i < dh.length; ++i){
+		var dialog_header = dh[i];
+		var flag = false;
+		
+		dialog_header.ondragstart  = function(){
+			flag = true;
+			var index = $(this).attr("value");
+			
+			test(flag,index-1);
+			
+		}
+		dialog_header.ondragend = function(){
+			console.log("down");
+			flag = false;
+			var index = $(this).attr("value");
+			test(flag,index-1);
+		}
+	}
+	
+	
+	$(".close").click(function(){
+		$(".chat_list").css("-webkit-transform","translateX(500px)");
+	});
+	
+	
+	$("#showFriend").click(function(){
+		$(".chat_list").css("-webkit-transform","translateX(0px)");
+	});
+		
+});
+
+//拖动窗口响应
+function test(flag,index){
+	if(!flag){
+		//document.getElementById("dialog").draggable = false;
+		$(".msg-dialog")[index].draggable = false;
+		return ;
+	}
+	//document.getElementById("dialog").draggable = true;
+	var md = $(".msg-dialog");
+	md[index].draggable = true;
+	/*
+	for(var i=0;i<md.length;++i){
+		md[i].draggable = true;
+	}*/
+	//console.log(this);
+	//$(".msg-dialog").html().draggable = true;
+	//var dragdiv = document.querySelector(".msg-dialog");
+	
+	var dragdiv = md[index];
+   	var x, y;  //记录到点击时鼠标到移动框左边和上边的距离
+
+    dragdiv.addEventListener('dragstart', function (e) {
+        e.dataTransfer.effectAllowed = "move";  //移动效果
+        e.dataTransfer.setData("text", '');  //附加数据，　没有这一项，firefox中无法移动
+        x = e.offsetX || e.layerX;
+        y = e.offsetY || e.layerY;
+        return true;
+    }, false);
+
+    document.addEventListener('dragover', function (e) {//取消冒泡 ,不取消则不能触发 drop事件
+        e.preventDefault()|| e.stopPropagation();
+    }, false);
+
+    document.addEventListener('drop', function (e) {
+        dragdiv.style.left = (e.pageX - x) + 'px';
+        dragdiv.style.top = (e.pageY - y) + 'px';
+        e.preventDefault() || e.stopPropagation();  //不取消，firefox中会触发网页跳转到查找setData中的内容
+    }, false);
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

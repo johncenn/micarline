@@ -1,0 +1,82 @@
+<div id="pageInfo" data-title="我的推广码"></div>
+
+
+<script type="text/javascript">
+	//var wechaturl = '{url:/wechar/getcodeTicket}';
+	var code_ex = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=';
+	//console.log(wechaturl);
+	var xhr = new XMLHttpRequest();	
+	xhr.open('GET',wechaturl,true);
+	xhr.onload = function(){
+		var ticket = this.responseText;
+		var code_img = code_ex+ticket;
+		$(".img_code img").attr("src",code_img);
+		console.log(ticket);
+	}
+	
+	xhr.send();
+	
+</script>
+ 
+<style>
+.img_code{
+	width: 80%;
+	height: 50%;
+	margin: 0 auto;
+}
+
+.img_code img{
+	width: 100%;
+	height: 100%;
+}
+
+</style>
+
+<div class="img_code">
+	<img alt="我的推广码" src="">
+</div>
+
+
+<!-- 
+<script type="text/javascript" src="{theme:javascript/jquery.qrcode.min.js}"></script>
+<style>
+.img_code{
+	width: 80%;
+	height: 50%;
+	margin: 0 auto;
+}
+
+.img_code canvas{
+	width: 100%;
+	height: 100%;
+}
+
+</style>
+<?php
+	$yaoqing = 1;
+	$user = ISession::get('wechatuser');
+	if(empty($user)){
+		if(!empty($_GET['yaoqing'])){
+			$yaoqing = $_GET['yaoqing'];
+		}
+	}else{
+		$yaoqing = $user['id'];
+	}
+	
+	//echo $yaoqing;
+?>
+
+<div class="img_code"></div>
+
+<script type="text/javascript">
+	
+	$(function(){
+		$('.img_code').qrcode("http://www.micarline.net?yaoqing="+{$yaoqing});
+	});
+	
+	
+</script>
+ -->
+ 
+ 
+ 

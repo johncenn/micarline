@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>余额充值</title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="{skin:style/mui.css}">
+
+<style type="text/css">
+
+.pay_form{
+	margin-top: 2rem;
+}
+
+.pay_way{
+	padding: 11px 15px;
+	float: right;
+    width: 65%;
+    margin-bottom: 0;
+    padding-left: 0;
+    border: 0;
+	position: relative;
+}
+
+.pay_way span{
+	position: absolute;
+	top: 0.5rem;
+	right: 2.5rem;
+	color: black;
+}
+
+.btn{
+	width: 90%;
+	margin: 1rem auto;
+}
+
+</style>
+
+</head>
+<body>
+{set:$paymentList=Api::run('getPaymentListByOnline')}
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">余额充值</h1>
+</header>
+<div class="mui-content">
+	<form class="mui-input-group pay_form" >
+    <div class="mui-input-row">
+        <label>充值方式</label>
+        <a class="pay_way">微信移动支付<span class="mui-icon mui-icon-arrowdown"></span></a>
+        
+    </div>
+   <div class="mui-input-row data-numbox-step='10' data-numbox-min='0' ">
+		<label>金额(￥)</label>
+		<input type="number" type="text" class="mui-input-clear" placeholder="请输入金额">
+	</div>
+   
+</form>
+<button type="button" class="mui-btn mui-btn-block mui-btn-success btn">下一步</button>
+</div>
+<script src="{theme:javascript/mui.js}"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<h1 class="page_title">发货地址列表</h1>
+<section class="address_list">
+	<form action="{url:/seller/ship_info_del}" method="post" name="ship_list">
+	{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+	{set:$seller_id = $this->seller['seller_id']}
+	{query: name=merch_ship_info page=$page where=is_del eq 1 and seller_id eq $seller_id order=id desc  key=$dataKey}
+	<div class="address_info">
+		<p>
+			<strong>发货点：</strong>{$item['ship_name']} <br>
+			<strong>详细地址：</strong>{$item['address']} <br>
+			<strong>邮政编码：</strong>{$item['postcode']} <br>
+			<strong>联系电话：</strong>{if:$item['mobile']!=""}{$item['mobile']}{else:}{$item['telphone']}{/if} <br>
+			<strong>联系人：</strong>{$item['ship_user_name']} <br>
+		</p>
+		<div class="address_btn">
+			{if:$item['is_default']==1}
+			<a class="btnn red" href="{url:/seller/ship_info_default/id/$item[id]/default/0}">取消默认</a>
+			{else:}
+			<a class="btnn" href="{url:/seller/ship_info_default/id/$item[id]/default/1}">设为默认</a>
+			{/if}
+			<a class="btnn" href="{url:/seller/ship_info_edit/sid/$item[id]}">编辑</a>
+			<span class="btnn" onclick="delModel({link:'{url:/seller/ship_info_del/id/$item[id]}'})">删除</span>
+		</div>
+	</div>
+	{/query}
+	</form>
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+	{$query->getPageBar()}
+</section>
+<div class="btn_bottom">
+	<a class="btn_submit" href="{url:/seller/ship_info_edit}">添加新地址</a>
+</div>

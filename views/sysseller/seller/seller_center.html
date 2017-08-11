@@ -1,0 +1,291 @@
+<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+
+
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+
+<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+
+
+
+<?php
+
+/* 
+
+echo "<pre>";
+
+print_r($res);
+
+echo "</pre>";
+
+*/
+
+?>
+
+
+
+<style type="text/css">
+
+	.content{
+
+		width:100%;
+
+		height:100%;
+
+		padding-left: 30px;
+
+	}
+
+	
+
+	.user_center{
+
+		margin-top: 60px;
+
+		/*border: 1px solid red;*/
+
+	}
+
+	
+
+	.user_center .title{
+
+		font-size: 20px;
+
+		font-weight: bold;
+
+	}
+
+	
+
+	.user_center .one{
+
+		margin-bottom: 50px;
+
+		border-bottom: 1px solid #CFE0EB;
+
+	}
+
+	
+
+	.user_center .con{
+
+		width: 400px;
+
+		/*border: 1px solid red;*/
+
+		margin-top: 10px;
+
+	}
+
+	
+
+	.con dl{
+
+		display: flex;
+
+		font-size: 16px;		
+
+	}
+
+	
+
+	.con dd{
+
+		padding-right: 5px;
+
+		color: #73777B;
+
+		width: 100px;
+
+		text-align: right;
+
+	}
+
+	
+
+	.con dt{
+
+		font-weight:normal;
+
+	}
+
+	
+
+	.btn{
+
+		margin-bottom: 20px;
+
+		
+
+	}
+
+	
+
+	/*申请开通板块*/
+
+	.xqbk{
+
+		font-size:12px;
+
+		
+
+	}
+
+	
+
+</style>
+
+<?php 
+
+	/*
+
+	echo "<pre>";
+
+	print_r($res);
+
+	echo "</pre>";
+
+*/
+
+?>
+
+<div class="content">
+
+	<header>
+
+		<h2>账号信息</h2>
+
+	</header>
+
+	<div class="user_center">
+
+		<div class="one">
+
+			<span class="title">基本资料</span>
+
+			<div class="con">
+
+				<dl>
+
+					<dd>店铺名称：</dd>
+
+					<dt>{$res[0]['store_name']}</dt>
+
+				</dl>
+
+				<dl>
+
+					<dd>已结余额：</dd>
+
+					<dt>¥{$res[0]['seller_balance']}</dt>
+
+				</dl>
+
+				
+
+			</div>
+
+			
+
+			<!-- <a style="color: #24B408;" class="btn btn-default" href="#" role="button">提现</a> -->
+
+		</div>
+
+		
+
+		
+
+		<div class="one">
+
+			<span class="title">关联账户</span>
+
+			<div class="con">
+
+				<dl>
+
+					<dd>用户名：</dd>
+
+					<dt><a target="_bank" href="{url:simple/login}">{$res[0]['username']}</a></dt>
+
+				</dl>
+
+				<dl>
+
+					<dd>账户余额：</dd>
+
+					<dt>¥{$res[0]['balance']}</dt>
+					　
+					<dt><a target="_bank" href="{url:seller/account_log_user}">明细</a></dt>
+					
+				</dl>
+
+				
+
+			</div>
+
+		</div>
+
+		
+
+		<div class="one">
+			<span class="title">所属板块</span>
+			<a href="{url:seller/more_plate}" class="xqbk" style="color:red;">(申请更多板块？)</a>
+			<div class="con">
+				<dl>
+					{if:$res[0]['plates']}
+						<?php 
+							$plates = json_decode($res[0]['plates'],true);
+							//print_r($plates);
+							$res = "";
+							foreach($plates as $v){
+								$res = $res . $v . "," ;
+							}
+							$str_length = strlen($res);
+							$plates = substr($res,0,$str_length-1);
+							//echo $plates;
+						?>
+						
+						{query: name=plate where= plate_id in($plates) AND plate_isshow eq 1 and is_del eq 0  }
+							<dt><a target="_bank" href="javascript:">{$item['plate_name']}</a></dt>　
+						{/query}
+						
+							<!-- 
+							{else:}
+							{set:$seller_plate_id = $res[0]['plate_id'] }
+							{query: name=plate where= plate_id eq $seller_plate_id}{set:$plate_name = $item['plate_name'] }{/query}
+							<dt><a target="_bank" href="#">{$plate_name}</a></dt>
+							 -->
+					{/if}
+					
+				</dl>
+								
+			</div>
+		</div>
+
+		
+
+	</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

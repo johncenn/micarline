@@ -1,0 +1,206 @@
+<style type="text/css">
+body{
+	background: #F5F5F5;
+}
+.option{
+	width: 100%;
+	height: 0.4rem;
+	/*border: 1px solid red;*/
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: space-around;	
+	border-top:1px solid #EEEEEE;
+	border-bottom: 1px solid #EEEEEE;
+	background: white;
+	position: fixed;
+}		
+
+.option span{
+	/*border: 1px solid red;*/
+	height: 0.4rem;
+	font: 0.15rem/0.5rem "tahoma,Helvetica, Arial";
+	
+}
+
+.option span:nth-of-type(1){
+	border-bottom: 2px solid red;
+}
+
+/*显示的内容*/
+.content{
+	width: 100%;
+}
+
+/*每一块内容*/
+
+.item:nth-of-type(1){
+	margin-top:0.5rem;
+}
+
+.item{
+	margin-top:1px ;
+	width: 100%;
+	height: 0.6rem;
+	background: white;
+	border-top:1px solid #EEEEEE;
+	border-bottom: 1px solid #EEEEEE;
+	display: flex;
+	justify-content: space-between;
+}
+
+/*左边的用户名 和 购买数量*/
+.member{
+	margin-left: 0.1rem;
+}
+
+.member span{
+	font: 0.15rem/0.25rem "tahoma,Helvetica, Arial";
+	display: block;
+}
+
+.member span:nth-of-type(1){
+	margin-top: 0.07rem;
+}
+
+/*右边的返利总数*/
+.sum{
+	margin-right: 0.1rem;
+}
+
+.sum span{
+	display: block;
+	text-align: right;
+}
+
+.sum span:nth-of-type(1){
+	font: 0.3rem/0.25rem "tahoma,Helvetica, Arial";
+	color: red;
+	margin-top: 0.07rem;
+	margin-bottom: 0.07rem;
+	
+	
+}
+
+/*效果图*/
+.login{
+	width: 0.5rem;
+	height: 0.5rem;
+	position: fixed;
+	left: 40%;
+	top:50%;
+	z-index: 10;
+}
+
+.login img{
+	width: 0.5rem;
+	height: 0.5rem;
+}
+
+</style>
+
+<div id="fenxiao" data-title="分销管理"></div>
+
+<section class="option">
+<span onclick="select(1)">一级下线</span>
+<span onclick="select(2)">二级下线</span>
+<span onclick="select(3)">三级下线</span>
+</section>
+
+
+
+<div class="content">
+	<!-- <div class="item">
+	
+		<div class="member">
+			<span>会员：aaaa</span>
+			<span>购买数量：10</span>
+		</div>
+		
+		<div class="sum">
+			<span>10</span>
+			<span>返利</span>
+		</div>
+	</div> -->
+	
+</div>
+
+<!-- 效果 -->
+<div class="login">
+<img alt="" src="{skin:image/loading.gif}">
+</div>
+
+<script type="text/javascript">
+$(function(){
+	select(1);
+	$(".option span").click(function(){
+		
+		$(this).css("border-bottom","2px solid red").siblings().css("border-bottom","none");
+		
+	});
+});
+
+function select(type){
+	$(".login").show();
+	var content = $(".content");
+	//清空子元素
+	content.children(".item").remove();
+	
+	var getUrl = "../index.php/myself/fenxiao";
+	//var getUrl = "../index.php/myself/test";
+	//window.location.href = getUrl;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET',getUrl+"?type="+type,true);
+	xhr.onload = function(){
+		var msg = this.responseText;
+		console.log(msg);
+		if(msg == 'noid'){
+			$(".login").hide();
+			return ;
+		}
+		eval('var da='+msg);
+		console.log(da);
+		$(".login").hide();
+		console.log(da.length);
+		var content = $(".content");
+		//清空子元素
+		//content.remove();
+		for(var i = 0; i < da.length; ++i ){
+			
+			var item = $('<div class="item"></div>');
+			var member = $('<div class="member"></div>');
+			var name = $('<span>会员：'+da[i].member_name+'</span>');
+			var num = $('<span>购买数量：'+da[i].order_sum+'</span>');
+			
+			var sum = $('<div class="sum"></div>');
+			var momey = $('<span>'+da[i].commission+'</span>');
+			var span = $('<span>返利</span>');
+			
+			sum.append(momey);
+			sum.append(span);
+			
+			member.append(name);
+			member.append(num);
+			
+			item.append(member);
+			item.append(sum);
+			
+			content.append(item);
+			
+			
+		}
+	}
+	xhr.send();
+	
+}
+
+</script>
+
+
+
+
+
+
+
+

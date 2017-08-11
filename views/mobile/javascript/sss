@@ -1,0 +1,76 @@
+
+talk:
+var db_url = "http://www.micarline.net/chat/talkAdd_db";
+			//var db_url = "http://localhost/git/micarshop/chat/talkAdd_db";
+			
+/**
+ * ajax 发送请求插入数据库 
+ *	start
+ */
+if(da.send_id == f_id){
+	
+	var formData = new FormData();
+	formData.append("u_id",da.send_id);
+	formData.append("u_name",f_name);
+	formData.append("t_id",da.to_id);
+	formData.append("t_name",t_name);
+	formData.append("content",da.con);
+	formData.append("type","text");
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST",db_url,true);
+	xhr.onload = function(e){
+		//console.log(this.responseText);
+	}
+	xhr.send(formData);
+}
+
+img:
+if(da.send_id == f_id){
+	var formData = new FormData();
+	formData.append("u_id",da.send_id);
+	formData.append("u_name",f_name);
+	formData.append("t_id",da.to_id);
+	formData.append("t_name",t_name);
+	formData.append("content",da.con);
+	formData.append("type","img");
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST",db_url,true);
+	xhr.onload = function(e){
+		console.log(this.responseText);
+	}
+	xhr.send(formData);
+}
+
+
+bimg：
+if(da.send_id == f_id){
+				
+	var formData = new FormData();
+	formData.append("u_id",da.send_id);
+	formData.append("u_name",f_name);
+	formData.append("t_id",da.to_id);
+	formData.append("t_name",t_name);
+	formData.append("content",da.con);
+	formData.append("type","b_img");
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST",db_url,true);
+	xhr.onload = function(e){
+		console.log(this.responseText);
+	}
+	xhr.send(formData);
+}
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

@@ -1,0 +1,129 @@
+{set:$countData = statistics::sellerAmount($this->seller['seller_id']);}
+{js:chart}
+{query:name = seller where=id eq $this->seller['seller_id']}	
+	{set:$s = $item}
+{/query}
+<style>
+.po{
+	position: absolute;
+	background: red;
+	width: 20px;
+	height: 20px;
+	z-index: 100;
+	top:10px;
+	right: 10px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 50%;
+	display: none;
+}
+
+#chat em{
+	font: 16px "宋体","Arial Narrow",HELVETICA;
+	line-height: 70px;
+}
+
+</style>
+<h1 class="page_title">商家管理后台</h1>
+<div class="main_tip">
+	<p>{$seller_name}，欢迎您登录商家管理后台手机版。点击左上角{$s['member_id']}“ <i class="icon-reorder"></i> ”图标，可以打开导航菜单。</p>
+</div>
+<section class="chart_panel">
+    <div class="panel_widget blue">
+		<a href="{url:/seller/goods_list}">
+	        <em>{echo:statistics::goodsCount($this->seller['seller_id'])}</em>
+	        <span>商品总数量</span>
+		</a>
+    </div>
+    <div class="panel_widget yellow">
+		<a href="{url:/seller/refer_list}">
+	        <em>{echo:statistics::referWaitCount($this->seller['seller_id'])}</em>
+	        <span>待回复咨询</span>
+		</a>
+    </div>
+    <div class="panel_widget green">
+		<a href="{url:/seller/comment_list}">
+	        <em>{echo:statistics::commentCount($this->seller['seller_id'])}</em>
+	        <span>商品评论数</span>
+		</a>
+    </div>
+    <div class="panel_widget pink">
+		<a href="{url:/seller/refundment_list}">
+	        <em>{echo:statistics::refundsCount($this->seller['seller_id'])}</em>
+	        <span>退款申请</span>
+		</a>
+    </div>
+    <div class="panel_widget red">
+        <em>{echo:statistics::sellCountSeller($this->seller['seller_id'])}</em>
+        <span>总销售量</span>
+    </div>
+    <div class="panel_widget cyan" style="position: relative;">
+        <em>{echo:statistics::gradeSeller($this->seller['seller_id'])}</em>
+        <span>信用评分</span>
+    </div>
+    
+    <div class="panel_widget blue" id="chat">
+    	<a href="{url:/seller/userchatlist?f_id=$s['member_id']}">
+   		 <!-- 发ajax请求查询数据库看有几天未读信息 -->
+        <em>即使聊天</em>
+        <span>未读消息</span>
+        </a>
+        <div class="po"></div>
+    </div>
+    
+</section>
+
+<script type="text/javascript">
+	//发送ajax请求
+	//var db_weidu = 'http://localhost/git/micarshop/chat/weidu?f_id='+user_id;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET",'{url:/chat/weidu?f_id=}'+{$s['member_id']},true);
+	xhr.onload = function(e){
+		var msg = this.responseText;
+		console.log(msg);
+		if(msg != ""){
+			eval('var da='+msg);
+			console.log(da);
+			if(da.length != 0){
+				$(".po").show();
+				$(".po").html(da.length);
+			}
+		}
+		
+	}
+	xhr.send();
+	
+	//链接socket
+    var url='ws://120.25.77.104:8000';
+    var so= new WebSocket(url);
+  	//连接sock初始化
+	so.onopen=function(){
+		if(so.readyState==1){
+			so.send('type=init&send_id={$s['member_id']}&name={$s['seller_name']}');
+			console.log("已连接");
+		}
+	}
+    
+	//接收sock返回来的数据
+	so.onmessage=function(msg){
+		eval('var da='+msg.data);
+		var type = da.type;
+		
+		if(type =='talk' || type =='talk_img' || type =='talk_bimg' ){
+			$(".po").show();
+			$(".po").html(1);
+		}
+	}
+	
+</script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
+
+
+
+
+
+
+
+

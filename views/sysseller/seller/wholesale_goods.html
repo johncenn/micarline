@@ -1,0 +1,37 @@
+{set:$seller_id = $this->seller['seller_id']}
+{query:name = seller where= id eq $seller_id}{set:$seller_name = $item['seller_name']}{set:$plate = $item['plate_id']}{/query}
+
+{set:$goodsObj = search_goods::find(array('xiaoshou_type' => "1",'plate' => $plate),12);$resultData = $goodsObj->find()}
+<style>
+
+.floor_goods { float: left; width: 100%; margin: 30px; display:block;}
+.floor_goods li { background: #fff; height: 300px; margin-bottom: 15px; width: 250px; float: left; margin-left: 15px; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; position: relative; top: 0; box-shadow: 0 0 0 #fff; }
+.floor_goods li:hover { top: -5px; box-shadow: 3px 5px 15px rgba(153, 153, 153, 0.5); }
+.floor_goods li a { width: 170px; margin: 0 auto; display: block; text-decoration: none; padding-top: 25px; text-align: center; }
+.floor_goods li img { display: block; width: 170px; height: 170px; }
+.floor_goods li h4 { display: block; color: #222; overflow: hidden; line-height: 30px; height: 30px; white-space: nowrap; text-overflow: ellipsis; font-weight: normal; font-size: 14px; margin-top: 10px; }
+.floor_goods li em { color: #FF8225; font-size: 18px; display: block; margin-top: 5px; }
+.floor_goods li del { color: #999; display: block; margin-top: 5px; text-decoration: line-through; }
+
+.pages_bar { margin: 20px;  color: #555; margin-left:450px;}
+.pages_bar a, .pages_bar span { display: inline-block; margin: 0 3px; padding: 5px 8px; border-radius: 4px; text-align: center; color: #555; background: #f5f5f5; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
+.pages_bar a:hover { background: #FF8225; color: #fff; text-decoration: none; }
+.pages_bar a.current_page { background: #FF8225; color: #fff; }
+.pages_bar span { color: #999; }
+
+</style>
+<div class="floor_goods">
+	<ul>
+		{foreach:items=$resultData}
+		<li>
+			<a href="{url:/site/products/id/$item['id']/seller_id/$seller_id/seller_name/$seller_name}">
+				<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+				<h4>{$item['name']}</h4>
+				<em>￥{$item['sell_price']}</em>
+				<del>￥{$item['market_price']}</del>
+			</a>
+		</li>
+		{/foreach}
+	</ul>
+</div>
+{$goodsObj->getPageBar()}

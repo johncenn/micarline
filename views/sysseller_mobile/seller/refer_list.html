@@ -1,0 +1,26 @@
+<h1 class="page_title">咨询列表</h1>
+
+<section class="refer_list">
+	{set:$seller_id = $this->seller['seller_id']}
+	{set:$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1}
+	{query:name=refer as re join=left join goods as go on go.id eq re.goods_id left join user as u on u.id eq re.user_id left join admin as a on a.id eq re.admin_id left join seller as se on se.id eq re.seller_id fields=se.seller_name,a.admin_name,u.username,re.*,go.name where=go.seller_id eq $seller_id page=$page id=$referObj key=$dataKey}
+	<div class="item">
+		<p>
+			<strong>商品名字</strong>
+			<span>{$item['name']}</span><br>
+			<strong>咨询人</strong>{if:isset($item['username'])}{$item['username']}{else:}非会员{/if}<br>
+			<strong>咨询时间</strong>{$item['time']}<br>
+			<strong>回复人员</strong>{if:$item['admin_name']}{$item['admin_name']}{elseif:$item['seller_name']}{$item['seller_name']}{/if}<br>
+			<strong>回复时间</strong>{$item['reply_time']}<br>
+		</p>
+		<div class="refer_btn">
+			<a class="btnn" href="{url:/seller/refer_edit/id/$item[id]}">回复咨询</a>
+			<a class="btnn" href="javascript:delModel({link:'{url:/seller/refer_del/id/$item[id]}'})">删除</a>
+		</div>
+	</div>
+	{/query}
+	{if:!isset($dataKey)}
+		<div class="nothing">暂时没有数据</div>
+	{/if}
+</section>
+{$referObj->getPageBar()}

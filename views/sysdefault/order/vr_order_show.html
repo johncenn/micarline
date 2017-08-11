@@ -1,0 +1,410 @@
+{set:$orderStatus = Order_class::getVrOrderStatus(array('order_no' => $order_no,'status' => $status,'pay_type' => $pay_type))}
+
+<div class="headbar clearfix">
+	<div class="position">订单<span>></span><span>订单管理</span><span>></span><span>订单查看</span></div>
+	<ul class="tab" name="menu1">
+		<li id="li_1"><a href="javascript:selectTab('1');" hidefocus="true">基本信息</a></li>
+		<li id="li_2"><a href="javascript:selectTab('2');" hidefocus="true">收退款记录</a></li>
+		<li id="li_4"><a href="javascript:selectTab('4');" hidefocus="true">订单备注</a></li>
+		<li id="li_5"><a href="javascript:selectTab('5');" hidefocus="true">订单日志</a></li>
+		<li id="li_6"><a href="javascript:selectTab('6');" hidefocus="true">订单附言</a></li>
+	</ul>
+</div>
+
+<div id="tab-1" name="table" style="display:none">
+	<div class="content">
+		<table class="list_table">
+			<colgroup>
+				<col />
+				<col width="90px" />
+				<col width="90px" />
+				<col width="90px" />
+				<col width="90px" />
+				<col width="120px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>商品名称</th>
+					<th>商品原价</th>
+					<th>实际价格</th>
+					<th>商品数量</th>
+					<th>小计</th>
+					<th>配送方式</th>
+				</tr>
+			</thead>
+			<tbody>
+				{query:name=vr_order_goods where=order_no eq $order_no}
+				<tr>
+					<td>
+						{set:$goodsRow = JSON::decode($item['goods_array'])}
+						<a href="{url:/site/products/id/$item['goods_id']}" target="_blank">
+							{$goodsRow['name']} &nbsp;&nbsp;
+							{$goodsRow['value']} &nbsp;&nbsp;
+							{$goodsRow['goodsno']} &nbsp;&nbsp;
+							{query:name=brand as b join=left join goods as go on go.brand_id eq b.id fields=b.name where=go.id eq $item[goods_id] item=$brand}
+							{$brand['name']}
+							{/query}
+						</a>
+					</td>
+					<td>￥{$item['goods_price']}</td>
+					<td>￥{$item['real_price']}</td>
+					<td>{$item['goods_nums']}</td>
+					<td>￥{echo:$item['real_price'] * $item['goods_nums']}</td>
+					<td>
+						{echo:Order_Class::goodsSendStatus($item['is_send'])}
+						{if:$item['delivery_id']}
+						<button class="btn" onclick="freightLine({$item['delivery_id']})">快递跟踪</button>
+						{/if}
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+		<table style="width:300px;margin-right:20px;" class="border_table f_l">
+			<col width="80px" />
+			<col />
+			<thead>
+				<tr><th colspan="2">订单金额明细</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>商品总额:</th><td>￥{$order_amount}</td>
+				</tr>
+				<tr>
+					<th>优惠总额:</th><td>￥{$promotions}</td>
+				</tr>
+				{if:isset($prop) && $prop}
+				<tr>
+					<th>代金券:</th><td>{query:name=prop where=id eq $prop}{$item['name']}{$item['card_name']} ￥{$item['value']}{/query}</td>
+				</tr>
+				{/if}
+				<tr>
+					<th>订单总额:</th><td>￥{$order_amount}</td>
+				</tr>
+				<tr>
+					<th>已支付金额:</th><td>{query:name=collection_doc where=order_no eq $order_no and if_del eq 0 fields=amount}￥{$item['amount']}{/query}</td>
+				</tr>
+			</tbody>
+		</table>
+		<table style="width:300px;margin-right:20px;" class="border_table f_l">
+			<col width="80px" />
+			<col />
+			<thead>
+				<tr><th colspan="2">配送支付信息</th></tr>
+			</thead>
+			<tbody>
+				
+				{if:$takeself}
+				<tr>
+					<th>自提地址:</th>
+					<td>
+						{$takeself['province_str']}
+						{$takeself['city_str']}
+						{$takeself['area_str']}
+						{$takeself['address']}
+					</td>
+				</tr>
+				<tr>
+					<th>自提联系方式:</th>
+					<td>
+						座机：{$takeself['phone']} &nbsp;&nbsp;
+						手机：{$takeself['mobile']}
+					</td>
+				</tr>
+				<tr>
+					<th>自提验证码:</th>
+					<td class="green">{$checkcode}</td>
+				</tr>
+				{/if}
+				<tr>
+					<th>支付方式:</th><td>{$payment}</td>
+				</tr>
+				<tr>
+					<th>是否开票:</th><td>{if:$invoice==0}否{else:}是{/if}</td>
+				</tr>
+				<tr>
+					<th>发票抬头:</th><td>{$invoice_title}</td>
+				</tr>
+				<tr>
+					<th>可得积分:</th><td>{$point}</td>
+				</tr>
+			</tbody>
+		</table>
+		<table style="width:300px;margin-right:20px;clear:both;" class="border_table f_l">
+			<col width="80px" />
+			<col />
+			<thead>
+				<tr><th colspan="2">买家信息</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>用户名:</th><td>{$username}</td>
+				</tr>
+				<tr>
+					<th>电话:</th><td>{$u_mobile}</td>
+				</tr>
+				<tr>
+					<th>Email:</th><td>{$email}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		{set:$orderInstance = new Order_Class();$orderRow = $orderInstance->getVrOrderShow($order_no)}
+		<table style="width:300px;margin-right:20px;" class="border_table f_l">
+			<col width="80px" />
+			<col />
+			<thead>
+				<tr><th colspan="2">订单信息</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>订单号:</th><td>{$order_no}</td>
+				</tr>
+				<tr>
+					<th>当前状态:</th><td class="red">{echo:order_class::vrorderStatusText(order_class::getVrOrderStatus($orderRow))}</td>
+				</tr>
+				<tr>
+					<th>支付状态:</th><td>{echo:order_class::getOrderPayStatusText($orderRow)}</td>
+				</tr>
+				<tr>
+					<th>订单类型:</th><td>{echo:order_class::getOrderTypeText($orderRow)}</td>
+				</tr>
+				<tr>
+					<th>订单所属:</th>
+					<td>
+						{if:$seller_id}
+						{query:name=seller where=id eq $seller_id}{$item['true_name']}{/query}
+						{if:$is_checkout == 1}已结算{else:}未结算{/if}
+						{else:}
+						平台自营
+						{/if}
+					</td>
+				</tr>
+				{foreach:items = $this->vr_order_codeinfo}
+				<tr>
+					<th>兑换码:</th>
+					<td>
+						{$item['vr_code']}
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+</div>
+<div id="tab-2" name="table" style="display:none">
+	<div class="content">
+		<table style="width:45%;margin-right:20px;" class="border_table f_l">
+			<colgroup>
+				<col width="120px" />
+				<col />
+			</colgroup>
+
+			<thead>
+				<tr><th colspan="2">收款单据</th></tr>
+			</thead>
+
+			<tbody>
+				{query: name=collection_doc as c join=left join payment as p on c.payment_id eq p.id where=c.order_no eq $order_no items=$collectionData fields=c.*,p.name}
+				<tr>
+					<th>付款时间：</th><td>{$item['time']}</td>
+				</tr>
+				<tr>
+					<th>金额：</th><td>{$item['amount']}</td>
+				</tr>
+				<tr>
+					<th>支付方式：</th><td>{$item['name']}</td>
+				</tr>
+				<tr>
+					<th>付款备注：</th><td>{$item['note']}</td>
+				</tr>
+				<tr>
+					<th>状态：</th><td>{if:$item['pay_status']==0}准备中{else:}支付完成{/if}</td>
+				</tr>
+				<tr><th colspan="2"></th></tr>
+				{/query}
+			</tbody>
+		</table>
+
+		<table style="width:45%;margin-right:20px;" class="border_table f_l">
+			<colgroup>
+				<col width="120px" />
+				<col />
+			</colgroup>
+
+			<thead>
+				<tr><th colspan="2">退款单据</th></tr>
+			</thead>
+			<tbody>
+				{query: name=refundment_doc where=order_no eq $order_no items=$refundmentData}
+				<tr>
+					<th>退款商品：</th>
+					<td>
+						{query:name=vr_order_goods where=id in ($item[order_goods_id]) item=$orderGoods}
+						{set:$goods = JSON::decode($orderGoods['goods_array'])}
+						<p>
+						<a href="{url:/site/products/id/$orderGoods['goods_id']}" target="_blank" title="{$goods['name']}">{echo:IString::substr($goods['name'],28)} X {$orderGoods['goods_nums']}</a>
+						{if:$item['seller_id']}
+						<a href="{url:/site/home/id/$item['seller_id']}" target="_blank"><img src="{skin:images/admin/seller_ico.png}" /></a>
+						{/if}
+						</p>
+						{/query}
+					</td>
+				</tr>
+				<tr>
+					<th>退款金额：</th><td>{$item['amount']}</td>
+				</tr>
+				<tr>
+					<th>申请时间：</th><td>{$item['time']}</td>
+				</tr>
+				<tr>
+					<th>状态：</th><td>{echo:Order_Class::refundmentText($item['pay_status'])}</td>
+				</tr>
+				<tr>
+					<th>退款理由：</th><td>{$item['content']}</td>
+				</tr>
+				<tr>
+					<th>退款方式：</th><td>{echo:Order_Class::refundWay($item['way'])}</td>
+				</tr>
+				<tr><th colspan="2"></th></tr>
+				{/query}
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type='text/javascript'>
+//DOM加载完毕后运行
+$(function()
+{
+	selectTab(1);
+	initButton();
+});
+
+/**
+ * 订单操作按钮初始化
+ */
+function initButton()
+{
+	//全部操作区域的按钮锁定
+	$('#ctrlButtonArea button').prop('disabled',true);
+	$('#ctrlButtonArea button').addClass('inactive');
+
+	//作废
+	$('#to_cancel').removeAttr('disabled');
+	$('#to_cancel').removeClass('inactive');
+
+	//完成
+	{if:in_array($orderStatus,array(11,3))}
+	$('#to_finish').removeAttr('disabled');
+	$('#to_finish').removeClass('inactive');
+	{/if}
+
+	//付款
+	{if:in_array($orderStatus,array(11,2))}
+	$('#to_pay').removeAttr('disabled');
+	$('#to_pay').removeClass('inactive');
+	{/if}
+
+	//发货
+	{if:in_array($orderStatus,array(1,4,8,9))}
+	$('#to_deliver').removeAttr('disabled');
+	$('#to_deliver').removeClass('inactive');
+	{/if}
+
+	//退款
+	{if:in_array($orderStatus,array(4,6,9,10))}
+	$('#to_refundment').removeAttr('disabled');
+	$('#to_refundment').removeClass('inactive');
+	{/if}
+}
+
+//选择当前Tab
+function selectTab(curr_tab)
+{
+	$("div[name='table']").hide();
+	$("#tab-"+curr_tab).show();
+	$("ul[name=menu1] > li").removeClass('selected');
+	$('#li_'+curr_tab).addClass('selected');
+}
+
+//完成或作废订单
+function complete(id,statusVal)
+{
+	$.get("{url:/order/order_complete}",{'order_no':"{$order_no}",'type':statusVal,'id':id}, function(data)
+	{
+		if(data=='success')
+		{
+			actionCallback();
+		}
+		else
+		{
+			alert('发生错误');
+		}
+	});
+}
+
+//退款
+function refundment(id)
+{
+	var tempUrl = '{url:/order/order_refundment/id/@id@}';
+	tempUrl     = tempUrl.replace('@id@',id);
+	art.dialog.open(tempUrl,{
+		id:'refundment',
+		cancelVal:'关闭',
+		okVal:'退款',
+	    title: '订单号:{$order_no}【退款到余额账户】',
+	    ok:function(iframeWin, topWin){
+	    	iframeWin.document.forms[0].submit();
+	    	return false;
+	    },
+	    cancel:function(){
+	    	return true;
+		}
+	});
+}
+
+//付款
+function pay(id)
+{
+	var tempUrl = '{url:/order/order_collection/id/@id@}';
+	tempUrl     = tempUrl.replace('@id@',id);
+
+	art.dialog.open(tempUrl,{
+		id:'pay',
+	    title: '订单号:{$order_no}【付款】',
+	    cancelVal:'关闭',
+		okVal:'付款',
+	    ok:function(iframeWin, topWin){
+			iframeWin.document.forms[0].submit();
+			return false;
+	    },
+	    cancel:function (){
+	    	return true;
+		}
+	});
+}
+
+
+//执行回调处理
+function actionCallback(msg)
+{
+	msg ? alert(msg) : window.location.reload();
+	window.setTimeout(function()
+	{
+		var list = art.dialog.list;
+		for (var i in list)
+		{
+		    list[i].close();
+		};
+	},2500);
+}
+
+//操作失败回调
+function actionFailCallback(msg)
+{
+	var alertText = msg ? msg : '操作失败';
+	alert(alertText);
+}
+
+</script>

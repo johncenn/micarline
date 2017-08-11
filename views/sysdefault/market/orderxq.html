@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>结算详情单</title>
+
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap.min.css}">
+<link rel="stylesheet" href="{skin:bootstr/css/bootstrap-theme.min.css}">
+<script type="text/javascript" src="{skin:bootstr/js/jquery-1.9.1.js}"></script>
+<script type="text/javascript" src="{skin:bootstr/js/bootstrap.min.js}"></script>
+
+<style type="text/css">
+
+.table{
+	width: 1200px;
+	margin: 20px auto;
+	text-align: center;
+	font: 16px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+}
+.title{
+	text-align: center;
+}
+
+</style>
+
+</head>
+<body>
+{set:$good_id = $res['good_id']}
+<h1 class="title">结算详情</h1>
+ <!-- Table -->
+  <table class="table table-hover table-bordered ">
+   	  <thead>
+   	  	<tr>
+   	  		<td>订单类型</td>
+   	  		<td>付款金额</td>
+   	  		<td>三级提成</td>
+   	  		<td>销售提成</td>
+   	  		<td>手续费</td>
+   	  		<td>归属</td>
+   	  		<td>结算金额</td>
+   	  		<td>退款金额</td>
+   	  		<td>实际结算</td>
+   	  	</tr>
+   	  </thead>
+   	  
+   	  <tbody>
+   	  	  <tr>
+   	  	  	{if:$res['order_type'] == 'r'}
+   	  	  		<td>物流单</td>
+   	  	  		{else:}
+   	  	  		<td>到店单</td>
+   	  	  	{/if}
+   	  	  	<td>¥{$res['real_amount']}</td>
+   	  	  	<td>¥{$res['sanjiticheng']}</td>
+   	  	  	<td>¥{$res['xiaoshouticheng']}</td>
+   	  	  	<td>¥{$res['shouxufei']}</td>
+   	  	  	<td>¥{$res['guishu']}</td>
+   	  	  	<td>¥{$jiesuan}</td>
+   	  	  	<td>¥{$refund}</td>
+   	  	  	<td>¥{$real_sum}</td>
+   	  	  </tr>
+   	  </tbody>
+  </table>
+  
+  
+  <div style="height: 200px"></div>
+  
+  <h1 class="title">商品详情</h1>
+   <table class="table table-hover table-bordered ">
+   		<thead>
+   	  	<tr>
+   	  		<td>商品id</td>
+   	  		<td>商品名称</td>
+   	  		<td>商品价格</td>
+   	  		<td>详情</td>
+   	  	</tr>
+   	  </thead>
+   	  
+   	  
+   	  
+   	  <tbody>
+   	  	{query:name=goods  where=id eq $good_id items=$g}
+   	  	  <tr>
+   	  	  
+   	  	  	<td>{$g[0][id]}</td>
+   	  	  	<td>{$g[0][name]}</td>
+   	  	  	<td>{$g[0][sell_price]}</td>
+   	  	  	<td><a target="_bank" href="{url:site/products/id/$g[0][id]}">详情</a></td>
+   	  	  </tr>
+   	  	  {/query}
+   	  </tbody>
+   	  
+   	  
+   </table>
+  
+  <!-- 
+  <div style="width: 1200px;margin: 0 auto;">
+  		  提成：<span>{$res['guishu']}</span>
+  </div>
+ -->
+
+</body>
+</html>

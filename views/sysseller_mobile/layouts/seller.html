@@ -1,0 +1,97 @@
+{set:$seller_id = $this->seller['seller_id'];$seller_name = $this->seller['seller_name'];}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<title>商家管理后台</title>
+	<link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
+	{js:jquery}
+	{js:dialog}
+	{js:form}
+	{js:artTemplate}
+	{js:validate}
+	<script src="{theme:javascript/html5.js}"></script>
+	<script src="{theme:javascript/common.js}"></script>
+	<script src='{theme:javascript/mobile.js}'></script>
+	<link rel="stylesheet" href="{skin:style/style.css}" type="text/css" media="screen" />
+</head>
+
+<body>
+	<!--头部 开始-->
+	<header class="header">
+		<h1 id="open_nav" class="open_nav">
+			<i class="icon-reorder"></i>
+		</h1>
+		<ul>
+			<li><a href="{url:/systemseller/logout}"><i class="icon-signout"></i> 退出登录</a></li>
+		</ul>
+	</header>
+	<!-- 导航 -->
+	<section id="sidebar" class="sidebar">
+		<nav class="nav">
+			{foreach:items=menuSeller::init()}
+			<h3>{$key}</h3>
+			<ul class="toggle">
+				{foreach:items=$item key=$moreKey item=$moreValue}
+				<li><a href="{url:$moreKey}">{$moreValue}</a></li>
+				{/foreach}
+			</ul>
+			{/foreach}
+		</nav>
+	</section>
+	<!-- 主体 -->
+	<section id="main" class="column">
+		{viewcontent}
+	</section>
+
+
+	<script>
+	//菜单图片ICO配置
+	function menuIco(val){
+		var icoConfig = {
+			"供应商模块":"icon-print",
+			"统计结算模块":"icon-bar-chart",
+			"商品模块":"icon-heart",
+			"订单模块":"icon-print",
+			"营销模块":"icon-gift",
+			"配置模块":"icon-cogs",
+		};
+		return icoConfig[val] ? icoConfig[val] : "icn_categories";
+	}
+
+	$(".nav h3").each(function(){
+		var $t = $(this);
+		$t.prepend('<i class='+menuIco($t.text())+'></i>');
+		$t.on("click",function(){
+			$t.addClass("on").siblings("h3").removeClass("on");
+			$t.siblings("ul").stop().slideUp(200);
+			$t.next("ul").stop().slideDown(200)
+		})
+	})
+	// 保持导航打开状态
+	$(".nav li a").each(function(){
+		var $t = $(this);
+		if($t.attr("href") == location.pathname + location.search){
+			$t.parents("li").addClass("on");
+			$t.parents("ul").show();
+			$t.parents("ul").prev("h3").addClass("on");
+		}
+	})
+	var openNavBtn = $("#open_nav"),
+		sideBar = $("#sidebar");
+	openNavBtn.on("click",function(){
+		if (sideBar.hasClass("open")) {
+			openNavBtn.children("i").addClass("icon-reorder").removeClass("icon-remove");
+			sideBar.removeClass("open");
+		}else{
+			openNavBtn.children("i").removeClass("icon-reorder").addClass("icon-remove");
+			sideBar.addClass("open");
+		}
+	})
+
+	</script>
+</body>
+</html>

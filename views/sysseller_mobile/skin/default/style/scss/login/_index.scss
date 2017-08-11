@@ -1,0 +1,60 @@
+.sysseller_login {
+	background-color: $c55;
+	position: fixed;left: 0;top: 0;right: 0;bottom: 0;
+	background-image:
+	-webkit-linear-gradient(-45deg, transparent,rgba($green,.8)),
+	-webkit-linear-gradient(-135deg, transparent,rgba($yellow,.8)),
+	-webkit-linear-gradient(-225deg, $cff,rgba($blue,.8)),
+	-webkit-linear-gradient(-315deg, $cff,rgba($green,.8));
+	background-image:
+	linear-gradient(-45deg, transparent,rgba($green,.8)),
+	linear-gradient(-135deg, transparent,rgba($yellow,.8)),
+	linear-gradient(-225deg, $cff,rgba($blue,.8)),
+	linear-gradient(-315deg, $cff,rgba($green,.8));
+
+	.login_box {
+		position: fixed;left: 50%;top: 50%;
+		margin-left: -1.6rem;margin-top: -1.4rem;
+		width: 2.8rem;padding:.3rem .2rem;
+		background: rgba($cff,.5);border-radius: .1rem;
+		box-shadow: 1px 1px 1px rgba($c55,.5);
+		header {
+			position: absolute;top: -40px;left: 0;right: 0;text-align: center;
+			color: $cff;font-size: 24px;
+			text-shadow: 1px 1px 1px rgba($c55,.5);
+		}
+		section {
+			.password,.username {
+				display: block;height: .2rem;line-height: .2rem;padding: .1rem;width: 2.6rem;
+				border: none;background: rgba($cff,.8);margin-bottom: .2rem;
+				border-radius: .05rem;font-size: .15rem;
+				&:focus {
+					background: $cff;outline: none;box-shadow: 1px 1px 1px rgba($green,.5);
+				}
+			}
+			.submit,.reg {
+				display: block;width: 2.8rem;height: .4rem;border-radius: .05rem;border: none;font-size: .15rem;
+				text-align: center;line-height: .4rem;
+			}
+			.submit {
+				background: $green;color: $cff;margin-bottom: .2rem;
+				&:focus {
+					background: $blue;
+				}
+			}
+			.reg {
+				background: rgba($cff,.4);color: $green;box-shadow: 0 0 0 1px $green inset;
+			}
+		}
+
+	}
+	.login_footer {
+		position: fixed;bottom: .2rem;font-size: .11rem;left: 0;right: 0;text-align: center;color: rgba($cff,.5);
+		a {
+			color: rgba($cff,.5);
+			&:hover {
+				color: $cff;
+			}
+		}
+	}
+}

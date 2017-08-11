@@ -1,0 +1,143 @@
+{js:my97date}
+{set:$seller_id = $this->seller['seller_id']}
+ <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">货款结算单编辑</h3>
+	</header>
+
+	<form action="{url:/seller/bill_update}"  method="post" name="bill_edit">
+		<input type='hidden' name='id' />
+		<div class="module_content">
+			<fieldset style="background: white;">
+				<label>结算货款起止时间：</label>
+				<div class="box">
+					<input type='text' class="normal" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='请填写开始日期' title="请填写开始日期" />
+					<input type='text' class="normal" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='请填写结束日期' title="请填写结束日期" />
+					<input class="btn" type="button" value="点击计算结算明细" id="checkButton" onclick="checkoutFee();" />
+				</div>
+
+				<div class="box" style="padding-top:15px;">
+					<table class="table  table-bordered table-hover jiesuan" style="display: none">
+						<thead>
+							<tr class="success">
+								<td>订单类型</td>
+								<td>订单号</td>
+								<td>创建日期</td>
+								<td>付款日期</td>
+								<td>付款金额</td>
+								<td>提成</td>
+								<td>结算金额</td>
+								<td>退款金额</td>
+								<td>实际结算</td>
+							</tr>
+						</thead >
+							
+						<tbody class="jisuan_content">
+							
+						</tbody>
+						
+					</table>
+					<div class="j" style="display: none">
+						<div style="display: flex;">
+							<h1 style="color: blue">结算总额：</h1>
+							<h1 class="sum_jiesuan"></h1>
+						</div>
+					</div>
+					
+					
+					<label class="tip" style="color: red">* 根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</label>
+				</div>
+			</fieldset>
+
+			<fieldset style="margin-top: 20px">
+				<label>申请结算附言：</label>
+				<textarea name="apply_content"></textarea>
+			</fieldset>
+
+			<fieldset>
+				<label>管理员回复：</label>
+				<textarea name="pay_content" disabled="disabled"></textarea>
+			</fieldset>
+		</div>
+
+		<footer>
+			<div class="submit_link">
+				<input type="submit" class="alt_btn" value="确 定" />
+				<input type="reset" value="重 置" />
+			</div>
+		</footer>
+	</form>
+</article>
+
+<script type="text/javascript">
+//表单回填
+var formObj = new Form('bill_edit');
+formObj.init({echo:JSON::encode($this->billRow)});
+
+//存在结算单数据就要锁定已有数据
+{if:$this->billRow}
+$("[name='start_time']").prop("disabled",true);
+$("[name='end_time']").prop("disabled",true);
+$("#checkButton").hide();
+{/if}
+
+//计算结算款明细
+function checkoutFee()
+{
+	var startTime = $("[name='start_time']").val();
+	var endTime   = $("[name='end_time']").val();
+	if(!startTime || !endTime)
+	{
+		alert("请填写完整的时间段");
+		return;
+	}
+
+	$.getJSON("{url:/seller/countGoodsFee}",{"start_time":startTime,"end_time":endTime}, function(json)
+	{
+		var jisuan_content = $(".jisuan_content");
+		jisuan_content.empty();
+		if(json.result == 'success')
+		{
+			$(".jiesuan").show();
+			$(".j").show();
+			console.log(json);
+			var d = json.data ;		
+			
+			
+			for(var i = 0 ; i < d.length ; ++i ){
+				var tr = $("<tr></tr>");
+				var td0 = $("<td>"+d[i].order_type+"</td>");
+				var td1 = $("<td>"+d[i].no+"</td>");
+				var td2 = $("<td>"+d[i].create_date+"</td>");
+				var td3 = $("<td>"+d[i].pay_time+"</td>");
+				var td4 = $("<td>"+d[i].sum+"</td>");
+				var td5 = $("<td>"+d[i].tichen+"</td>");
+				var td6 = $("<td>"+d[i].jiesuan+"</td>");
+				var td7 = $("<td>"+d[i].refund+"</td>");
+				var td8 = $("<td>"+d[i].real_Sum+"</td>");
+				
+				tr.append(td0);
+				tr.append(td1);
+				tr.append(td2);
+				tr.append(td3);
+				tr.append(td4);
+				tr.append(td5);
+				tr.append(td6);
+				tr.append(td7);
+				tr.append(td8);
+				
+				jisuan_content.append(tr);
+				$(".sum_jiesuan").html("￥"+json.true_jiesuan);
+			}
+		}
+		else
+		{
+			$(".jiesuan").hide();
+			$(".j").hide();
+			alert(json.data);
+		}
+	})
+}
+</script>

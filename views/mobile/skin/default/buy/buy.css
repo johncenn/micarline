@@ -1,0 +1,324 @@
+*{
+	font: 14px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+
+}
+
+.user_address{
+	border-top: #C8C8C8;
+	border-bottom: 1px solid #C8C8C8;
+	
+}
+
+.user_address .user_content{
+	
+	display: block;
+	width: 100%;
+	//height: 140px;
+	background: white;
+	/*border: 1px solid red;*/
+	text-decoration: none;
+	color: black;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	
+}
+
+.user_address .user_content .line{
+	width: 100%;
+	height: 100%;
+	display: flex;	
+	position: relative;
+}
+
+.line .local{
+	width: 10%;
+	height: 100%;
+	/*border: 1px solid black;*/
+	display: flex;
+	
+}
+
+.line .local span{
+	display: block;
+	margin: auto;
+	position: absolute;
+	top: 40%;
+	left: 7px;
+}
+
+.line .use_msg{
+	height: 100%;
+	width: 80%;
+	/*border: 1px solid black;*/
+	color: #5F5F5F;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+}
+
+.line .use_msg span{
+	font-size: 14px;
+}
+
+.line .use_msg .user{
+	
+	
+	width: 100%;
+	/*border: 1px solid saddlebrown;*/
+	display: flex;
+	justify-content: space-between;
+	
+}
+
+.line .use_msg .address{
+	word-wrap:break-word;
+}
+
+
+.line .right{
+	height: 100%;
+	width: 10%;
+	/*border: 1px solid black;*/
+	
+	display: flex;
+}
+
+.line .right span{
+	display: block;
+	margin: auto;
+	color: #57585D;
+	
+	position: absolute;
+	top: 40%;
+	right: 5px;
+}
+
+
+/*商品列表 s*/
+.goods_msg{
+	
+}
+
+.goods_msg .goods_content{
+	width: 100%;
+	
+}
+
+/*标题*/
+.goods_msg .goods_content .item{
+	
+	margin: 10px auto;
+	/*border: 1px solid red;*/
+}
+
+.goods_msg .goods_content .item .b_height{
+	width: 100%;
+	background: white;
+}
+
+.goods_msg .goods_content .item .header{
+	width: 96%;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	color: #797979;
+	margin: 0 auto;
+	
+}
+
+.goods_msg .goods_content .item .header a{
+	text-decoration: none;
+	color: black;
+}
+
+.goods_msg .goods_content .item .header .enter_img{
+	width: 24px;
+	height: 24px;
+	margin-right: 5px;
+}
+
+.goods_content .item .header img{
+	width: 100%;
+	height: 100%;
+}
+
+/*商品详情 s*/
+.g_item{
+	
+}
+
+.g_item .g_bodytitle{
+	width: 100%;
+	height: 120px;
+	background: #F5F5F5;
+	display: flex;
+}
+
+.g_item .g_content{
+	width: 96%;
+	height: 84%;
+	margin: auto;
+	/*border: 1px solid red;*/
+	display: flex;
+	justify-content: space-between;
+}
+
+/*内容图片*/
+.g_item .g_content .g_image{
+	width: 28%;
+	height: 100%;
+}
+
+.g_item .g_content .g_image img{
+	width: 100%;
+	height: 100%;
+}
+
+/*内容标题*/
+.g_item .g_content .title{
+	width: 45%;
+	height: 100%;
+	/*border: 1px solid red;*/
+}
+
+.g_item .g_content .title span{
+	color: #4E4E4E;
+	font-family: "微软雅黑";
+}
+
+
+
+.g_item .g_content .peiceNum{
+	width: 24%;
+	height: 100%;
+	text-align: right;
+	/*border: 1px solid red;*/
+}
+
+.g_item .g_content .peiceNum .g_price{
+	color: #F65B03;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.g_item .g_content .peiceNum .g_num{
+	text-align: right;
+}
+
+
+/*选项列表 */
+
+.mui-table-view{
+	color: #5D5D5D;
+}
+
+.g_item .nonebg{
+	background: none;
+	font-size: 14px;
+	color: #4A4A4A;
+}
+
+.g_item .help{
+	font-size: 18px;
+}
+
+.g_item .leave{
+	display: flex;
+	align-items: center;
+}
+
+.g_item .leave span{
+	width: 30%;
+	font-size: 14px;
+}
+
+.g_item .leamessage{
+	padding: 0 0;
+	margin: 0 0;
+	height: 25px;
+	font-size: 14px;
+	border: none;
+}
+
+/*统计*/
+.g_item .statistics{
+	width: 100%;
+	height: 50px;
+	background: white;
+	display: flex;
+	border-bottom: 1px solid #C8C8C8;
+}
+
+.g_item .statistics .wrap{
+	width: 96%;
+	text-align: right;
+	margin:  auto;
+	
+}
+
+.g_item .statistics .wrap span:nth-of-type(1){
+	font-weight: bold;
+	color: #5F5F5F;
+}
+
+.g_item .statistics .wrap span:nth-of-type(2){
+	font-weight: bold;
+	color: #F65B03;
+}
+
+/*商品列表 e*/
+
+
+/*全局提交显示 s*/
+.global_show{
+	width: 100%;
+	height: 50px;	
+	z-index: 20;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	background: white;
+	border-top: 1px solid #C7C7C7;
+}
+/*全局提交显示 s*/
+
+.global_show .wrap_conten{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.global_show .wrap_conten .msg_show{
+	width: 63%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.global_show .wrap_conten .msg_show .sumNum{
+	color: #FF5500;
+	font-weight: bold;
+}
+
+.global_show .wrap_conten .msg_show .sum_price{
+	color: #FF5500;
+	font-weight: bold;
+}
+
+
+
+
+.global_show .wrap_conten .commit{
+	width: 35%;
+	height: 100%;
+	background: #FF5500;
+	display: flex;
+}
+
+.global_show .wrap_conten .commit a{
+	margin: auto;
+	color: white;
+}

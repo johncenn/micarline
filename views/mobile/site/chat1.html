@@ -1,0 +1,170 @@
+<style>
+
+body{
+	background: #F5F5F5;
+}
+
+/*隐藏返回 和 搜索 框 s*/
+.header_so_btn,.header_back{
+	display: none;
+}
+/*隐藏返回 和 搜索 框 e*/
+
+/*内容区域 s*/
+.content{
+	width: 100%;
+	height: 1rem;
+	background: red;
+}
+/*内容区域 e*/
+
+/*输入区域 s*/
+.input_asc{
+	width: 100%;
+	height: 0.5rem;
+	background: white;
+	position: fixed;
+	bottom: 0;
+	/*display: flex;
+	justify-content: space-around;
+	align-items:center;*/
+}
+
+.input_asc div{
+	/*border: 1px solid red;*/
+	height: 0.3rem;
+	width: 10%;	
+	float: left;
+	margin-left: 0.15rem;
+	margin-top: 0.11rem;
+}
+
+.input_asc div:nth-of-type(2){
+	box-orient:vertical;
+	width: 50%;	
+	position: relative;
+	/*height: 100px;*/
+	 border-bottom: 1px solid gray;
+}
+
+.input_asc div:nth-of-type(2) textarea{
+	width: 95%;
+	position: absolute;
+	bottom: 0;
+	font-size: 0.15rem;
+	height: 0.20rem;
+	border: none;
+	outline:none;
+	background: white;
+}
+
+
+/*表情 s*/
+.show_img img{
+	width:0.3rem;
+	height: 0.3rem;
+	margin-left: 0.03rem;
+}
+/*表情 e*/
+
+/*发送按钮 s*/
+.send_btn{
+	background: #3DCE3D;
+	text-align: center;
+	
+}
+
+.send_btn span{
+	color:white;
+	line-height: 0.3rem;
+}
+
+
+/*发送按钮 e*/
+
+
+/*输入区域 e*/
+
+</style>
+<!-- 内容区域 s -->
+<header class="content">
+
+</header>
+
+<!-- 内容区域 e -->
+
+<div class="input_asc">
+	<div>1</div>
+	<div>
+		<textarea class="area" rows="1" cols="1"></textarea>
+	</div>
+	<div class="show_img">
+		<img alt="" src="{skin:image/show.png}">
+	</div>
+	<div class="send_btn">
+		<span>发送</span>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$("#page_title").html("aa");
+	// 隐藏底部导航
+    hideNav();
+	
+	var add = 1 ;
+	var addNum = 0.15;
+    $('.area').bind('input propertychange', function() {
+        //$('.area').html($(this).val().length + ' characters');
+    	//console.log($(this).val());
+        var str = $(this).val();
+        var len = strlen(str);
+        //console.log(len);
+        if(len > 22 * add && add < 5){
+        	var hight = $(".area").css("height");
+        	//console.log(hight);
+        	
+        	//从下标1开始，到3（不包括)结束
+        	//var len = hight.substring(0,hight.indexOf("px"));
+        	//console.log(len);
+        	$(".area").css("height",(addNum * (add+2))+"rem");
+        	add = add + 1 ; 
+        }else if(len <= 22 * (add-1) && add > 1) {
+        	console.log("减");	
+        	$(".area").css("height",(addNum * (add-2+2))+"rem");
+        	add = add -1;
+        }
+        
+    });
+    
+    //获取焦点
+    $('.area').blur(function(){
+    	$(this).parent().css("border-bottom","1px solid gray");
+    });
+    
+    $('.area').focus(function(){
+    	$(this).parent().css("border-bottom","1px solid springgreen");
+    });
+	
+});
+
+function strlen(str) {
+	if (str == null) return 0;
+	if (typeof str != "string"){
+	  str += "";
+	}
+	return str.replace(/[^\x00-\xff]/g,"01").length;
+}
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
